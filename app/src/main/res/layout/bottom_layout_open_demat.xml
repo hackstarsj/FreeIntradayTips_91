@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<ImageView
+    android:id="@+id/image_pen"
+    android:adjustViewBounds="true"
+    android:scaleType="centerInside"
+    android:src="@drawable/zerodhaad"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@id/image_pen"
+        android:id="@+id/alice_pen"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/alice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

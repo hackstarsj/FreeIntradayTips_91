@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pullToRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout
+    android:background="@color/orange_300"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:background="#009688"
+        android:textColor="#fff"
+        android:padding="10dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Assuming 1,00,000 Capital in Each Stocks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+<ListView
+    android:layout_below="@id/title"
+    android:id="@+id/listview"
+    android:layout_marginBottom="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="#4CAF50"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:text="TOTAL PROFIT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:textAlignment="center"
+                android:textSize="13sp"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="#ffffff"
+                android:text="0.00"
+                android:id="@+id/profit_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:background="#F44336"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="TOTAL LOSS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:id="@+id/loss_amount"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="#ffffff"
+                android:text="0.00"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="#2196F3"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="ACCURACY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:id="@+id/accuracy"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="#ffffff"
+                android:text="0.00"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

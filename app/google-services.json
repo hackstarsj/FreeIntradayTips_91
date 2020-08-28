@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "864284917272",
+    "firebase_url": "https://intraday-calls.firebaseio.com",
+    "project_id": "intraday-calls",
+    "storage_bucket": "intraday-calls.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864284917272:android:4e700bd803cfc452",
+        "android_client_info": {
+          "package_name": "com.silverlinesoftwares.intraday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864284917272-ogcb0hdbq37tpg8encm14vs5kl6jln8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgWVCVkv0GOSWgVyR7XNVjPaTmPF7OmIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "864284917272-ogcb0hdbq37tpg8encm14vs5kl6jln8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864284917272:android:1ada833a79320fe1",
+        "android_client_info": {
+          "package_name": "com.silverlinesoftwares.intratips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864284917272-ogcb0hdbq37tpg8encm14vs5kl6jln8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgWVCVkv0GOSWgVyR7XNVjPaTmPF7OmIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "864284917272-ogcb0hdbq37tpg8encm14vs5kl6jln8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8515817249593489~2989251305"
+    }
+  ],
+  "configuration_version": "1"
+}

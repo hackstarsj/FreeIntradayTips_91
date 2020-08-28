@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <WebView
+        android:layout_marginBottom="30dp"
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+        <LinearLayout android:orientation="horizontal"
+            android:id="@+id/line1"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:layout_weight="1"
+                android:id="@+id/interval"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:id="@+id/start_date"
+                android:text="Interval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress"
+            android:indeterminate="true"
+            android:layout_marginTop="-6dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+<LinearLayout
+android:layout_marginTop="-29dp"
+android:layout_below="@id/frame"
+android:orientation="horizontal"
+android:id="@+id/line2"
+android:background="#fff"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="1D"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:id="@+id/one_day"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="5D"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:id="@+id/five_day"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="1M"
+    android:id="@+id/one_month"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="3M"
+    android:id="@+id/three_month"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:textColor="#000"
+    android:text="6M"
+    android:id="@+id/six_month"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:text="YTD"
+    android:id="@+id/nine_month"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="1Y"
+    android:id="@+id/one_year"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:layout_marginEnd="5dp"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:textColor="#000"
+    android:text="2Y"
+    android:id="@+id/two_year"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="5Y"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:id="@+id/five_year"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="10Y"
+    android:textAlignment="center"
+    android:layout_weight="1"
+    android:id="@+id/ten_year"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+<TextView
+    android:layout_weight="1"
+    android:textAlignment="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:paddingBottom="5dp"
+    android:textStyle="bold"
+    android:textColor="#000"
+    android:text="MAX"
+    android:id="@+id/all_data"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp" />
+
+</LinearLayout>
+</RelativeLayout>

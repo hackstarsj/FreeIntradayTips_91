@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LooserGainerActivity">
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:id="@+id/tab_menu"
+        android:layout_height="wrap_content">
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:text="Upper Band"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:text="Lower Band"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.tabs.TabLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:indeterminate="true"
+        android:layout_below="@id/tab_menu"
+        android:layout_marginTop="-6dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/mover_looser_page"
+         android:layout_marginBottom="60dp"
+        android:layout_width="match_parent"
+        android:layout_below="@id/tab_menu"
+        android:layout_height="match_parent">
+    </androidx.viewpager.widget.ViewPager>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp">
+        <RelativeLayout
+            android:id="@+id/adView2"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

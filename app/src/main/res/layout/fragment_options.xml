@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pullToRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF9800"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.EquityFragment">
+
+    <View
+        android:id="@+id/border"
+        android:layout_marginBottom="2dp"
+        android:background="@color/grey_700"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <ProgressBar
+        android:padding="6dp"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:elevation="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:targetApi="lollipop" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:background="@drawable/border_blue_2"
+        android:textColor="#00BCD4"
+        android:layout_margin="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:id="@+id/pro_plus_btn"
+        android:text="Login and Buy PRO PLus Plan to Unlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_lock_black_24dp" />
+
+</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

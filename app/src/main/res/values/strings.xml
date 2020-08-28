@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Free Intraday Tips</string>
+    <string name="intraday">Intraday</string>
+    <string name="screener">Screener</string>
+    <string name="option_screener">Screener 2</string>
+    <string name="top_movers">Top Movers</string>
+    <string name="top_loser">Top Loser</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="news">News</string>
+    <string name="global">Indices</string>
+    <string name="more">More</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hitmap">Heatmap</string>
+    <string name="about">About</string>
+    <string name="forum">Forum</string>
+    <string name="m_amp_l"><![CDATA[M & L]]></string>
+    <string name="sector">Sector</string>
+    <string name="stock">Stock</string>
+    <string name="sss"><![CDATA[Free Intraday Learning Tips gives Free STOCK MARKET learning & Education Ideas. Before TRADING OR INVESTING consult your financial advisor. Make your own Strategy don\'t depend others and don\'t follow anyone blindly. in stock market no one is 100% sure if anyone told you they told you lie. if anyone are 100% sure then why they are not become a Millonare so stop depending others including Me also.]]></string>
+    <string name="data_dis"><![CDATA[Free Intraday Learning Tips are not SEBI Registered Analyst. all tips are only for Learning & Education purpose. Non Advisory, Discretions​. No Claim Rights Reserved. Free Intraday Learning Tips are not Responsible for any PROFIT & LOSS. Before follow our Tips Please Consult YOUR FINANCIAL ADVISOR. \n \n The information provided in APP is only for educational and informational purposes not for trading or investing purposes and may be delayed. APP  provide technical analysis tools for educational purpose only. please do your own analysis before you make any investment decisions .we don’t take any responsibility for the accuracy of data analysis or conclusion.before taking any decision please consult your financial advisor because we are not taking any  responsibility of profit and loss trading is extremely risky and the potential of loss is very high.]]></string>
+    <string name="sss1">All Membership Fees are Non-Refundable once Paid, The Amount is Charged only For Ads Free Verison of this App. Open Demat Account Through US and Get Two Months Free Premium Plan</string>
+    <string name="app_ads_id">ca-app-pub-8515817249593489~2989251305</string>
+    <!--    <string name="ad_unit_id">ca-app-pub-8515817249593489/4380905352</string>-->
+    <string name="ad_unit_id">ca-app-pub-3940256099942544/2247696110</string>
+</resources>

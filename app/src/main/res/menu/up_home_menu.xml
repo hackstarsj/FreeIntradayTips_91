@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/intra_menu"
+        android:icon="@drawable/fire"
+        android:title="@string/hitmap"/>
+    <item
+        android:id="@+id/mover_looser"
+        android:icon="@drawable/trending_up"
+        android:title="@string/m_amp_l"/>
+    <item
+        android:id="@+id/forum_menu"
+        android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
+        android:title="Screener"/>
+    <item
+        android:icon="@drawable/trending_up"
+        android:id="@+id/trending"
+        android:title="Trending"/>
+    <item
+        android:id="@+id/option2_menu"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="@string/about"/>
+
+</menu>

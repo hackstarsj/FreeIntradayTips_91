@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pullToRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/top_nav"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            android:clickable="true"
+            app:cardBackgroundColor="#80d8ff"
+            android:id="@+id/major_holders_card"
+            android:focusable="true"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center"
+                android:id="@+id/major_holders"
+                android:layout_margin="1.5dp"
+                android:textColor="#000"
+                android:text="Major Holders"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="40sp" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            android:clickable="true"
+            app:cardBackgroundColor="#000"
+            android:id="@+id/insider_roster_card"
+            android:focusable="true"
+            app:cardElevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center"
+                android:id="@+id/insider_roster"
+                android:layout_margin="1.5dp"
+                android:textColor="#000"
+                android:text="Insider Roster"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="40sp" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            android:focusable="true"
+            app:cardElevation="5dp"
+            android:clickable="true"
+            android:id="@+id/insider_transactions_card"
+            app:cardBackgroundColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_margin="1.5dp"
+                android:id="@+id/insider_transaction"
+                android:layout_weight="1"
+                android:textColor="#000"
+                android:text="Insider Transactions"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="40sp" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_below="@id/top_nav"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/list_major_holders"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:id="@+id/list_insider_roster"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:id="@+id/list_insider_transaction"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+    </HorizontalScrollView>
+    <ProgressBar
+        android:elevation="5dp"
+        android:background="@drawable/circle"
+        android:id="@+id/progress"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,0 +1,60 @@
+.tv-dialog__modal-wrap{
+	display:none;
+}
+.tv-dialog__overlay{
+	display: none;
+}
+.tv-dialog__modal-wrap{
+	display: none;
+}
+.tv-insert-indicator-dialog__tab.tv-insert-indicator-dialog__tab--group-head.js-tab.js-tab-head {
+    display: none;
+}
+.tv-insert-indicator-dialog__left-panel {
+    display: none!important;
+}
+.tv-insert-indicator-dialog__right-panel.js-right-panel {
+    width: 100%;
+}
+#header-toolbar-publish {
+    display: none;
+}
+#header-toolbar-screenshot {
+    display: none;
+}
+#header-toolbar-save-load {
+    display: none;
+}
+.js-save-load-menu-open-button.button-13wlLwhJ-.apply-common-tooltip {
+    display: none;
+}
+.wrap-3OynVXTx-.item-2xPVYue0- {
+    display: none;
+}
+.popupMenu-2ot2Uu9Z-.menuWrap-1gEtmoET- {
+    display: none;
+}
+.tv-floating-toolbar.tv-trading-toolbar.ui-draggable {
+    display: none;
+}
+div#tv-toasts {
+    display: none!important;
+}
+.tv-header{
+display:none;
+}
+.tv-footer__rights{
+display:none;
+}
+.tv-footer__socials{
+display:none;
+}
+.tv-footer__wrap{
+display:none;
+}
+.tv-footer__inner tv-layout-width{
+display:none;
+}
+a.button-1dpg_T2E-.button--right-2CEhpGhn- {
+     display: none;
+ }

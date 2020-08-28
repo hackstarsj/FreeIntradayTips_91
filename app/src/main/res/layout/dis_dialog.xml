@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textAlignment="center"
+            android:background="#000"
+            android:id="@+id/hide"
+            android:padding="5dp"
+            android:textColor="#FFF"
+            android:text="DISCLAIMER"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/hide2"
+            android:padding="15dp"
+            android:textSize="18dp"
+            android:textColor="#000"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/data_dis"
+            android:layout_below="@id/hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAlignment="center"
+            android:background="#000"
+            android:id="@+id/hide3"
+            android:padding="5dp"
+            android:textColor="#FFF"
+            android:layout_below="@id/hide2"
+            android:text="Terms &amp; Conditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/hide4"
+            android:padding="15dp"
+            android:textSize="18dp"
+            android:textColor="#000"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/sss"
+            android:layout_below="@id/hide3"
+            android:layout_marginBottom="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:text="Accept"
+            android:id="@+id/clode"
+            android:textColor="#fff"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+</ScrollView>

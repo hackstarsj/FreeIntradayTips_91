@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<androidx.cardview.widget.CardView
+    app:cardBackgroundColor="#E61111"
+    android:id="@+id/item_mover"
+    app:cardElevation="5dp"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="153dp"
+    app:cardUseCompatPadding="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_margin="5dp"
+            android:tint="#fff"
+            android:src="@drawable/trending_up"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    <TextView
+        android:padding="10dp"
+        android:textColor="#fff"
+        android:id="@+id/mover_text"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:text="Top News"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/mover_text_data"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -1,0 +1,160 @@
+<html>
+<head>
+    <title>Horizontal Bar Chart</title>
+    <script src="https://www.chartjs.org/dist/2.7.2/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+</head>
+
+<body>
+<div id="container" style="width: 100%;">
+    <h1 style="text-align: center;">Volume</h1>
+    <canvas id="canvas"></canvas>
+</div>
+<script>
+		function loadApp(heightpass,var_months,var_percenatge,var_data_1,var_data_2){
+		         var runs=0;
+		var percentage=var_percenatge;
+		var MONTHS = var_months;
+		var color = Chart.helpers.color;
+		var horizontalBarChartData = {
+			labels: var_months,
+			datasets: [{
+				label: 'Deliverable Qty.',
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor:'transparent',
+				borderWidth: 5,
+				data: var_data_1
+			}, {
+				label: 'Total Traded Qty.',
+				borderColor :'transparent',
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				data: var_data_2,
+				borderWidth: 5
+			}]
+
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			ctx.canvas.height = screen.height+heightpass;
+			ctx.canvas.width = screen.width;
+			window.myHorizontalBar = new Chart(ctx, {
+				type: 'horizontalBar',
+				data: horizontalBarChartData,
+				options: {
+					// Elements options apply to all of the options unless overridden in a dataset
+					// In this case, we are setting the border of each horizontal bar to be 2px wide
+					elements: {
+						rectangle: {
+							borderWidth: 1,
+						}
+					},
+					responsive: true,
+					legend: {
+						position: 'bottom',
+    					labels:{fontSize:7,padding:3},
+					},
+					title: {
+						display: true,
+						text: 'Volume Chart'
+					},
+					config:{
+						barPercentage:2.0,
+						categoryPercentage:2.0
+					}
+
+				}
+			});
+
+		};
+
+
+		var colorNames = Object.keys(window.chartColors);
+
+
+
+		Chart.plugins.register({
+        afterDatasetsDraw: function(chart, easing) {
+            // To only draw at the end of animation, check for easing === 1
+            var ctx = chart.ctx;
+                    var loops=percentage.length;
+        var loop_run=0;
+
+
+
+
+            chart.data.datasets.forEach(function (dataset, i) {
+                var meta = chart.getDatasetMeta(i);
+                if (!meta.hidden) {
+                    meta.data.forEach(function(element, index) {
+                        // Draw the text in black, with the specified font
+                        ctx.fillStyle = 'rgb(0, 0, 0)';
+
+                        var fontSize = 10;
+                        runs=0;
+                        var fontStyle = 'normal';
+                        var fontFamily = 'Helvetica Neue';
+                        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                        // Just naively convert to string for now
+                        if(loop_run==loops){
+                        var dataString = intToString(dataset.data[index].toString());
+                        }
+                        else{
+                         var dataString = intToString(dataset.data[index].toString())+" ( "+percentage[index]+"%)";
+                                                 loop_run++;
+
+                        }
+
+                        // Make sure alignment settings are correct
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+
+                        var padding = 5;
+                        var position = element.tooltipPosition();
+                        ctx.fillText(dataString, position.x+10, position.y);
+                    });
+                    runs=1;
+                }
+            });
+        }
+    });
+
+
+Chart.Legend.prototype.afterFit = function() {
+    this.width = this.width + 50;
+};
+
+
+		function intToString (value) {
+    var suffixes = ["", "K", "M", "B","T"];
+    var suffixNum = Math.floor((""+value).length/3);
+    var shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+    if (shortValue % 1 != 0) {
+        var shortNum = shortValue.toFixed(1);
+    }
+    return shortValue+suffixes[suffixNum];
+}
+}
+//var pes=[56.03,65.27,35.16,60.39,47.32,73.58,55.50,49.01,37.14,52.86,47.79];
+//var mon=['20-Jun-2019','21-Jun-2019','24-Jun-2019','25-Jun-2019','26-Jun-2019','27-Jun-2019','28-Jun-2019','01-Jul-2019','02-Jul-2019','03-Jul-2019','04-Jul-2019'];
+
+//var d1=[1704729,13175266,925797,1564517,1907425,9694075,2567697,2371674,1469076,1495261,1221432];
+//var d2=[3042607,20185830,2633348,2590646,4030718,13174124,4626498,4839632,3955456,2828456,2555817];
+var mon=PLACEHOLDER_MON;
+var pes=PLACEHOLDER_PER;
+var d1=PLACEHOLDER_D1_DATA;
+var d2=PLACEHOLDER_D2_DATA;
+var heightpass=parseInt(PLACEHOLDER_HEIGHT);
+loadApp(heightpass,mon,pes,d1,d2);
+	</script>
+</body>
+
+</html>

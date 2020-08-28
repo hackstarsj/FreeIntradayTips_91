@@ -1,0 +1,53 @@
+.tv-main.tv-screener__standalone-main-container {
+    display: none;
+}
+
+.tv-site-widget__body.tv-screener__standalone-wrap {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.tv-screener-toolbar.tv-screener-toolbar--standalone.tv-screener-toolbar--standalone_sticky {
+    display: none;
+}
+#js-screener-container {
+    padding: 0px!important;
+}
+
+span.tv-screener-sticky-header-wrapper__right-substrate.tv-screener-sticky-header-wrapper__right-substrate--standalone_sticky {
+    display: none!important
+}
+.tv-data-table-sticky-wrapper.tv-screener-sticky-header-wrapper.tv-screener-sticky-header-wrapper--standalone_sticky {
+        top: 0px!important;
+}
+.tv-screener-table__symbol-container.tv-screener-table__symbol-container--without-country-flag {
+    padding: 0px;
+    margin: -10px;
+    font-size: 10px;
+    width: 50px;
+}
+.tv-screener-table__head-left.js-head-left.tv-screener-table__head-left--name-col {
+    width: 50px!important;
+}
+td.tv-data-table__cell.tv-screener-table__cell.tv-screener-table__cell--with-marker {
+    font-size: 12px;
+}
+.tv-screener-table__head-left.js-head-left {
+    width: 41px!important;
+    font-size: 10px;
+}
+.tv-screener__content-pane {
+    overflow: hidden;
+}
+span.tv-screener-sticky-header-wrapper__right-substrate {
+    display: none!important;
+}
+.tv-data-table-sticky-wrapper.tv-screener-sticky-header-wrapper {
+    top: 0px!important;
+}
+table.tv-data-table.tv-screener-table {
+    overflow: hidden;
+}
+.tv-screener__content-pane {
+    overflow: hidden!important;
+}

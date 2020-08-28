@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#fff"
+    tools:targetApi="lollipop">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rel_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/line1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="17sp"
+                android:singleLine="true"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/equity_title"
+                android:text="HindPetro"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/dated"
+                android:textSize="13sp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Date/Time"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="#000"
+                android:id="@+id/equity_datetime"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                android:text="30-Jul-2018 at 9:08 pm"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/txt_small_title"
+                android:text="CMP"
+                android:textColor="#000"
+                android:textSize="13sp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+             <TextView
+                    android:id="@+id/equity_price"
+                    android:text="200.00"
+                    android:padding="3dp"
+                    android:textSize="16sp"
+                 android:layout_weight="1"
+                    android:singleLine="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textColor="#000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ticker"
+                    android:padding="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/line1"
+        android:orientation="horizontal"
+        android:background="#BE1AFA"
+        android:padding="8dp"
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:id="@+id/stop_loss"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_width="match_parent"
+            android:text="STOP LOSS"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+        <View
+            android:layout_gravity="center"
+            android:background="@color/divider"
+            android:layout_width="30dp"
+            android:layout_height="1dp"/>
+        <TextView
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:id="@+id/equity_loss"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_width="match_parent"
+            android:text="280.00"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+        <View
+            android:layout_gravity="center"
+            android:background="@color/divider"
+            android:layout_width="30dp"
+            android:layout_height="1dp"/>
+        <TextView
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:id="@+id/equity_loss_text"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_width="match_parent"
+            android:text="LOSS"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="#00a2ff"
+        android:layout_below="@id/line3"
+        android:id="@+id/linesss"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:text="BUY Range"
+            android:layout_weight="1"
+            android:id="@+id/buy_text"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:id="@+id/equity_buy"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="291.01-292.00"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_below="@id/linesss"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/divider2"
+        android:background="@color/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_below="@+id/divider2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:text="TARGETS"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_target_1"
+                android:text="1"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_target_2"
+                android:text="2"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_target_3"
+                android:text="2"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/line_buy"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Price"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_marginBottom="3dp"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+
+            <View
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+            <TextView
+                android:id="@+id/text_buy_1"
+                android:text="1"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/text_buy_2"
+                android:text="2"
+                android:textColor="#000"
+                android:layout_marginBottom="5dp"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:id="@+id/text_buy_3"
+                android:text="2"
+                android:textColor="#000"
+                android:layout_marginBottom="5dp"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:text="ACHIEVED"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_achieved_1"
+                android:text="DONE"
+                android:textColor="#000"
+                android:layout_marginBottom="5dp"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_achieved_2"
+                android:text="DONE"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/text_achieved_3"
+                android:text="DONE"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/line_buy_sell"
+        android:layout_below="@id/rel_line"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:background="@color/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+</RelativeLayout>
+</androidx.cardview.widget.CardView>
+</RelativeLayout>

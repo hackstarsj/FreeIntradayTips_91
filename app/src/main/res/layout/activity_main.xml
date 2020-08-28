@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        app:menu="@menu/up_home_menu"
+        android:background="#ECECEC"
+        app:labelVisibilityMode="labeled"
+        android:id="@+id/top_menu"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="#555353"
+        android:id="@+id/divder_top"
+        android:layout_below="@id/top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <!--<TextView-->
+        <!--android:id="@+id/mywidget"-->
+        <!--android:padding="5dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:singleLine="true"-->
+        <!--android:ellipsize="marquee"-->
+        <!--android:layout_below="@id/divder_top"-->
+        <!--android:fadingEdge="horizontal"-->
+        <!--android:marqueeRepeatLimit="marquee_forever"-->
+        <!--android:scrollHorizontally="true"-->
+        <!--android:textColor="#ff4500"-->
+        <!--android:text="Simple application that shows how to use marquee, with a long text" />-->
+    <com.silverlinesoftwares.intratips.util.CustomRecycleView
+        android:id="@+id/mywidget"
+        android:clickable="false"
+        android:layout_below="@id/divder_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+    </com.silverlinesoftwares.intratips.util.CustomRecycleView>
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/top_page"
+        android:layout_below="@id/mywidget"
+        android:visibility="gone"
+        android:layout_above="@id/divider_bottom"
+        android:layout_height="match_parent"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/bottom_page"
+        android:layout_below="@id/mywidget"
+        android:layout_above="@id/divider_bottom"
+        android:layout_height="match_parent"/>
+    <View
+        android:background="#555353"
+        android:id="@+id/divider_bottom"
+        android:layout_above="@id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        app:menu="@menu/bottom_home_menu"
+        app:labelVisibilityMode="labeled"
+        android:id="@+id/bottom_menu"
+        android:background="#ECECEC"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

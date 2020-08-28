@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_menu"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/home"/>
+    <item
+        android:icon="@drawable/ic_search_black_24dp"
+        android:id="@+id/search_menu"
+        android:title="@string/search"/>
+    <item
+        android:id="@+id/news_menu"
+        android:icon="@drawable/newspaper"
+        android:title="@string/news"/>
+    <item
+        android:id="@+id/global_menu"
+        android:icon="@drawable/earth"
+        android:title="@string/global"/>
+    <item
+        android:id="@+id/more_menu"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:title="@string/more"/>
+</menu>
