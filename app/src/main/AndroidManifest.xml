@@ -52,16 +52,14 @@
         <activity android:name=".activity.ResetPasswordActivity" />
         <activity android:name=".activity.VolumeGainerActivity" />
         <activity
-            android:name=".activity.AdvanceScreenerActivity"
-            android:screenOrientation="landscape" />
+            android:name=".activity.AdvanceScreenerActivity"/>
         <activity android:name=".activity.CurrecnyActivty" />
         <activity android:name=".activity.MutualFundActivity" />
         <activity android:name=".activity.FilAndDilActivity" />
         <activity android:name=".activity.CommodityActivty" />
         <activity android:name=".activity.ForCastActivity" />
         <activity
-            android:name=".activity.ScreenerNseActivity"
-            android:screenOrientation="landscape" />
+            android:name=".activity.ScreenerNseActivity"/>
         <activity android:name=".activity.PriceBandActivity" />
         <activity android:name=".activity.StockDetailsActivity" />
         <activity android:name=".activity.MostDeliveryActivity" />

@@ -150,20 +150,20 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
         List<MajorHolderModel> majorHolderModels = new ArrayList<>();
         try {
             Elements tables = document.getElementsByTag("table");
-            if (tables.size() > 1) {
-                Elements tr = tables.get(1).getElementsByTag("tr");
+            if (tables.size() > 0) {
+                Elements tr = tables.get(0).getElementsByTag("tr");
 
                 for (int i = 0; i < tr.size(); i++) {
                     String title = tr.get(i).children().get(0).text();
                     String data_1 = tr.get(i).children().get(1).text();
                     String data_2 = tr.get(i).children().get(2).text();
                     String data_3 = tr.get(i).children().get(3).text();
-                    String data_4 = tr.get(i).children().get(4).text();
+                  //  String data_4 = tr.get(i).children().get(4).text();
 
                     if (i == 0) {
-                        majorHolderModels.add(new MajorHolderModel(title, data_1, data_2, data_3, data_4, true));
+                        majorHolderModels.add(new MajorHolderModel(title, data_1, data_2, data_3, "data_4", true));
                     } else {
-                        majorHolderModels.add(new MajorHolderModel(title, data_1, data_2, data_3, data_4, false));
+                        majorHolderModels.add(new MajorHolderModel(title, data_1, data_2, data_3, "data_4", false));
                     }
                 }
 

@@ -45,4 +45,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:id="@+id/rotate"
+        android:src="@drawable/ic_baseline_stay_current_landscape_24"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

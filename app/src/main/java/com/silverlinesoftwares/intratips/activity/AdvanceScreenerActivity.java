@@ -3,12 +3,15 @@ package com.silverlinesoftwares.intratips.activity;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.tasks.ScreenTask14;
@@ -28,10 +31,14 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
 
     public ProgressBar progressBar;
     String methods="1";
+    boolean isLandscape=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advance_screener);
+        FloatingActionButton rotate=findViewById(R.id.rotate);
+
+
         MobileAds.initialize(AdvanceScreenerActivity.this,getString(R.string.app_ads_id));
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
@@ -93,6 +100,21 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,AdvanceScreenerActivity.this);
 
+        rotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLandscape){
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    rotate.setImageResource(R.drawable.ic_baseline_stay_current_landscape_24);
+                    isLandscape=false;
+                }
+                else{
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    rotate.setImageResource(R.drawable.ic_baseline_stay_current_portrait_24);
+                    isLandscape=true;
+                }
+             }
+        });
 
     }
 }

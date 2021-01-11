@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -87,7 +88,7 @@ public class AnalysisFragment extends Fragment implements ChartListener {
         progress.setVisibility(View.GONE);
         Document document= Jsoup.parse(data);
         String ddd="";
-        Elements elements=document.getElementsByClass("smartphone_Mt(10px)");
+        Elements elements=document.getElementsByClass("smartphone_Pt(10px)");
 
         if(elements.size()>0) {
             Elements elements1=elements.get(0).getElementsByTag("table");
@@ -97,14 +98,14 @@ public class AnalysisFragment extends Fragment implements ChartListener {
             all_data = "<html><head>" +
                     "<style>" +
                     " body { margin:0px;padding:0px; }" +
-                  " th{ background:#000000;color:#ffffff; } " +
+                  " th{ background:black;color:white; } " +
                     "table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } " +
                     "th,td{ padding:10px } " +
                     "table{ margin:0px;padding:0px;border-radius:10px;width:100%;height:100%;} " +
                     "tr:nth-child(2n) {\n" +
                     "\n" +
-                   "    background-color: #f4f4f4;\n" +
-                    "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                   "    background-color:white;\n" +
+                    "    box-shadow: 5px 5px 5px red;\n" +
                     "\n" +
                     "}" +
                     "</style>" +

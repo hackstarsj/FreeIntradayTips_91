@@ -92,7 +92,7 @@ public class TrendingFragment extends Fragment  {
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+     //   webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

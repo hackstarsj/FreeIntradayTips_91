@@ -30,7 +30,7 @@ public class AnalysisTask extends AsyncTask<String,String ,String > {
 
         Request request =
                 new Request.Builder()
-                        .url("https://finance.yahoo.com/quote/COALINDIA.NS/analysis?p="+strings[0])
+                        .url("https://finance.yahoo.com/quote/"+strings[0]+"/analysis?p="+strings[0])
                         .build();
         Response response = null;
         try {

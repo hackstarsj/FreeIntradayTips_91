@@ -36,18 +36,11 @@ td.tv-data-table__cell.tv-screener-table__cell.tv-screener-table__cell--with-mar
     width: 41px!important;
     font-size: 10px;
 }
-.tv-screener__content-pane {
-    overflow: hidden;
-}
+
 span.tv-screener-sticky-header-wrapper__right-substrate {
     display: none!important;
 }
 .tv-data-table-sticky-wrapper.tv-screener-sticky-header-wrapper {
     top: 0px!important;
 }
-table.tv-data-table.tv-screener-table {
-    overflow: hidden;
-}
-.tv-screener__content-pane {
-    overflow: hidden!important;
-}
+

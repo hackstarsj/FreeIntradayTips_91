@@ -25,6 +25,7 @@ import com.silverlinesoftwares.intratips.util.Constant;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -84,8 +85,8 @@ public class VolumeFragment extends Fragment implements ChartListener {
         spinner=view.findViewById(R.id.volume_filter);
         webView=view.findViewById(R.id.webview);
         progressBar=view.findViewById(R.id.progress);
-        String[] filter_text={"Day","Week","15 Days","1 Month","3 Months","1 year"};
-        final String[] filter_data={"day","week","15days","1month","3month","12month"
+        String[] filter_text={"Day","Week","1 Month","3 Months","6 Months","1 year"};
+        final String[] filter_data={"day","week","1month","3month","6month","12month"
         };
         Bundle bundle=getArguments();
         final String symbol=bundle.getString(Constant.search);
@@ -109,7 +110,7 @@ public class VolumeFragment extends Fragment implements ChartListener {
 
         spinner.setSelection(2);
         VolumeTask financialTask=new VolumeTask(VolumeFragment.this);
-        StaticMethods.executeAsyncTask(financialTask,new String[]{symbol,"15days"});
+        StaticMethods.executeAsyncTask(financialTask,new String[]{symbol,"1month"});
 
     }
 
@@ -117,22 +118,22 @@ public class VolumeFragment extends Fragment implements ChartListener {
     @Override
     public void onSucess(String data) {
         progressBar.setVisibility(View.GONE);
-
-        Document document= Jsoup.parse(data);
-        Elements trs=document.getElementsByTag("tr");
+        try{
+        JSONObject jsonObject=new JSONObject(data);
+        JSONArray jsondata=jsonObject.getJSONArray("data");
 
         JSONArray percentage=new JSONArray();
         JSONArray volumes=new JSONArray();
         JSONArray tradesd=new JSONArray();
         JSONArray dates=new JSONArray();
-        for (int k=1;k<trs.size();k++){
+        for (int k=1;k<jsondata.length();k++){
             try {
-                String eq=trs.get(k).children().get(1).text();
+                String eq=jsondata.getJSONObject(k).getString("CH_SERIES");
                 if(eq.contains("EQ")) {
-                    percentage.put(trs.get(k).children().get(14).text().replaceAll(",", ""));
-                    volumes.put(Integer.parseInt(trs.get(k).children().get(13).text().replaceAll(",", "")));
-                    tradesd.put(Integer.parseInt(trs.get(k).children().get(10).text().replaceAll(",", "")));
-                    dates.put(trs.get(k).children().get(2).text().replaceAll(",", ""));
+                   // percentage.put(jsondata.getJSONObject(k).children().get(14).text().replaceAll(",", ""));
+                    volumes.put(jsondata.getJSONObject(k).getLong("CH_TOT_TRADED_QTY"));
+                    tradesd.put((jsondata.getJSONObject(k).getLong("CH_TOTAL_TRADES")));
+                    dates.put(jsondata.getJSONObject(k).getString("mTIMESTAMP"));
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -147,7 +148,6 @@ public class VolumeFragment extends Fragment implements ChartListener {
    //     Log.d("Data",""+data);
 
 
-        try {
 
             InputStream is = getContext().getAssets().open("volume_chart.html");
             int size = is.available();

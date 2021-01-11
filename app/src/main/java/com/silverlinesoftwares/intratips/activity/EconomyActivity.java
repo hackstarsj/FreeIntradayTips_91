@@ -87,6 +87,10 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
             for (int k=0;k<elements.size();k++) {
                 dd.append("").append(elements.get(k).toString().replaceAll(regex,"#"));
             }
+
+            dd=new StringBuilder(dd.toString().replaceAll("<a #>",""));
+            dd=new StringBuilder(dd.toString().replaceAll("</a>",""));
+            dd=new StringBuilder(dd.toString().replaceAll("</a>",""));
            String all_data = "<html><head> <title></title><style> " +
                    "body{ margin:0px;padding:0px; }" +
                    //" th{ background:dodgerblue;color:white; } " +
@@ -95,11 +99,11 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
                    "table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} " +
 //                   "tr:nth-child(2n) {\n" +
 //                    "\n" +
-//                    "    background-color: #f4f4f4;\n" +
-//                    "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+//                    "    background-color: whitesmoke;\n" +
+//                    "    box-shadow: 5px 5px 5px red;\n" +
 //                    "\n" +
 //                    "} " +
-                   "a { color:#000; }</style></head><body><table>"+dd.toString()+"</table></body></html>";
+                   "a { color:black; }</style></head><body><table>"+dd.toString()+"</table></body></html>";
 
            datas.add(all_data);
 
@@ -111,83 +115,101 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
                 "table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; }" +
                 " th,td{ padding:5px }" +
                 " table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} " +
-                "tr:nth-child(2n) {\n" +
-                "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
-                "\n" +
                 "}</style></head><body>"+elements2.toString().replaceAll(regex,"#")+"</body></html>";
-
+        all_data2=all_data2.replaceAll("<a #>","");
+        all_data2=all_data2.replaceAll("</a>","");
+        all_data2=all_data2.replaceAll("</a>","");
         datas.add(all_data2);
 
         Element elements3=document.getElementById("labour");
         String all_data3 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements3.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data3=all_data3.replaceAll("<a #>","");
+        all_data3=all_data3.replaceAll("</a>","");
+        all_data3=all_data3.replaceAll("</a>","");
         datas.add(all_data3);
 
         Element elements4=document.getElementById("prices");
         String all_data4 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements4.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data4=all_data4.replaceAll("<a #>","");
+        all_data4=all_data4.replaceAll("</a>","");
+        all_data4=all_data4.replaceAll("</a>","");
         datas.add(all_data4);
 
         Element elements5=document.getElementById("money");
         String all_data5 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements5.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data5=all_data5.replaceAll("<a #>","");
+        all_data5=all_data5.replaceAll("</a>","");
+        all_data5=all_data5.replaceAll("</a>","");
         datas.add(all_data5);
 
         Element elements6=document.getElementById("trade");
         String all_data6 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements6.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data6=all_data6.replaceAll("<a #>","");
+        all_data6=all_data6.replaceAll("</a>","");
+        all_data6=all_data6.replaceAll("</a>","");
         datas.add(all_data6);
 
         Element elements7=document.getElementById("government");
         String all_data7 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements7.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data7=all_data7.replaceAll("<a #>","");
+        all_data7=all_data7.replaceAll("</a>","");
+        all_data7=all_data7.replaceAll("</a>","");
         datas.add(all_data7);
 
         Element elements8=document.getElementById("business");
         String all_data8 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements8.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data8=all_data8.replaceAll("<a #>","");
+        all_data8=all_data8.replaceAll("</a>","");
+        all_data8=all_data8.replaceAll("</a>","");
         datas.add(all_data8);
 
         Element elements9=document.getElementById("consumer");
         String all_data9 = "<html><head> <title></title><style> body{ margin:0px;padding:0px; } th{ background:dodgerblue;color:white; } table,td,th{ border:1px solid black;border-collapse:collapse;white-space: nowrap; } th,td{ padding:5px } table{ margin:0px;padding:0px;border-radius:5px;width:100%;height:100%;} tr:nth-child(2n) {\n" +
                 "\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    box-shadow: 5px 5px 5px #e1d9d9;\n" +
+                "    background-color: whitesmoke;\n" +
+                "    box-shadow: 5px 5px 5px red;\n" +
                 "\n" +
                 "}</style></head><body>"+elements9.toString().replaceAll(regex,"#")+"</body></html>";
 
+        all_data9=all_data9.replaceAll("<a #>","");
+        all_data9=all_data9.replaceAll("</a>","");
+        all_data9=all_data9.replaceAll("</a>","");
         datas.add(all_data9);
         LoadHomePage();
     }

@@ -25,9 +25,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -106,7 +108,7 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
 
         Request request =
                 new Request.Builder()
-                        .url("https://www.nseindia.com/api/quote-equity?symbol="+symbol.replace(".NS","").replace(".BO",""))
+                        .url("https://www.nseindia.com/get-quotes/equity?symbol="+symbol.replace(".NS","").replace(".BO",""))
                         .addHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0")
                         .build();
 
@@ -117,18 +119,61 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
-            try {
-                if (response.body() != null) {
-                    return response.body().string();
+            if (response.body() != null) {
+                //return response.body().string();
+                List<String> header=response.headers("Set-Cookie");
+                String dd="";
+                for (int i=0;i<header.size();i++){
+                    dd+=""+header.get(i)+";";
                 }
-                else{
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                String data=LoadSummaryData5(symbol,dd);
+                return data;
+            }
+            else{
+                return null;
             }
         }
         return null;
+    }
+
+    private String LoadSummaryData5(String symbol,String dd) {
+        try {
+
+            OkHttpClient client2 = new OkHttpClient();
+            client2.retryOnConnectionFailure();
+            client2.newBuilder().connectTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .build(); // connect timeout
+
+            Request request2 =
+                    new Request.Builder()
+                            .url("https://www.nseindia.com/api/quote-equity?symbol=" + symbol.replace(".NS", "").replace(".BO", ""))
+                            .addHeader("Cookie",dd)
+                            .addHeader("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0")
+                            .build();
+
+            Response response2 = null;
+            try {
+                response2 = client2.newCall(request2).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (response2 != null && response2.isSuccessful()) {
+                if (response2.body() != null) {
+                    return response2.body().string();
+                } else {
+                    return null;
+                }
+
+            }
+            return null;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -171,11 +216,11 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
         SummaryModel summaryModel=new SummaryModel();
             if(values[0]!=null) {
                 Document document = Jsoup.parse(values[0]);
-                Elements data_element = document.getElementsByClass("four columns");
+                Elements data_element = document.getElementsByClass("flex-space-between");
                 try {
-                    summaryModel.setBook_value(data_element.get(3).children().get(1).text());
-                    summaryModel.setRoce(data_element.get(6).children().get(0).text());
-                    summaryModel.setRoe(data_element.get(7).children().get(0).text());
+                    summaryModel.setBook_value(data_element.get(8).children().get(1).text());
+                    summaryModel.setRoce(data_element.get(10).children().get(1).text());
+                    summaryModel.setRoe(data_element.get(11).children().get(1).text());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -248,7 +293,12 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
                         equityModel.setIssuer_name("-");
                         equityModel.setIssuer_name_lang("-");
                         equityModel.setMarket_cap(SummaryObject.getJSONObject("marketCap").getString("raw"));
-                        equityModel.setPe_ratio(SummaryObject.getJSONObject("trailingPE").getString("raw"));
+                        if(SummaryObject.has("trailingPE")) {
+                            equityModel.setPe_ratio(SummaryObject.getJSONObject("trailingPE").getString("raw"));
+                        }
+                        else{
+                            equityModel.setPe_ratio("0");
+                        }
                         equityModel.setPre_mkt_change("-");
                         equityModel.setPre_mkt_chg_percent("-");
                         equityModel.setPre_mkt_price("-");
@@ -295,14 +345,14 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
                 try {
 
                     JSONObject jsonObject=new JSONObject(values[2]);
-                        String text = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("min")+"</font> / <font color=#00e676>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("minDate")+"</font>";
-                        String text1 = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("max")+"</font> / <font color=#d50000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("maxDate")+"</font>";
+                        String text = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("min")+"</font> / <font color=#d50000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("minDate")+"</font>";
+                        String text1 = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("max")+"</font> / <font color=#00e676>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("maxDate")+"</font>";
                         summaryModel.setHigh52(Html.fromHtml(text1));
                         summaryModel.setLow52(Html.fromHtml(text));
                         summaryModel.setvWap(jsonObject.getJSONObject("priceInfo").getString("vwap"));
                     summaryModel.setFaceValue(jsonObject.getJSONObject("securityInfo").getString("faceValue"));
-                    summaryModel.setLowerPriceBand(jsonObject.getJSONObject("securityInfo").getString("lowerCP"));
-                     summaryModel.setUpperPriceband(jsonObject.getJSONObject("securityInfo").getString("upperCP"));
+                    summaryModel.setLowerPriceBand(jsonObject.getJSONObject("priceInfo").getString("lowerCP"));
+                     summaryModel.setUpperPriceband(jsonObject.getJSONObject("priceInfo").getString("upperCP"));
                  //   }
                 }
                 catch (Exception e) {

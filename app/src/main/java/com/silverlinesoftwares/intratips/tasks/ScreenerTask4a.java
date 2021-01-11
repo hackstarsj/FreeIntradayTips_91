@@ -216,6 +216,13 @@ public class ScreenerTask4a extends AsyncTask<String ,String,String> {
         Request request =
                 new Request.Builder()
                         .url(url)
+                        .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36")
+                        .addHeader("Upgrade-Insecure-Requests","1")
+                        .addHeader("Sec-Fetch-User:","?1")
+                        .addHeader("Sec-Fetch-Site","none")
+                        .addHeader("Sec-Fetch-Mode","navigate")
+                        .addHeader("Sec-Fetch-Dest","document")
+                        .addHeader("Host","www.topstockresearch.com")
                         .build();
         Response response = null;
         try {
