@@ -64,6 +64,16 @@ public class EquityModel {
     private String dividend_yield;
     private String ts;
     private String realtime_ts;
+    private String notification_message;
+
+    public String getNotification_message() {
+        return notification_message;
+    }
+
+    public void setNotification_message(String notification_message) {
+        this.notification_message = notification_message;
+    }
+
     private boolean is_Open=false;
 
     public boolean isIs_Open() {
@@ -415,7 +425,7 @@ public class EquityModel {
     public EquityModel() {
     }
 
-    public EquityModel(String id, String name, String target1, String target2, String target3, String buy1, String buy2, String buy3, String achieved1, String achieved2, String achieved3, String stop_loss, String stop_loss_text, String stop_loss_end, String datetime, String cmp_datetime, String cmp_price, String buy_price, String created_at, String pr_close, String low, String high, String buy_text) {
+    public EquityModel(String id, String name, String target1, String target2, String target3, String buy1, String buy2, String buy3, String achieved1, String achieved2, String achieved3, String stop_loss, String stop_loss_text, String stop_loss_end, String datetime, String cmp_datetime, String cmp_price, String buy_price, String created_at, String pr_close, String low, String high, String buy_text,String notification_message) {
         this.id = id;
         this.name = name;
         this.target1 = target1;
@@ -439,6 +449,7 @@ public class EquityModel {
         this.low = low;
         this.high = high;
         this.buy_text = buy_text;
+        this.notification_message=notification_message;
     }
 
     public String getId() {

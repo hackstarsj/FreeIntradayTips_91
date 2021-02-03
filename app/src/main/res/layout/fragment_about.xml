@@ -244,6 +244,51 @@
             android:text="SIGNUP" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/login_line_2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_fb_btn"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:src="@drawable/fb_login"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:id="@+id/fb_login"
+            android:layout_height="50dp"
+            android:gravity="center" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/g_login"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:id="@+id/login_google"
+            android:layout_height="50dp"
+            android:gravity="center" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

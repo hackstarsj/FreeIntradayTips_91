@@ -21,7 +21,15 @@ public class OptionModel {
     private String cmp_price;
     private String buy_price;
     private String created_at;
+    private String notification_message;
 
+    public String getNotification_message() {
+        return notification_message;
+    }
+
+    public void setNotification_message(String notification_message) {
+        this.notification_message = notification_message;
+    }
 
     public String buy_text;
 
@@ -44,7 +52,7 @@ public class OptionModel {
         this.stop_loss_end = stop_loss_end;
     }
 
-    public OptionModel(String id, String name, String target1, String target2, String target3, String buy1, String buy2, String buy3, String achieved1, String achieved2, String achieved3, String stop_loss, String stop_loss_text, String stop_loss_end, String datetime, String cmp_datetime, String cmp_price, String buy_price, String created_at, String buy_text) {
+    public OptionModel(String id, String name, String target1, String target2, String target3, String buy1, String buy2, String buy3, String achieved1, String achieved2, String achieved3, String stop_loss, String stop_loss_text, String stop_loss_end, String datetime, String cmp_datetime, String cmp_price, String buy_price, String created_at, String buy_text,String notification_message) {
         this.id = id;
         this.name = name;
         this.target1 = target1;
@@ -65,6 +73,7 @@ public class OptionModel {
         this.buy_price = buy_price;
         this.created_at = created_at;
         this.buy_text = buy_text;
+        this.notification_message=notification_message;
     }
 
     public String getId() {

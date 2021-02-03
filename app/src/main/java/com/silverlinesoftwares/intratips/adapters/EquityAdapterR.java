@@ -1,5 +1,8 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -129,6 +135,7 @@ public class EquityAdapterR extends RecyclerView.Adapter{
         public TextView equity_loss;
         public TextView equity_loss_text;
         public TextView stoploss;
+        public TextView notification_message;
         public TextView buy_text,opens;
         public LinearLayout buy_line,linesss;
 
@@ -145,6 +152,7 @@ public class EquityAdapterR extends RecyclerView.Adapter{
             text_target_3=(TextView) view.findViewById(R.id.text_target_3);
             equity_buy=(TextView) view.findViewById(R.id.equity_buy);
             text_buy_1=(TextView) view.findViewById(R.id.text_buy_1);
+            notification_message=(TextView) view.findViewById(R.id.notification_text);
 
             line_buy_sell=(LinearLayout)view.findViewById(R.id.line_buy_sell);
             rel_line=(RelativeLayout)view.findViewById(R.id.rel_line);
@@ -225,11 +233,32 @@ public class EquityAdapterR extends RecyclerView.Adapter{
             userViewHolder.equity_loss.setText(""+formatter.format(Double.parseDouble(contact.getStop_loss())));
             userViewHolder.stoploss.setText(contact.getStop_loss_text());
             userViewHolder.equity_loss_text.setText(contact.getStop_loss_end());
+
+            if(contact.getNotification_message()!=null) {
+                if (!contact.getNotification_message().isEmpty()) {
+                    userViewHolder.notification_message.setText("" + contact.getNotification_message());
+                    userViewHolder.notification_message.setVisibility(View.VISIBLE);
+                    if (contact.getBuy_text().contains("SELL")) {
+
+                        userViewHolder.notification_message.setBackgroundColor(Color.parseColor("#e53935"));
+                        manageBlinkEffect(userViewHolder.notification_message,Color.parseColor("#e53935"));
+                    } else {
+                        userViewHolder.notification_message.setBackgroundColor(Color.parseColor("#019c0e"));
+                        manageBlinkEffect(userViewHolder.notification_message,Color.parseColor("#019c0e"));
+                    }
+                } else {
+                    userViewHolder.notification_message.setVisibility(View.GONE);
+                }
+            }
+            else{
+                userViewHolder.notification_message.setVisibility(View.GONE);
+            }
+
             if(contact.getStop_loss_end().equalsIgnoreCase("LOSS")){
-                userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#f44336"));
+                userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#f45854"));
             }
             else if(contact.getStop_loss_end().equalsIgnoreCase("EXIT")){
-                userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#4caf50"));
+                userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#31ae36"));
             }
             else{
                 userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#BE1AFA"));
@@ -423,5 +452,12 @@ public class EquityAdapterR extends RecyclerView.Adapter{
         return contacts == null ? 0 : contacts.size();
     }
 
-
+    private void manageBlinkEffect(TextView txt,int color) {
+        ObjectAnimator anim = ObjectAnimator.ofInt(txt, "backgroundColor", Color.BLACK, color, Color.BLACK);
+        anim.setDuration(2000);
+        anim.setEvaluator(new ArgbEvaluator());
+        anim.setRepeatMode(ValueAnimator.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.start();
+    }
 }

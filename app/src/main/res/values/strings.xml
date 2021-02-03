@@ -1,4 +1,7 @@
 <resources>
+    <string name="facebook_app_id">414494206500952</string>
+    <string name="fb_login_protocol_scheme">fb414494206500952</string>
+
     <string name="app_name">Free Intraday Tips</string>
     <string name="intraday">Intraday</string>
     <string name="screener">Screener</string>

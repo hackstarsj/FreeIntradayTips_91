@@ -310,10 +310,10 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         viewPagerAdapter.addFragment(volumeFragment);
         viewPagerAdapter.addTitle("Volume");
 
-        OptionFragment optionFragment=new OptionFragment();
-        optionFragment.setArguments(bundle);
-        viewPagerAdapter.addFragment(optionFragment);
-        viewPagerAdapter.addTitle("Options");
+        //OptionFragment optionFragment=new OptionFragment();
+        //optionFragment.setArguments(bundle);
+        //viewPagerAdapter.addFragment(optionFragment);
+       // viewPagerAdapter.addTitle("Options");
 
         ShareHoldersFragment shareHoldersFragment=new ShareHoldersFragment();
         shareHoldersFragment.setArguments(bundle);

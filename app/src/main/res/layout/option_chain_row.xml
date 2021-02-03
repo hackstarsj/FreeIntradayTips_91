@@ -20,7 +20,8 @@
             android:textSize="19sp"
             android:id="@+id/strike_price"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
         <LinearLayout
             android:id="@+id/line_3"
             android:layout_below="@id/strike_price"

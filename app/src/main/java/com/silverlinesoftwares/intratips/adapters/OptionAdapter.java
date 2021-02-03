@@ -1,5 +1,8 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -97,6 +103,7 @@ public class OptionAdapter extends RecyclerView.Adapter{
         public TextView equity_loss_text;
         public TextView stoploss;
         public TextView buy_text;
+        public TextView notification_message;
         public LinearLayout buy_line,linesss;
 
 
@@ -123,6 +130,7 @@ public class OptionAdapter extends RecyclerView.Adapter{
             buy_text=(TextView) view.findViewById(R.id.buy_text);
             buy_line=(LinearLayout) view.findViewById(R.id.line_buy);
             linesss=(LinearLayout) view.findViewById(R.id.linesss);
+            notification_message=(TextView) view.findViewById(R.id.notification_text);
 
         }
     }
@@ -177,6 +185,28 @@ public class OptionAdapter extends RecyclerView.Adapter{
             userViewHolder.equity_loss.setText(""+formatter.format(Double.parseDouble(contact.getStop_loss())));
             userViewHolder.stoploss.setText(contact.getStop_loss_text());
             userViewHolder.equity_loss_text.setText(contact.getStop_loss_end());
+
+            if(contact.getNotification_message()!=null) {
+                if (!contact.getNotification_message().isEmpty()) {
+                    userViewHolder.notification_message.setText("" + contact.getNotification_message());
+                    userViewHolder.notification_message.setVisibility(View.VISIBLE);
+                    if (contact.getBuy_text().contains("SELL")) {
+                        userViewHolder.notification_message.setBackgroundColor(Color.parseColor("#f45854"));
+                        manageBlinkEffect(userViewHolder.notification_message,Color.parseColor("#f45854"));
+
+                    } else {
+                        userViewHolder.notification_message.setBackgroundColor(Color.parseColor("#31ae36"));
+                        manageBlinkEffect(userViewHolder.notification_message,Color.parseColor("#31ae36"));
+                    }
+                    userViewHolder.notification_message.setAnimation(getBlinkAnimation());
+                } else {
+                    userViewHolder.notification_message.setVisibility(View.GONE);
+                }
+            }
+            else{
+                userViewHolder.notification_message.setVisibility(View.GONE);
+            }
+
             if(contact.getStop_loss_end().equalsIgnoreCase("LOSS")){
                 userViewHolder.equity_loss_text.setBackgroundColor(Color.parseColor("#f44336"));
             }
@@ -276,5 +306,22 @@ public class OptionAdapter extends RecyclerView.Adapter{
         return contacts == null ? 0 : contacts.size();
     }
 
+    public Animation getBlinkAnimation(){
+        Animation animation = new AlphaAnimation(1, 0);         // Change alpha from fully visible to invisible
+        animation.setDuration(300);                             // duration - half a second
+        animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
+        animation.setRepeatCount(1);                            // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
 
+        return animation;
+    }
+
+    private void manageBlinkEffect(TextView txt,int color) {
+        ObjectAnimator anim = ObjectAnimator.ofInt(txt, "backgroundColor", Color.BLACK, color, Color.BLACK);
+        anim.setDuration(2000);
+        anim.setEvaluator(new ArgbEvaluator());
+        anim.setRepeatMode(ValueAnimator.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.start();
+    }
 }

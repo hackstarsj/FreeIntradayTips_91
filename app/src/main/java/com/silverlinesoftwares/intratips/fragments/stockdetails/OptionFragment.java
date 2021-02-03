@@ -23,6 +23,8 @@ import com.silverlinesoftwares.intratips.tasks.OptionTask;
 import com.silverlinesoftwares.intratips.util.Constant;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -123,147 +125,186 @@ public class OptionFragment extends Fragment implements ChartListener {
     public void onSucess(String data) {
         progress.setVisibility(View.GONE);
 
-        Document document= Jsoup.parse(data);
-        String ddd="";
-        Element elements=document.getElementById("octable");
-        Elements elements1=elements.getElementsByTag("tr");
-        List<OptionChainModel> optionChainModels=new ArrayList<>();
-        for (int i=0;i<elements1.size();i++){
-            if(i==0 || i==1){
-                continue;
-            }
+        if(data!=null) {
 
-            if(i==22){
-                for (int k=0;k<elements1.get(i).children().size();k++){
-                    Log.d("Pos "," "+k+" => "+elements1.get(i).children().get(k).text());
-                }
-            }
+
+//        Document document= Jsoup.parse(data);
+//        String ddd="";
+//        Element elements=document.getElementById("octable");
+//        Elements elements1=elements.getElementsByTag("tr");
+//        List<OptionChainModel> optionChainModels=new ArrayList<>();
+//        for (int i=0;i<elements1.size();i++){
+//            if(i==0 || i==1){
+//                continue;
+//            }
+//
+//            if(i==22){
+//                for (int k=0;k<elements1.get(i).children().size();k++){
+//                    Log.d("Pos "," "+k+" => "+elements1.get(i).children().get(k).text());
+//                }
+//            }
+//
+//            try {
+//                String strike_price="";
+//                if(elements1.get(i).children().size()>10) {
+//                    strike_price = elements1.get(i).children().get(11).children().text();
+//                }
+//                String oi_1= elements1.get(i).children().get(1).text();
+//                if(oi_1.isEmpty()){
+//                    oi_1="-";
+//                }
+//                String chng_in_o1=elements1.get(i).children().get(2).text();
+//                if(chng_in_o1.isEmpty()){
+//                    chng_in_o1="-";
+//                }
+//
+//                String volume= elements1.get(i).children().get(3).text();
+//                if(volume.isEmpty()){
+//                    volume="-";
+//                }
+//
+//                String iv_1= elements1.get(i).children().get(4).text();
+//                if(iv_1.isEmpty()){
+//                    iv_1="-";
+//                }
+//
+//                String  ltp_1= elements1.get(i).children().get(5).text();
+//                if(ltp_1.isEmpty()){
+//                    ltp_1="-";
+//                }
+//
+//
+//                String  net_chng=elements1.get(i).children().get(6).text();
+//                if(net_chng.isEmpty()){
+//                    net_chng="-";
+//                }
+//                String oi_2="-";
+//                if(elements1.get(i).children().size()>20) {
+//                    oi_2 = elements1.get(i).children().get(21).text();
+//                }
+//                else{
+//                    oi_2="-";
+//                }
+//                if(oi_2.isEmpty()){
+//                    oi_2="-";
+//                }
+//
+//                String chng_in_02="-";
+//                if(elements1.get(i).children().size()>19) {
+//                    chng_in_02 = elements1.get(i).children().get(20).text();
+//                }
+//                else{
+//                    chng_in_02="-";
+//                }
+//                if(chng_in_02.isEmpty()){
+//                    chng_in_02="-";
+//                }
+//
+//                String volume_2="";
+//
+//                if(elements1.get(i).children().size()>18) {
+//                    volume_2= elements1.get(i).children().get(19).text();
+//
+//                }
+//                else{
+//                    volume_2= "-";
+//                }
+//
+//                if(volume_2.isEmpty()){
+//                    volume_2="-";
+//                }
+//
+//
+//                String iv_2="";
+//                if(elements1.get(i).children().size()>17) {
+//                    iv_2= elements1.get(i).children().get(18).text();
+//
+//                }
+//                else{
+//                     iv_2= "-";
+//                }
+//
+//                if(iv_2.isEmpty()){
+//                    iv_2="-";
+//                }
+//
+//
+//                String ltp_2="";
+//                if(elements1.get(i).children().size()>16) {
+//                    ltp_2=elements1.get(i).children().get(17).text();
+//                }
+//                else{
+//                    ltp_2="-";
+//                }
+//                if(ltp_2.isEmpty()){
+//                    ltp_2="-";
+//                }
+//
+//
+//                String net_chng_2="";
+//                if(elements1.get(i).children().size()>15){
+//                    net_chng_2= elements1.get(i).children().get(16).text();
+//
+//                }
+//                else{
+//                    net_chng_2="";
+//                }
+//                if(net_chng_2.isEmpty()){
+//                    net_chng_2="-";
+//                }
+//
+//                optionChainModels.add(new OptionChainModel(strike_price,oi_1, chng_in_o1,volume,iv_1,ltp_1,net_chng ,oi_2 , chng_in_02,volume_2,iv_2, ltp_2,net_chng_2));
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//                optionChainModels.add(new OptionChainModel());
+//            }
+//        }
 
             try {
-                String strike_price="";
-                if(elements1.get(i).children().size()>10) {
-                    strike_price = elements1.get(i).children().get(11).children().text();
-                }
-                String oi_1= elements1.get(i).children().get(1).text();
-                if(oi_1.isEmpty()){
-                    oi_1="-";
-                }
-                String chng_in_o1=elements1.get(i).children().get(2).text();
-                if(chng_in_o1.isEmpty()){
-                    chng_in_o1="-";
-                }
+                JSONObject jsonObject = new JSONObject(data);
+                JSONArray jsonArray=jsonObject.getJSONObject("records").getJSONArray("data");
 
-                String volume= elements1.get(i).children().get(3).text();
-                if(volume.isEmpty()){
-                    volume="-";
-                }
+                List<OptionChainModel> optionChainModels=new ArrayList<>();
+                for(int i=0;i<jsonArray.length();i++) {
+                    OptionChainModel chainModel=new OptionChainModel();
+                    if(jsonArray.getJSONObject(i).has("CE")){
+                        chainModel.setStrike_price(jsonArray.getJSONObject(i).getJSONObject("CE").getString("strikePrice"));
+                        chainModel.setOi_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("openInterest"));
+                        chainModel.setChng_in_oi_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("changeinOpenInterest"));
+                        chainModel.setVolume_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("totalTradedVolume"));
+                        chainModel.setIv_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("impliedVolatility"));
+                        chainModel.setLtp_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("lastPrice"));
+                        chainModel.setNet_chng_1(jsonArray.getJSONObject(i).getJSONObject("CE").getString("change"));
 
-                String iv_1= elements1.get(i).children().get(4).text();
-                if(iv_1.isEmpty()){
-                    iv_1="-";
-                }
+                    }
 
-                String  ltp_1= elements1.get(i).children().get(5).text();
-                if(ltp_1.isEmpty()){
-                    ltp_1="-";
-                }
-
-
-                String  net_chng=elements1.get(i).children().get(6).text();
-                if(net_chng.isEmpty()){
-                    net_chng="-";
-                }
-                String oi_2="-";
-                if(elements1.get(i).children().size()>20) {
-                    oi_2 = elements1.get(i).children().get(21).text();
-                }
-                else{
-                    oi_2="-";
-                }
-                if(oi_2.isEmpty()){
-                    oi_2="-";
-                }
-
-                String chng_in_02="-";
-                if(elements1.get(i).children().size()>19) {
-                    chng_in_02 = elements1.get(i).children().get(20).text();
-                }
-                else{
-                    chng_in_02="-";
-                }
-                if(chng_in_02.isEmpty()){
-                    chng_in_02="-";
-                }
-
-                String volume_2="";
-
-                if(elements1.get(i).children().size()>18) {
-                    volume_2= elements1.get(i).children().get(19).text();
-
-                }
-                else{
-                    volume_2= "-";
-                }
-
-                if(volume_2.isEmpty()){
-                    volume_2="-";
-                }
+                    if(jsonArray.getJSONObject(i).has("PE")){
+                        chainModel.setStrike_price(jsonArray.getJSONObject(i).getJSONObject("PE").getString("strikePrice"));
+                        chainModel.setOi_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("openInterest"));
+                        chainModel.setChng_in_oi_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("changeinOpenInterest"));
+                        chainModel.setVolume_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("totalTradedVolume"));
+                        chainModel.setIv_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("impliedVolatility"));
+                        chainModel.setLtp_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("lastPrice"));
+                        chainModel.setNet_chng_2(jsonArray.getJSONObject(i).getJSONObject("PE").getString("change"));
+                    }
 
 
-                String iv_2="";
-                if(elements1.get(i).children().size()>17) {
-                    iv_2= elements1.get(i).children().get(18).text();
-
-                }
-                else{
-                     iv_2= "-";
+                    optionChainModels.add(chainModel);
                 }
 
-                if(iv_2.isEmpty()){
-                    iv_2="-";
+                if (mContext != null) {
+                    OptionChainAdapter optionChainAdapter = new OptionChainAdapter(mContext, optionChainModels);
+                    listView.setAdapter(optionChainAdapter);
+                } else {
+                    if (getContext() != null) {
+                        OptionChainAdapter optionChainAdapter = new OptionChainAdapter(getContext(), optionChainModels);
+                        listView.setAdapter(optionChainAdapter);
+                    }
                 }
-
-
-                String ltp_2="";
-                if(elements1.get(i).children().size()>16) {
-                    ltp_2=elements1.get(i).children().get(17).text();
-                }
-                else{
-                    ltp_2="-";
-                }
-                if(ltp_2.isEmpty()){
-                    ltp_2="-";
-                }
-
-
-                String net_chng_2="";
-                if(elements1.get(i).children().size()>15){
-                    net_chng_2= elements1.get(i).children().get(16).text();
-
-                }
-                else{
-                    net_chng_2="";
-                }
-                if(net_chng_2.isEmpty()){
-                    net_chng_2="-";
-                }
-
-                optionChainModels.add(new OptionChainModel(strike_price,oi_1, chng_in_o1,volume,iv_1,ltp_1,net_chng ,oi_2 , chng_in_02,volume_2,iv_2, ltp_2,net_chng_2));
             }
             catch (Exception e){
                 e.printStackTrace();
-                optionChainModels.add(new OptionChainModel());
-            }
-        }
-
-        if(mContext!=null) {
-            OptionChainAdapter optionChainAdapter = new OptionChainAdapter(mContext, optionChainModels);
-            listView.setAdapter(optionChainAdapter);
-        }
-        else{
-            if(getContext()!=null) {
-                OptionChainAdapter optionChainAdapter = new OptionChainAdapter(getContext(), optionChainModels);
-                listView.setAdapter(optionChainAdapter);
             }
         }
 

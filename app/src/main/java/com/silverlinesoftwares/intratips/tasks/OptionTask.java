@@ -30,10 +30,15 @@ public class OptionTask extends AsyncTask<String,String ,String > {
 
         Request request =
                 new Request.Builder()
-                        .url("https://www1.nseindia.com/live_market/dynaContent/live_watch/option_chain/optionKeys.jsp?symbolCode=3691&symbol="+strings[0]+"&instrument=OPTSTK&date=-&segmentLink=17&segmentLink=17")
+                        .url("https://www.nseindia.com/api/option-chain-equities?symbol="+strings[0].replace(".NS","").replace(".BS",""))
                         .addHeader("User-Agent","Mozilla/5.0 (compatible; Rigor/1.0.0; http://rigor.com)")
                         .addHeader("Accept","*/*")
+                        .addHeader("authority","www.nseindia.com")
+                        .addHeader("sec-fetch-site","same-origin")
+                        .addHeader("sec-fetch-mode","cors")
+                        .addHeader("sec-fetch-dest","empty")
                         .build();
+        
         Response response = null;
         try {
             response = client.newCall(request).execute();

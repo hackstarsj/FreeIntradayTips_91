@@ -13,10 +13,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.gocashfree.cashfreesdk.CFPaymentService;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +49,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.instamojo.android.Instamojo;
 import com.instamojo.android.helpers.Constants;
 import com.paytm.pgsdk.PaytmClientCertificate;
@@ -46,7 +73,9 @@ import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.LoginActivity;
 import com.silverlinesoftwares.intratips.activity.PaymentGatewayActivityCashFree;
 import com.silverlinesoftwares.intratips.activity.SignUpActivity;
+import com.silverlinesoftwares.intratips.activity.SignUpActivityNext;
 import com.silverlinesoftwares.intratips.activity.VideoActivtiy;
+import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.listeners.DetailsResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.models.UserModel;
@@ -57,6 +86,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,11 +105,15 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int GOOGLE_SINGIN_REQUEST = 112;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    CallbackManager callbackManager;
 
+    FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -118,12 +152,68 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        firebaseAuth=FirebaseAuth.getInstance();
+        progressDialog=new ProgressDialog(getContext());
+        callbackManager=CallbackManager.Factory.create();
         LinearLayout other_line=view.findViewById(R.id.other_line);
         LinearLayout what_line=view.findViewById(R.id.telegram);
         Button rates=view.findViewById(R.id.rate_app);
         ImageView ff=view.findViewById(R.id.image_pen);
+        ImageView login_google=view.findViewById(R.id.login_google);
+        ImageView login_fb=view.findViewById(R.id.fb_login);
         LinearLayout youtube=view.findViewById(R.id.youtube);
         TextView app_version=view.findViewById(R.id.app_version);
+        LoginButton login_fb_btn=view.findViewById(R.id.login_fb_btn);
+
+        login_fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                if(firebaseUser!=null){
+                    firebaseUser.getIdToken(true)
+                                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                        if (task.isSuccessful()) {
+                                            String idToken = task.getResult().getToken();
+                                            SendtoServerTokenFcm(idToken);
+
+                                        } else {
+                                            // Handle error -> task.getException();
+                                            Toast.makeText(getContext(), "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                }
+                else {
+                    LoginManager.getInstance().logInWithReadPermissions(AboutFragment.this, Arrays.asList("email","public_profile"));
+                   // login_fb_btn.performClick();
+                }
+            }
+        });
+        login_fb_btn.setPermissions("email");
+        login_fb_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookLogin(loginResult);
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getContext(), "Login Failed! Try Again", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getContext(), "Login Failed! Try Again", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        login_google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                   ActivateGoogleLogin();
+            }
+        });
 
 
         app_version.setText(""+BuildConfig.VERSION_NAME);
@@ -192,6 +282,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         Button signup=view.findViewById(R.id.signup);
         LinearLayout profile_line=view.findViewById(R.id.profile_line);
         LinearLayout login_line=view.findViewById(R.id.login_line);
+        LinearLayout login_line_2=view.findViewById(R.id.login_line_2);
         Button buy_1=view.findViewById(R.id.buy_pre_1);
         Button buy_1_1=view.findViewById(R.id.buy_pre_1_1);
         Button join_paid_premium=view.findViewById(R.id.join_paid_premium);
@@ -367,12 +458,15 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
             public void onClick(View v) {
                 StaticMethods.removeToken(getContext());
                 StaticMethods.removeUser(getContext());
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getContext(), MainActivity.class));
             }
         });
 
         if(StaticMethods.getUserDetails(getContext())!=null){
             login_line.setVisibility(View.GONE);
+            login_line_2.setVisibility(View.GONE);
             profile_line.setVisibility(View.VISIBLE);
 
             UserModel userModel=StaticMethods.getUserDetails(getContext());
@@ -445,6 +539,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         }
         else{
             login_line.setVisibility(View.VISIBLE);
+            login_line_2.setVisibility(View.VISIBLE);
             profile_line.setVisibility(View.GONE);
         }
 
@@ -464,11 +559,207 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         });
     }
 
+    private void handleFacebookLogin(LoginResult loginResult) {
+        AuthCredential authCredential= FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
+        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                    SendUserData(firebaseUser);
+                }
+            }
+        });
+    }
+
+    private void ActivateGoogleLogin() {
+
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.show();
+        GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("864284917272-ogcb0hdbq37tpg8encm14vs5kl6jln8a.apps.googleusercontent.com")
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        GoogleSignInClient googleSignInClient= GoogleSignIn.getClient(getActivity(),googleSignInOptions);
+        Intent intent=googleSignInClient.getSignInIntent();
+        startActivityForResult(intent,GOOGLE_SINGIN_REQUEST);
+        if(progressDialog!=null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //
+        if(requestCode==GOOGLE_SINGIN_REQUEST){
+
+            try {
+                Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+                GoogleSignInAccount account = googleSignInAccountTask.getResult(ApiException.class);
+                processGoogleLogin(account.getIdToken(),account);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        else{
+            callbackManager.onActivityResult(requestCode,resultCode,data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void processGoogleLogin(String idToken, GoogleSignInAccount account) {
+        AuthCredential authCredential= GoogleAuthProvider.getCredential(idToken,null);
+        firebaseAuth.signInWithCredential(authCredential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                            SendUserData(firebaseUser);
+                        }
+                    }
+                });
 
 
+    }
+
+    private void SendUserData(FirebaseUser firebaseUser) {
+        Log.d("Login Sucess",""+firebaseUser.getDisplayName());
+        Log.d("Login Sucess",""+firebaseUser.getEmail());
+        Log.d("Login Sucess",""+firebaseUser.getPhoneNumber());
+        Log.d("Login Sucess",""+firebaseUser.getPhotoUrl());
+        Log.d("Login Sucess",""+firebaseUser.getUid());
+        Log.d("Login Sucess",""+firebaseUser.getProviderId());
+        Log.d("Login Sucess",""+firebaseUser.getTenantId());
+
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(mUser!=null) {
+            mUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                SendtoServerTokenFcm(idToken);
+
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(getContext(), "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void SendtoServerTokenFcm(String idToken) {
+        if(StaticMethods.getUserDetails(getContext())==null) {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(getContext());
+            }
+            progressDialog.setMessage("Logging In.. Please Wait..");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            RegisterFirebaseUser(idToken);
+        }
+    }
+
+    public void RegisterFirebaseUser(final String token){
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(getContext());
+        String url = "https://furthergrow.silverlinesoftwares.com/login/firebaseuser";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                processLoginNextStep(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Failed to Login! Please Try Again!", Toast.LENGTH_SHORT).show();
+                if(progressDialog!=null){
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("token", token);
+                return MyData;
+            }
+        };
 
 
+        MyRequestQueue.add(MyStringRequest);
+    }
 
+    private void processLoginNextStep(String response) {
+        if(response!=null){
+            Gson gson = new GsonBuilder().create();
+            ResponseModel data = gson.fromJson(response, ResponseModel.class);
+            if(data.getStatus_code().equalsIgnoreCase("200")){
+                StaticMethods.setLoginToken(getContext(),data.getToken());
+                if(progressDialog!=null){
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
+                ProcessProfileStep();
+
+            }
+            else {
+                if(progressDialog!=null){
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showDialog(""+data.getMessage());
+                    }},1000);
+            }
+        }
+        else{
+            if(progressDialog!=null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+            showDialog("Failed to Login! Please Try Again!");
+        }
+    }
+
+    private void ProcessProfileStep() {
+        if(progressDialog!=null){
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+        }
+        if(progressDialog==null) {
+            progressDialog = new ProgressDialog(getContext());
+        }
+
+        progressDialog.setMessage("Fetching your profile!..\nPlease Don't Close App");
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        String fcm="";
+
+        fcm= FirebaseInstanceId.getInstance().getToken();
+        if(fcm==null){
+            fcm="";
+        }
+
+        FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+        fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),fcm);
+    }
 
     private void ServerResponse2() {
 
@@ -901,6 +1192,11 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
 
     @Override
     public void onProfile(ResponseModel data) {
+        if(progressDialog!=null){
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+        }
         if(data!=null){
             if(data.getStatus_code().equalsIgnoreCase("200")){
                 StaticMethods.saveUserDetails(getContext(),data.getUser());

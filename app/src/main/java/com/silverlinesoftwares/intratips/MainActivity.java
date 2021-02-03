@@ -13,6 +13,8 @@ import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         registerReceiver(MainActivity.this.bcNewMessageDownload, new IntentFilter("bcNewMessageDownload"));
-        try {
+         try {
             startService(new Intent(MainActivity.this, BgService.class));
         }catch (java.lang.IllegalStateException e){
             e.printStackTrace();
