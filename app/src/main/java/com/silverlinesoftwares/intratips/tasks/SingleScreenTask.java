@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +20,8 @@ import com.silverlinesoftwares.intratips.R;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SingleScreenTask extends AsyncTask<String ,String,String> {
+public class SingleScreenTask{
 
     Context context;
     String url;
@@ -43,9 +47,7 @@ public class SingleScreenTask extends AsyncTask<String ,String,String> {
         tl=layout;
     }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s!=null) {
             BuildHeader(s);
             BuildFirstStep(s);
@@ -102,9 +104,7 @@ public class SingleScreenTask extends AsyncTask<String ,String,String> {
 
     }
 
-    @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         if(progressBar!=null){
             progressBar.setVisibility(View.VISIBLE);
         }
@@ -189,7 +189,6 @@ public class SingleScreenTask extends AsyncTask<String ,String,String> {
     }
 
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -230,5 +229,17 @@ public class SingleScreenTask extends AsyncTask<String ,String,String> {
             }
         }
         return null;
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String  data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

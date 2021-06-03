@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.models.ActiveStockModel;
-import com.silverlinesoftwares.intratips.models.GainerLosserModel;
 
 import java.util.List;
 

@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 
@@ -14,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -22,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class DeleteWatch extends AsyncTask<String ,String ,String > {
+public class DeleteWatch  {
 
     private final ProgressDialog progressDialog;
     Context context;
@@ -34,7 +38,6 @@ public class DeleteWatch extends AsyncTask<String ,String ,String > {
 
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -74,15 +77,11 @@ public class DeleteWatch extends AsyncTask<String ,String ,String > {
         return null;
     }
 
-    @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         progressDialog.show();
     }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         progressDialog.dismiss();
         if(s!=null){
             try {
@@ -103,5 +102,18 @@ public class DeleteWatch extends AsyncTask<String ,String ,String > {
         else {
             Toast.makeText(context, "Network Error Try Again!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void execute(String... strings) {
+        onPreExecute();
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

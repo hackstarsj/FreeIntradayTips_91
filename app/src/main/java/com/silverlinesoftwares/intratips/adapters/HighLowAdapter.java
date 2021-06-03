@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.ActiveStockModel;
 import com.silverlinesoftwares.intratips.models.High_Low_Model;
 
 import java.util.List;

@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -43,7 +47,6 @@ import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,9 +77,11 @@ import com.silverlinesoftwares.intratips.util.StaticMethods;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GainerLooserListener, DetailsResponseListener {
@@ -151,13 +156,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
             }
             if(StaticMethods.getLoginToken(MainActivity.this)!=null){
-                String fcm="";
-                fcm= FirebaseInstanceId.getInstance().getToken();
-                if(fcm==null){
-                    fcm="";
-                }
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),fcm);
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(!task.isSuccessful()){
+                            return;
+                        }
+                        String tok=task.getResult();
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),tok);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
+                    }
+                }).addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
+                    }
+                });
             }
             else{
                 StaticMethods.removeToken(MainActivity.this);
@@ -266,7 +288,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //StaticMethods.executeAsyncTask(gainerLooserTask,new String[]{"NIFTY%20500"});
         StaticMethods.showInterestialAds(MainActivity.this);
         FirebaseApp.initializeApp(MainActivity.this);
-        FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
+        if(StaticMethods.getNotification(MainActivity.this).equalsIgnoreCase("1")){
+            FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
+        }
        // crash();
 
         try {

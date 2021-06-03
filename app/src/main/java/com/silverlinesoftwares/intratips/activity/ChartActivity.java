@@ -1,9 +1,8 @@
 package com.silverlinesoftwares.intratips.activity;
 
-import android.annotation.TargetApi;
 import android.content.res.AssetManager;
-import android.os.AsyncTask;
-import android.os.Build;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.ChartTask;
@@ -61,7 +62,12 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
-        MobileAds.initialize(ChartActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(ChartActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         htmlWebView = findViewById(R.id.webview);
         progress=findViewById(R.id.progress);
 
@@ -420,19 +426,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         progress.setVisibility(View.VISIBLE);
         this.periods=periods;
         ChartTask chartTask=new ChartTask(url,ChartActivity.this);
-        executeAsyncTask(chartTask,new String[]{});
+        chartTask.execute(new String[]{});
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
-    public static <T> void executeAsyncTask(AsyncTask<T, ?, ?> asyncTask, T... params) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            try {
-                asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-            }
-            catch (java.util.concurrent.RejectedExecutionException e){
-                e.printStackTrace();
-            }
-        else
-            asyncTask.execute(params);
-    }
 }

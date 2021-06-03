@@ -28,87 +28,18 @@
 <ListView
     android:layout_below="@id/title"
     android:id="@+id/listview"
-    android:layout_marginBottom="30dp"
+    android:layout_marginBottom="50dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
-    <LinearLayout
-        android:layout_alignParentBottom="true"
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:background="#4CAF50"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:text="TOTAL PROFIT"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-            <TextView
-                android:textAlignment="center"
-                android:textSize="13sp"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="#ffffff"
-                android:text="0.00"
-                android:id="@+id/profit_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:background="#F44336"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:text="TOTAL LOSS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:id="@+id/loss_amount"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="#ffffff"
-                android:text="0.00"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:background="#2196F3"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:text="ACCURACY"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:id="@+id/accuracy"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="#ffffff"
-                android:text="0.00"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listview"
+        android:layout_marginTop="-50dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner">
+    </com.google.android.gms.ads.AdView>
 </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,17 +1,21 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FilTask extends AsyncTask<String,String ,String > {
+public class FilTask  {
 
 
     ChartListener chartListener;
@@ -19,7 +23,6 @@ public class FilTask extends AsyncTask<String,String ,String > {
         this.chartListener=chartListener;
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -53,9 +56,7 @@ public class FilTask extends AsyncTask<String,String ,String > {
         return null;
     }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s==null){
             chartListener.onFailed("Something Went Wrong!");
         }
@@ -66,6 +67,18 @@ public class FilTask extends AsyncTask<String,String ,String > {
             chartListener.onSucess(s);
         }
 
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 
 

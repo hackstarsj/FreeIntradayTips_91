@@ -1,6 +1,9 @@
 package com.silverlinesoftwares.intratips.tasks;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 
@@ -9,13 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class VolumeTask extends AsyncTask<String,String ,String > {
+public class VolumeTask {
 
 
     ChartListener chartListener;
@@ -23,66 +28,76 @@ public class VolumeTask extends AsyncTask<String,String ,String > {
         this.chartListener=chartListener;
     }
 
-    @Override
-    protected String doInBackground(String... strings) {
+    @SuppressLint("SimpleDateFormat")
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler=new Handler(Looper.getMainLooper());
+        executor.execute(()-> {
 
-        String symbol=strings[0].replace(".NS","").replace(".BO","");
 
-        String pattern = "dd-MM-yyyy";
-        Date date=new Date();
-        String dateInString =new SimpleDateFormat(pattern).format(date);
-        String endtime=dateInString;
-        String starttime="";
+            String symbol = strings[0].replace(".NS", "").replace(".BO", "");
 
-        if(strings[1].equalsIgnoreCase("day")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -1);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
-        if(strings[1].equalsIgnoreCase("week")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -7);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
-        if(strings[1].equalsIgnoreCase("1month")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -30);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
-        if(strings[1].equalsIgnoreCase("3month")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -90);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
-        if(strings[1].equalsIgnoreCase("6month")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -180);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
-        if(strings[1].equalsIgnoreCase("12month")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DATE, -365);
-            Date dateBefore30Days = cal.getTime();
-            starttime =new SimpleDateFormat(pattern).format(dateBefore30Days);
-        }
+            String pattern = "dd-MM-yyyy";
+            Date date = new Date();
+            String dateInString = new SimpleDateFormat(pattern).format(date);
+            String endtime = dateInString;
+            String starttime = "";
 
-        return LoadData(symbol,starttime,endtime);
+            if (strings[1].equalsIgnoreCase("day")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -1);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
+            if (strings[1].equalsIgnoreCase("week")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -7);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
+            if (strings[1].equalsIgnoreCase("1month")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -30);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
+            if (strings[1].equalsIgnoreCase("3month")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -90);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
+            if (strings[1].equalsIgnoreCase("6month")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -180);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
+            if (strings[1].equalsIgnoreCase("12month")) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.add(Calendar.DATE, -365);
+                Date dateBefore30Days = cal.getTime();
+                starttime = new SimpleDateFormat(pattern).format(dateBefore30Days);
+            }
 
+
+
+           String  data=LoadData(symbol, starttime, endtime);
+            handler.post(()->{
+               onPostExecute(data);
+            });
+
+        });
 
     }
 
-    private String LoadData(String symbol,String starttime,String endtime) {
+    private String  LoadData(String symbol,String starttime,String endtime) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
         client.newBuilder().connectTimeout(60, TimeUnit.SECONDS)
@@ -157,9 +172,7 @@ public class VolumeTask extends AsyncTask<String,String ,String > {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    public void onPostExecute(String s) {
         if(s==null){
             chartListener.onFailed("Something Went Wrong!");
         }

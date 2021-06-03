@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.GainerLosserModel;
 import com.silverlinesoftwares.intratips.models.OptionChainModel;
 
 import java.util.List;

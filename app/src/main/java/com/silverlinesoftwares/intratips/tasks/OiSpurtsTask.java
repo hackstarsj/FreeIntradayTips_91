@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.PriceBandListener;
 
@@ -9,13 +11,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class OiSpurtsTask extends AsyncTask<String ,String ,JSONObject> {
+public class OiSpurtsTask {
 
 
     PriceBandListener gainerLooserListener;
@@ -24,9 +28,8 @@ public class OiSpurtsTask extends AsyncTask<String ,String ,JSONObject> {
         this.gainerLooserListener=gainerLooserListener;
     }
 
-    @Override
+
     protected void onPostExecute(JSONObject string) {
-        super.onPostExecute(string);
         if(string!=null){
             gainerLooserListener.onSucess(string);
         }
@@ -36,7 +39,6 @@ public class OiSpurtsTask extends AsyncTask<String ,String ,JSONObject> {
 
     }
 
-    @Override
     protected JSONObject doInBackground(String... strings) {
             JSONObject getVolume=getVolume();
             JSONObject getValues=getValues();
@@ -149,6 +151,18 @@ public class OiSpurtsTask extends AsyncTask<String ,String ,JSONObject> {
             }
         }
         return null;
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            JSONObject data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 
 

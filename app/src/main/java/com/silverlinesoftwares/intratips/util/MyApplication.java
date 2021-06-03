@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.multidex.MultiDex;
 
-import com.facebook.ads.AdSettings;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -29,7 +32,15 @@ public class MyApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
-        AdSettings.setMultiprocessSupportMode(AdSettings.MultiprocessSupportMode.MULTIPROCESS_SUPPORT_MODE_OFF);
+
+        MobileAds.initialize(
+                this,
+                new OnInitializationCompleteListener() {
+                    @Override
+                    public void onInitializationComplete(InitializationStatus initializationStatus) {}
+                });
+
+        AppOpenAdManager appOpenManager = new AppOpenAdManager(this);
     }
 
     @Override

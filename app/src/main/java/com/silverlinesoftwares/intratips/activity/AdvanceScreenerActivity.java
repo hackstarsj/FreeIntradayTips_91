@@ -2,6 +2,7 @@ package com.silverlinesoftwares.intratips.activity;
 
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ActivityInfo;
@@ -11,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TableLayout;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
@@ -39,7 +42,12 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
         FloatingActionButton rotate=findViewById(R.id.rotate);
 
 
-        MobileAds.initialize(AdvanceScreenerActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(AdvanceScreenerActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
         }
@@ -52,48 +60,48 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
         if(methods.equalsIgnoreCase("22") || methods.equalsIgnoreCase("23") || methods.equalsIgnoreCase("24") || methods.equalsIgnoreCase("20") || methods.equalsIgnoreCase("17"))
         {
             SingleTask26 singleScreenTask = new SingleTask26(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+            singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("14") || methods.equalsIgnoreCase("13") || methods.equalsIgnoreCase("12") || methods.equalsIgnoreCase("3") || methods.equalsIgnoreCase("4") || methods.equalsIgnoreCase("5") || methods.equalsIgnoreCase("6") || methods.equalsIgnoreCase("74"))
         {
             ScreenTask14 singleScreenTask = new ScreenTask14(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+            singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("3a")){
             ScreenTask3a singleScreenTask = new ScreenTask3a(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+            singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("4a")){
             ScreenerTask4a singleScreenTask = new ScreenerTask4a(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("4b")){
             ScreenTask4b singleScreenTask = new ScreenTask4b(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("4c")){
             ScreenTask4 singleScreenTask = new ScreenTask4(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("4d")){
             ScreenTask4b singleScreenTask = new ScreenTask4b(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("8a")){
             ScreenTask4c singleScreenTask = new ScreenTask4c(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("8b")){
             ScreenTask8b singleScreenTask = new ScreenTask8b(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else if(methods.equalsIgnoreCase("8d")){
             ScreenTask8d singleScreenTask = new ScreenTask8d(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
         else {
             SingleScreenTask singleScreenTask = new SingleScreenTask(AdvanceScreenerActivity.this, getIntent().getStringExtra("url"), tl, progressBar);
-            ChartActivity.executeAsyncTask(singleScreenTask);
+                        singleScreenTask.execute(new String[]{});
         }
 
         StaticMethods.showInterestialAds(AdvanceScreenerActivity.this);

@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -20,8 +21,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.gocashfree.cashfreesdk.CFPaymentService;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.instamojo.android.Instamojo;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
@@ -442,13 +447,32 @@ public class PaymentGatewayActivityCashFree extends AppCompatActivity implements
 
         if(StaticMethods.getUserDetails(PaymentGatewayActivityCashFree.this)!=null){
             if(StaticMethods.getLoginToken(PaymentGatewayActivityCashFree.this)!=null){
-                String fcm="";
-                fcm= FirebaseInstanceId.getInstance().getToken();
-                if(fcm==null){
-                    fcm="";
-                }
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(PaymentGatewayActivityCashFree.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(PaymentGatewayActivityCashFree.this),fcm);
+
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(!task.isSuccessful()){
+                            return;
+                        }
+                        String tok=task.getResult();
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(PaymentGatewayActivityCashFree.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(PaymentGatewayActivityCashFree.this),tok);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(PaymentGatewayActivityCashFree.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(PaymentGatewayActivityCashFree.this),"");
+                    }
+                }).addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(PaymentGatewayActivityCashFree.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(PaymentGatewayActivityCashFree.this),"");
+                    }
+                });
+
             }
             else{
                 StaticMethods.removeToken(PaymentGatewayActivityCashFree.this);

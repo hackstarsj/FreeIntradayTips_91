@@ -2,6 +2,8 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -16,13 +18,15 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class StockDetailHometask extends AsyncTask<String ,String ,String> {
+public class StockDetailHometask {
 
     String symbol;
     TextView prices;
@@ -40,9 +44,8 @@ public class StockDetailHometask extends AsyncTask<String ,String ,String> {
         this.high = high;
     }
 
-    @Override
+
     protected void onPostExecute(String string) {
-        super.onPostExecute(string);
         if(string!=null) {
             if (!string.isEmpty()) {
                 try {
@@ -120,7 +123,7 @@ public class StockDetailHometask extends AsyncTask<String ,String ,String> {
         }
     }
 
-    @Override
+
     protected String doInBackground(String... strings) {
             OkHttpClient client = new OkHttpClient();
             client.retryOnConnectionFailure();
@@ -169,6 +172,17 @@ public class StockDetailHometask extends AsyncTask<String ,String ,String> {
         return null;
     }
 
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+           String  data=doInBackground(strings);
+           handler.post(()->{
+               onPostExecute(data);
+           });
+        });
+    }
 
 
 

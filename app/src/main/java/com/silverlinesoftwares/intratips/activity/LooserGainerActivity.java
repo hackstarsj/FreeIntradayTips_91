@@ -1,6 +1,10 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +42,12 @@ public class LooserGainerActivity extends AppCompatActivity implements GainerLoo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_looser_gainer);
-        MobileAds.initialize(LooserGainerActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(LooserGainerActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         tabLayout = (TabLayout) findViewById(R.id.tab_menu);
         progress=findViewById(R.id.progress);
         viewPager=findViewById(R.id.mover_looser_page);

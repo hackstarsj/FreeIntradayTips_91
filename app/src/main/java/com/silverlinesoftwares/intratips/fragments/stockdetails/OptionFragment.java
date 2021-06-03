@@ -116,7 +116,7 @@ public class OptionFragment extends Fragment implements ChartListener {
 
 
         OptionTask analysisTask=new OptionTask(OptionFragment.this);
-        StaticMethods.executeAsyncTask(analysisTask,new String[]{symbol.replace(".NS","").replace(".BO","")});
+        analysisTask.execute(new String[]{symbol.replace(".NS","").replace(".BO","")});
 
 
     }

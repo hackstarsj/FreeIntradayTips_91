@@ -6,12 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.ActiveStockModel;
 import com.silverlinesoftwares.intratips.models.ResultModel;
 
 import java.text.NumberFormat;

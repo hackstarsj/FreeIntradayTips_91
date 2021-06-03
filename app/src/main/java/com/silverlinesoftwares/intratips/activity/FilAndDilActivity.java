@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
@@ -8,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.FilTask;
@@ -28,7 +32,12 @@ public class FilAndDilActivity extends AppCompatActivity implements ChartListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fil);
-        MobileAds.initialize(FilAndDilActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(FilAndDilActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         progress=findViewById(R.id.progress);
         listView=findViewById(R.id.list_volume_gainer);
         FilTask gainerLooserTask=new FilTask(FilAndDilActivity.this);

@@ -155,7 +155,7 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
 
 
         ShareHolderTask shareHolderTask=new ShareHolderTask(ShareHoldersFragment.this);
-        StaticMethods.executeAsyncTask(shareHolderTask,new String[]{symbol});
+        shareHolderTask.execute(new String[]{symbol});
 
     }
 

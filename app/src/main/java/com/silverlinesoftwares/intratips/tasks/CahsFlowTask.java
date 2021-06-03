@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.IncomeStateListener;
 import com.silverlinesoftwares.intratips.models.IncomeStatementModel;
@@ -13,13 +15,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CahsFlowTask extends AsyncTask<String ,String ,String> {
+public class CahsFlowTask  {
 
 
     IncomeStateListener gainerLooserListener;
@@ -28,9 +32,7 @@ public class CahsFlowTask extends AsyncTask<String ,String ,String> {
         this.gainerLooserListener=gainerLooserListener;
     }
 
-    @Override
     protected void onPostExecute(String string) {
-        super.onPostExecute(string);
         if(string!=null){
             try {
                 JSONObject jsonObject1=new JSONObject(string);
@@ -64,7 +66,18 @@ public class CahsFlowTask extends AsyncTask<String ,String ,String> {
 
     }
 
-    @Override
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
+    }
+
     protected String doInBackground(String... strings) {
             OkHttpClient client = new OkHttpClient();
             client.retryOnConnectionFailure();

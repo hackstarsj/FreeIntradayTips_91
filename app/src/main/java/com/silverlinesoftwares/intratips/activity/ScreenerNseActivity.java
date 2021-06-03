@@ -3,6 +3,8 @@ package com.silverlinesoftwares.intratips.activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
@@ -30,7 +34,12 @@ public class ScreenerNseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_web);
-        MobileAds.initialize(ScreenerNseActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(ScreenerNseActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
         }

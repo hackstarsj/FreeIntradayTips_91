@@ -4,34 +4,24 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.activity.ChartWebActivity;
-import com.silverlinesoftwares.intratips.activity.StockDetailsActivity;
 import com.silverlinesoftwares.intratips.listeners.AccountOpenClick;
-import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
 import com.silverlinesoftwares.intratips.models.BannerModel;
-import com.silverlinesoftwares.intratips.models.EquityModel;
 import com.silverlinesoftwares.intratips.models.OptionModel;
-import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import java.text.NumberFormat;
 import java.util.List;

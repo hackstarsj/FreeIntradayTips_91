@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
@@ -8,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -30,7 +34,12 @@ public class HighLowActivit extends AppCompatActivity implements GainerLooserLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_low);
-        MobileAds.initialize(HighLowActivit.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(HighLowActivit.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         progressBar=findViewById(R.id.progress);
         listView=findViewById(R.id.list_pre_market);
         if(getIntent().getStringExtra("data").equalsIgnoreCase("1")) {

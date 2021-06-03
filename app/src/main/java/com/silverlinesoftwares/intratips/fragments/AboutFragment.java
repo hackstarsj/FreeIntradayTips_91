@@ -26,18 +26,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +56,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthCredential;
@@ -58,15 +67,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.instamojo.android.Instamojo;
 import com.instamojo.android.helpers.Constants;
-import com.paytm.pgsdk.PaytmClientCertificate;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPGService;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.silverlinesoftwares.intratips.BuildConfig;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
@@ -152,6 +157,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        manager= ReviewManagerFactory.create(getContext());
         firebaseAuth=FirebaseAuth.getInstance();
         progressDialog=new ProgressDialog(getContext());
         callbackManager=CallbackManager.Factory.create();
@@ -164,6 +170,28 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         LinearLayout youtube=view.findViewById(R.id.youtube);
         TextView app_version=view.findViewById(R.id.app_version);
         LoginButton login_fb_btn=view.findViewById(R.id.login_fb_btn);
+        SwitchCompat notification=view.findViewById(R.id.notification_on_off);
+
+        if(StaticMethods.getNotification(getContext()).equalsIgnoreCase("1")){
+            notification.setChecked(true);
+        }
+        else{
+            notification.setChecked(false);
+        }
+
+        notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    StaticMethods.setNotification(getContext(),"1");
+                    FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
+                }
+                else{
+                    StaticMethods.setNotification(getContext(),"0");
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("allDevices");
+                }
+            }
+        });
 
         login_fb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,9 +254,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         rates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=com.silverlinesoftwares.intratips"));
-                startActivity(intent);
+                RateApp(getActivity());
 
                // Instamojo.getInstance().initialize(getActivity(), Instamojo.Environment.TEST);
                 //initiateSDKPayment("a61fea7c-65e3-4b84-b2c2-9bab7d3d1ce9");
@@ -283,13 +309,10 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         LinearLayout profile_line=view.findViewById(R.id.profile_line);
         LinearLayout login_line=view.findViewById(R.id.login_line);
         LinearLayout login_line_2=view.findViewById(R.id.login_line_2);
-        Button buy_1=view.findViewById(R.id.buy_pre_1);
-        Button buy_1_1=view.findViewById(R.id.buy_pre_1_1);
+        Button buy_1=view.findViewById(R.id.buy_pre_1_1);
         Button join_paid_premium=view.findViewById(R.id.join_paid_premium);
         Button join_pro_plus_premium=view.findViewById(R.id.join_pro_plus_premium);
-        Button buy_2=view.findViewById(R.id.buy_pre_2);
         Button buy_2_2=view.findViewById(R.id.buy_pre_2_2);
-        Button buy_3=view.findViewById(R.id.buy_pre_3);
         Button buy_3_3=view.findViewById(R.id.buy_pre_3_3);
         Button youtube_video=view.findViewById(R.id.youtube_video);
 
@@ -320,28 +343,9 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         });
 
 
+
+
         buy_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(StaticMethods.getLoginToken(getContext())!=null) {
-                    if(StaticMethods.getUserDetails(getContext())!=null) {
-                        ServerResponse("1");
-                    }
-                    else{
-                        Toast.makeText(getContext(), "You Must Login To Buy Premium Plan!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getContext(),LoginActivity.class));
-
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "You Must Login To Buy Premium Plan!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(),LoginActivity.class));
-                }
-            }
-        });
-
-        buy_1_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -383,47 +387,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
             }
         });
 
-        buy_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if(StaticMethods.getLoginToken(getContext())!=null) {
-                    if(StaticMethods.getUserDetails(getContext())!=null) {
-                        ServerResponse("2");
-                    }
-                    else{
-                        Toast.makeText(getContext(), "You Must Login To Buy Premium Plan!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getContext(),LoginActivity.class));
-
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "You Must Login To Buy Premium Plan!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(),LoginActivity.class));
-                }
-            }
-        });
-
-        buy_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(StaticMethods.getLoginToken(getContext())!=null) {
-                    if(StaticMethods.getUserDetails(getContext())!=null) {
-                        ServerResponse2();
-                    }
-                    else{
-                        Toast.makeText(getContext(), "You Must Login To Buy PRO PLUS Plan!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getContext(),LoginActivity.class));
-
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "You Must Login To Buy PRO PLUS Plan!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(),LoginActivity.class));
-                }
-            }
-        });
 
         buy_3_3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,47 +448,32 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
             }
 
             if(userModel.getCurrent_plan().equalsIgnoreCase("PRO PREMIUM")){
-                buy_2.setText("PAID");
-                buy_2_2.setText("PAID");
-                buy_2.setEnabled(false);
+                 buy_2_2.setText("PAID");
                 buy_2_2.setEnabled(false);
                 buy_1.setVisibility(View.GONE);
-                buy_1_1.setVisibility(View.GONE);
+
             }
             else if(userModel.getCurrent_plan().equalsIgnoreCase("PREMIUM")){
                 buy_1.setText("PAID");
-                buy_1_1.setText("PAID");
                 buy_1.setEnabled(false);
-                buy_1_1.setEnabled(false);
-                buy_2.setVisibility(View.GONE);
                 buy_2_2.setVisibility(View.GONE);
             }
             else{
                 buy_1.setText("BUY SERVER 2");
-                buy_1_1.setText("BUY SERVER 1");
-                buy_2.setText("BUY SERVER 2");
                 buy_2_2.setText("BUY SERVER 1");
                 buy_1.setEnabled(true);
-                buy_1_1.setEnabled(true);
-                buy_2.setEnabled(true);
                 buy_2_2.setEnabled(true);
             }
 
             if(userModel.getIs_super()!=null) {
                 if (userModel.getIs_super().equalsIgnoreCase("1")) {
-                    buy_3.setText("PAID");
                     buy_3_3.setText("PAID");
-                    buy_2.setText("Aleardy Purchase PRO PLUS Plan");
                     buy_1.setText("Aleardy Purchase PRO PLUS Plan");
 
                     buy_2_2.setText("Aleardy Purchase PRO PLUS Plan");
-                    buy_1_1.setText("Aleardy Purchase PRO PLUS Plan");
 
                     buy_1.setEnabled(false);
-                    buy_2.setEnabled(false);
-                    buy_1_1.setEnabled(false);
                     buy_2_2.setEnabled(false);
-                    buy_3.setEnabled(false);
                     buy_3_3.setEnabled(false);
                     join_pro_plus_premium.setVisibility(View.VISIBLE);
                 } else {
@@ -718,7 +667,7 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
                         progressDialog.dismiss();
                     }
                 }
-                new Handler().postDelayed(new Runnable() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         showDialog(""+data.getMessage());
@@ -750,114 +699,34 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        String fcm="";
 
-        fcm= FirebaseInstanceId.getInstance().getToken();
-        if(fcm==null){
-            fcm="";
-        }
-
-        FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
-        fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),fcm);
-    }
-
-    private void ServerResponse2() {
-
-        final ProgressDialog progressDialog=new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Redirecting to Payment Gateway\n Don't Press Back Button!");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        final UserModel userModel=StaticMethods.getUserDetails(getContext());
-
-        StringRequest sr = new StringRequest(com.android.volley.Request.Method.POST, "https://furthergrow.silverlinesoftwares.com/login/buy_plan_plus", new com.android.volley.Response.Listener<String>() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
-            public void onResponse(String response) {
-                //   @Override
-                // public void onResponse(String response) {
-                if(progressDialog!=null) {
-                    if(progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()){
+                    return;
                 }
-                try {
-                    Map<String,String> map=new HashMap<>();
-                    JSONObject jsonObj = new JSONObject(response);
-                    if(jsonObj.length()>0) {
-
-
-                        //for(int i=0;i<jsonObj.length();i++){
-
-                        map.put("MID", jsonObj.getString("MID"));
-                        // map.put("ORDER_ID","ORDER01234");
-                        map.put("ORDER_ID", jsonObj.getString("ORDER_ID"));
-                        map.put("CUST_ID", jsonObj.getString("CUST_ID"));
-                        map.put("INDUSTRY_TYPE_ID", jsonObj.getString("INDUSTRY_TYPE_ID"));
-                        map.put("CHANNEL_ID", jsonObj.getString("CHANNEL_ID"));
-                        map.put("TXN_AMOUNT", jsonObj.getString("TXN_AMOUNT"));
-                        map.put("WEBSITE", jsonObj.getString("WEBSITE"));
-                        // map.put("CALLBACK_URL","https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=ORDER01234");
-                        map.put("CALLBACK_URL", jsonObj.getString("CALLBACK_URL"));
-                        map.put("EMAIL", jsonObj.getString("EMAIL"));
-                        map.put("MOBILE_NO", jsonObj.getString("MOBILE_NO"));
-                        map.put("CHECKSUMHASH", jsonObj.getString("CHECKSUMHASH"));
-                        PaytmPay(map);
-                        //  }
-                    }
-
-
-
-
-                } catch (JSONException e) {
-                    showDialog("Payment Gateway Down! Please Try Again Later! Contact Email : creativeapptechnology@gmail.com for Support");
-                    Toast.makeText(getContext(), "Failed To Parse Response", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-                // Log.d("Response", response);
+                String tok=task.getResult();
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),tok);
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                if(progressDialog!=null) {
-                    if(progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-                showDialog("Something Went Wrong! Contact Email : creativeapptechnology@gmail.com for Support");
-                //Log.d("Errors", String.valueOf(error));
+            public void onFailure(@NonNull Exception e) {
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),"");
             }
-
-        })
-        {
+        }).addOnCanceledListener(new OnCanceledListener() {
             @Override
-            protected Map<String,String> getParams(){
-                String token=StaticMethods.getLoginToken(getContext());
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("email",userModel.getEmail());
-                params.put("phone",userModel.getPhone());
-                params.put("user_id",userModel.getId());
-                if(token==null){
-                    token="";
-                }
-                params.put("token",token);
+            public void onCanceled() {
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),"");
+            }
+        });
 
-                return params;
-            } @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("Content-Type","application/x-www-form-urlencoded");
-            return params;
-        }
-        };
-
-        queue.add(sr);
-        sr.setRetryPolicy(new DefaultRetryPolicy(
-                20000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
+
 
     private void ShareFile() {
         try {
@@ -873,114 +742,6 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         }
     }
 
-    public void ServerResponse(final String pay_id){
-       final ProgressDialog progressDialog=new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Redirecting to Payment Gateway\n Don't Press Back Button!");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        final UserModel userModel=StaticMethods.getUserDetails(getContext());
-
-        StringRequest sr = new StringRequest(com.android.volley.Request.Method.POST, "https://furthergrow.silverlinesoftwares.com/login/buy_plan", new com.android.volley.Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //   @Override
-                // public void onResponse(String response) {
-                if(progressDialog!=null) {
-                 if(progressDialog.isShowing()) {
-                     progressDialog.dismiss();
-                 }
-                }
-                try {
-                    Map<String,String> map=new HashMap<>();
-                    JSONObject jsonObj = new JSONObject(response);
-                    if(jsonObj.length()>0) {
-
-                        if(jsonObj.has("payment_type")){
-                            String payment_type=jsonObj.getString("payment_type");
-                            if(payment_type.equalsIgnoreCase("1")){
-                                JSONObject new_payment=jsonObj.getJSONObject("new_payment");
-                                //Log.d("New Payment ",new_payment.toString());
-                                if(new_payment.has("order_id")){
-                                    initiateSDKPayment(new_payment.getString("order_id"));
-                                    return;
-                                }
-                            }
-                        }
-                        //for(int i=0;i<jsonObj.length();i++){
-
-                        map.put("MID", jsonObj.getString("MID"));
-                        // map.put("ORDER_ID","ORDER01234");
-                        map.put("ORDER_ID", jsonObj.getString("ORDER_ID"));
-                        map.put("CUST_ID", jsonObj.getString("CUST_ID"));
-                        map.put("INDUSTRY_TYPE_ID", jsonObj.getString("INDUSTRY_TYPE_ID"));
-                        map.put("CHANNEL_ID", jsonObj.getString("CHANNEL_ID"));
-                        map.put("TXN_AMOUNT", jsonObj.getString("TXN_AMOUNT"));
-                        map.put("WEBSITE", jsonObj.getString("WEBSITE"));
-                        // map.put("CALLBACK_URL","https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=ORDER01234");
-                        map.put("CALLBACK_URL", jsonObj.getString("CALLBACK_URL"));
-                        map.put("EMAIL", jsonObj.getString("EMAIL"));
-                        map.put("MOBILE_NO", jsonObj.getString("MOBILE_NO"));
-                        map.put("CHECKSUMHASH", jsonObj.getString("CHECKSUMHASH"));
-                        PaytmPay(map);
-                        //  }
-                    }
-
-
-
-
-                } catch (JSONException e) {
-                    showDialog("Payment Gateway Down! Please Try Again Later! Contact Email : creativeapptechnology@gmail.com for Support");
-                    Toast.makeText(getContext(), "Failed To Parse Response", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-               // Log.d("Response", response);
-
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(progressDialog!=null) {
-                    if(progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-                showDialog("Something Went Wrong! Contact Email : creativeapptechnology@gmail.com for Support");
-                //Log.d("Errors", String.valueOf(error));
-            }
-
-        })
-        {
-            @Override
-            protected Map<String,String> getParams(){
-            String token=StaticMethods.getLoginToken(getContext());
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("email",userModel.getEmail());
-            params.put("phone",userModel.getPhone());
-            params.put("user_id",userModel.getId());
-            params.put("plan_id",pay_id);
-            if(token==null){
-                token="";
-            }
-            params.put("token",token);
-
-            return params;
-        } @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("Content-Type","application/x-www-form-urlencoded");
-            return params;
-        }
-        };
-
-        queue.add(sr);
-        sr.setRetryPolicy(new DefaultRetryPolicy(
-                20000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-    }
 
     private void showDialog(String s) {
         AlertDialog.Builder al=new AlertDialog.Builder(getContext());
@@ -995,67 +756,6 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         al.show();
     }
 
-    public void sendtoserver(final Bundle  data){
-        final ProgressDialog progressDialog=new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Please Wait Processing Payment!\n Don't Press Back Button!");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        StringRequest sr = new StringRequest(com.android.volley.Request.Method.POST, "https://furthergrow.silverlinesoftwares.com/login/pay_response", new com.android.volley.Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
-                Log.d("Response ",""+response);
-                if(data!=null) {
-                    ShowPaymentDialog(data);
-                }
-                else{
-                    showDialog("Payment Server Not Responding ! Contact Email : creativeapptechnology@gmail.com for Support");
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-               // Log.d("Errors", String.valueOf(error));
-                if(data!=null) {
-                    if (data.getString("STATUS").equalsIgnoreCase("TXN_SUCCESS")) {
-                        showDialog("Payment Successfull ! Will Reflect in Your Account Soon! Contact Email : creativeapptechnology@gmail.com for Support");
-                    } else {
-                        showDialog("Payment Failed ! Contact Email : creativeapptechnology@gmail.com for Support");
-                    }
-                }
-                else{
-                    showDialog("Payment Failed ! Contact Email : creativeapptechnology@gmail.com for Support");
-                }
-
-            }
-        }) {
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                if (data != null) {
-                    for (String key : data.keySet()) {
-                        params.put(key,data.getString(key));
-                    }
-                }
-
-                return params;
-            } @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        queue.add(sr);
-        sr.setRetryPolicy(new DefaultRetryPolicy(
-                20000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-    }
 
     private void ShowPaymentDialog(Bundle data) {
         final AlertDialog.Builder alertDialog=new AlertDialog.Builder(getContext());
@@ -1115,13 +815,32 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
 
         if(StaticMethods.getUserDetails(getContext())!=null){
             if(StaticMethods.getLoginToken(getContext())!=null){
-                String fcm="";
-                fcm= FirebaseInstanceId.getInstance().getToken();
-                if(fcm==null){
-                    fcm="";
-                }
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),fcm);
+
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(!task.isSuccessful()){
+                            return;
+                        }
+                        String tok=task.getResult();
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),tok);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),"");
+                    }
+                }).addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        FetchProfileTask fetchProfileTask=new FetchProfileTask(AboutFragment.this);
+                        fetchProfileTask.execute(StaticMethods.getLoginToken(getContext()),"");
+                    }
+                });
+
             }
             else{
                 StaticMethods.removeToken(getContext());
@@ -1131,64 +850,6 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
 
     }
 
-    public void PaytmPay(Map<String,String> paramMap) {
-        PaytmPGService Service = null;
-        Service = PaytmPGService.getProductionService();
-
-        PaytmOrder Order = new PaytmOrder((HashMap<String, String>) paramMap);
-        PaytmClientCertificate Certificate = new PaytmClientCertificate("password", "filename");
-        Service.initialize(Order, null);
-        Service.startPaymentTransaction(getContext(), true, true, new PaytmPaymentTransactionCallback() {
-
-            @Override
-            public void someUIErrorOccurred(String inErrorMessage) {
-                Log.d("LOG", "UI Error Occur."+inErrorMessage);
-                showDialog("Something Went Wrong! Contact Email : creativeapptechnology@gmail.com for Support");
-                // Toast.makeText(getContext(), " UI Error Occur. ", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onTransactionResponse(Bundle inResponse) {
-                //Log.d("LOG", "Payment Transaction : " + inResponse);
-
-                sendtoserver(inResponse);
-                //Toast.makeText(getContext(), "Payment Transaction response "+inResponse.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void networkNotAvailable() {
-                //Log.d("LOG", "UI Error Occur.");
-                showDialog("Something Wrong on Internet Connection! Please Try Again Later! Contact Email : creativeapptechnology@gmail.com for Support");
-                //Toast.makeText(getContext(), " UI Error Occur. ", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void clientAuthenticationFailed(String inErrorMessage) {
-                Log.d("LOG", "UI Error Occur."+inErrorMessage);
-                showDialog("Payment Gateway Error! Please Try Again Later! Contact Email : creativeapptechnology@gmail.com for Support "+inErrorMessage);
-                //Toast.makeText(getContext(), " Severside Error "+ inErrorMessage, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onErrorLoadingWebPage(int iniErrorCode,
-                                              String inErrorMessage, String inFailingUrl) {
-                Log.d("LOG",inErrorMessage);
-                showDialog("Error Loading Payment Gateway! Please Try Again Later! Contact Email : creativeapptechnology@gmail.com for Support");
-            }
-            @Override
-            public void onBackPressedCancelTransaction() {
-                Log.d("LOG","Back");
-                showDialog("Transaction Failed! You Pressed Back Button! Contact Email : creativeapptechnology@gmail.com for Support");
-            }
-
-            @Override
-            public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                showDialog("Payment Cancel! Contact Email : creativeapptechnology@gmail.com for Support");
-            }
-
-        });
-
-    }
 
     @Override
     public void onProfile(ResponseModel data) {
@@ -1372,4 +1033,52 @@ public class AboutFragment extends Fragment implements DetailsResponseListener, 
         }
 
     }
+
+
+    private static ReviewManager manager;
+    public void RateApp(Activity context){
+        if(manager!=null) {
+            try {
+
+                com.google.android.play.core.tasks.Task<ReviewInfo> request = manager.requestReviewFlow();
+                request.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // We can get the ReviewInfo object
+                        ReviewInfo reviewInfo = task.getResult();
+                        com.google.android.play.core.tasks.Task<Void> flow = manager.launchReviewFlow(context, reviewInfo);
+                        flow.addOnCompleteListener(task2 -> {
+                            // The flow has finished. The API does not indicate whether the user
+                            // reviewed or not, or even whether the review dialog was shown. Thus, no
+                            // matter the result, we continue our app flow.
+                            Log.d("TASK REVIEW ", "" + task2.getResult());
+                        });
+                    } else {
+                        // There was some problem, log or handle the error code.
+                        //  @ReviewErrorCode
+                        if (task.getException() != null) {
+                            task.getException().printStackTrace();
+                            Log.d("Error Review : ", "" + task.getException().getMessage());
+
+                        }
+                        // int reviewErrorCode = ((TaskException) task.getException()).getErrorCode();
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("market://details?id=com.silverlinesoftwares.intratips"));
+                        startActivity(intent);
+                    }
+                });
+
+            } catch (Exception e) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=com.silverlinesoftwares.intratips"));
+                startActivity(intent);
+            }
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=com.silverlinesoftwares.intratips"));
+            startActivity(intent);
+        }
+    }
+
 }

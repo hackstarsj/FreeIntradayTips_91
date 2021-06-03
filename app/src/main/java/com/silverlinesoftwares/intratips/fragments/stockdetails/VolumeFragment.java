@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.VolumeTask;
@@ -37,7 +36,6 @@ public class VolumeFragment extends Fragment implements ChartListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    HorizontalBarChart combinedChart;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,7 +79,6 @@ public class VolumeFragment extends Fragment implements ChartListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        combinedChart=view.findViewById(R.id.chart);
         spinner=view.findViewById(R.id.volume_filter);
         webView=view.findViewById(R.id.webview);
         progressBar=view.findViewById(R.id.progress);
@@ -99,7 +96,7 @@ public class VolumeFragment extends Fragment implements ChartListener {
                 progressBar.setVisibility(View.VISIBLE
                 );
                 VolumeTask financialTask=new VolumeTask(VolumeFragment.this);
-                StaticMethods.executeAsyncTask(financialTask,new String[]{symbol,filter_data[position]});
+                financialTask.execute(new String[]{symbol,filter_data[position]});
 
             }
             @Override
@@ -110,7 +107,7 @@ public class VolumeFragment extends Fragment implements ChartListener {
 
         spinner.setSelection(2);
         VolumeTask financialTask=new VolumeTask(VolumeFragment.this);
-        StaticMethods.executeAsyncTask(financialTask,new String[]{symbol,"1month"});
+        financialTask.execute(new String[]{symbol,"1month"});
 
     }
 

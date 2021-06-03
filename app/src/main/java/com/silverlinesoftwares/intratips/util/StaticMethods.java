@@ -6,14 +6,21 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.models.UserModel;
@@ -26,18 +33,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class StaticMethods {
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
-    public static <T> void executeAsyncTask(AsyncTask<T, ?, ?> asyncTask, T... params) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            try {
-                asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-            }
-            catch (java.util.concurrent.RejectedExecutionException e){
-                e.printStackTrace();
-            }
-        else
-            asyncTask.execute(params);
-    }
+    public static int failedInt=0;
+
+
 
     public static String getCurrency(String text, String currency) {
         if (text != null) {
@@ -163,6 +161,23 @@ public class StaticMethods {
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("token",token);
         editor.apply();
+    }
+
+    public static void setNotification(Context context,String token){
+        SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("notification",token);
+        editor.apply();
+    }
+
+    public static String getNotification(Context context){
+        SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
+        if(sharedPreferences.contains("notification")){
+            return sharedPreferences.getString("notification","1");
+        }
+        else{
+            return "1";
+        }
     }
 
     public static String getLoginToken(Context context){
@@ -310,18 +325,13 @@ public class StaticMethods {
          {
              try {
                  if (mInterstitialAd == null) {
-                     mInterstitialAd = new InterstitialAd(context);
-                     mInterstitialAd.setAdUnitId("ca-app-pub-8515817249593489/9989773924");
-                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
+                     LoadAds(context);
                  } else {
-                     if (mInterstitialAd.isLoaded()) {
-                         mInterstitialAd.show();
-                         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                     } else {
-
-                         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                     }
+                         mInterstitialAd.show(context);
+                         Handler handler=new Handler(Looper.getMainLooper());
+                        handler.postDelayed(()->{
+                            LoadAds(context);
+                        },5000);
                  }
              }
              catch (Exception e){
@@ -329,6 +339,28 @@ public class StaticMethods {
              }
          }
          clicks=clicks+1;
+    }
+
+    private static void LoadAds(Activity context) {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(context,"ca-app-pub-8515817249593489/9989773924", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                super.onAdLoaded(interstitialAd);
+                failedInt=0;
+                mInterstitialAd = interstitialAd;
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mInterstitialAd=null;
+                if(failedInt<=10) {
+                    failedInt=failedInt+1;
+                    LoadAds(context);
+                }
+            }
+        });
     }
 
     public static void showBannerAds(View adContainer2,Context context){

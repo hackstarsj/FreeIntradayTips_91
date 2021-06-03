@@ -51,19 +51,8 @@ public class RealmController {
         return realm;
     }
 
-    //Refresh the realm istance
-    public void refresh() {
 
-        realm.refresh();
-    }
 
-    //clear all objects from Book.class
-//    public void clearAll() {
-//
-//        realm.beginTransaction();
-//        realm.clear(SearchModel.class);
-//        realm.commitTransaction();
-//    }
 
     //find all objects in the Book.class
     public RealmResults<SearchModel> getBooks() {
@@ -71,18 +60,9 @@ public class RealmController {
         return realm.where(SearchModel.class).findAll();
     }
 
-    //query a single item with the given id
-    public SearchModel getBook(String id) {
 
-        return realm.where(SearchModel.class).equalTo("symbol", id).findFirst();
-    }
 
-    //check if Book.class is empty
-    public boolean hasBooks() {
 
-        return false;
-//        return !realm.allObjects(SearchModel.class).isEmpty();
-    }
 
     //query example
     public RealmResults<SearchModel> queryedBooks() {

@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 
@@ -27,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
@@ -34,7 +38,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class StockDetailTask extends AsyncTask<String,String,String > {
+public class StockDetailTask {
 
 
     private String symbol;
@@ -47,16 +51,25 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
     }
 
 
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
 
-    @Override
-    protected String doInBackground(String[] objects) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            doInBackground(strings,handler);
+        });
+    }
+
+
+
+    protected void doInBackground(String[] objects,Handler handler) {
         String SummaryData=LoadSummaryData(symbol);
 //        publishProgress(new String[]{"0",SummaryData});
         String SummaryData1=LoadSummaryData2(symbol);
 //        publishProgress(new String[]{"1",SummaryData1});
         String SummaryData3=LoadSummaryData3(symbol);
-        publishProgress(new String[]{SummaryData,SummaryData1,SummaryData3});
-        return null;
+        onPostExecute(SummaryData,SummaryData1,SummaryData3,handler);
+
     }
 
     private String LoadSummaryData2(String symbol) {
@@ -210,12 +223,11 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(String[] values) {
-        super.onProgressUpdate(values);
+
+    protected void onPostExecute(String value1, String value2, String value3, Handler handler) {
         SummaryModel summaryModel=new SummaryModel();
-            if(values[0]!=null) {
-                Document document = Jsoup.parse(values[0]);
+            if(value1!=null) {
+                Document document = Jsoup.parse(value1);
                 Elements data_element = document.getElementsByClass("flex-space-between");
                 try {
                     summaryModel.setBook_value(data_element.get(8).children().get(1).text());
@@ -230,11 +242,11 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
 
 
 
-            if(values[1]!=null) {
+            if(value2!=null) {
 
                     Gson gson = new GsonBuilder().create();
                     try {
-                        JSONObject jsonObject = new JSONObject(values[1]);
+                        JSONObject jsonObject = new JSONObject(value2);
 
                         JSONObject finance = jsonObject.getJSONObject("quoteSummary").getJSONArray("result").getJSONObject(0);
                         JSONObject SummaryObject = finance.getJSONObject("summaryDetail");
@@ -341,10 +353,10 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
 
         }
 
-            if(values[2]!=null) {
+            if(value3!=null) {
                 try {
 
-                    JSONObject jsonObject=new JSONObject(values[2]);
+                    JSONObject jsonObject=new JSONObject(value3);
                         String text = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("min")+"</font> / <font color=#d50000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("minDate")+"</font>";
                         String text1 = "<font color=#000000>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("max")+"</font> / <font color=#00e676>"+jsonObject.getJSONObject("priceInfo").getJSONObject("weekHighLow").getString("maxDate")+"</font>";
                         summaryModel.setHigh52(Html.fromHtml(text1));
@@ -362,6 +374,8 @@ public class StockDetailTask extends AsyncTask<String,String,String > {
 
         }
 
-        chartListener.onSummayLoaded(summaryModel);
+            handler.post(()->{
+                chartListener.onSummayLoaded(summaryModel);
+            });
     }
 }

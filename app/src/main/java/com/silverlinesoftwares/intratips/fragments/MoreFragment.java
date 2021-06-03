@@ -28,6 +28,7 @@ import com.silverlinesoftwares.intratips.activity.OiSpurtsActivity;
 import com.silverlinesoftwares.intratips.activity.PreMarketOpen;
 import com.silverlinesoftwares.intratips.activity.PriceBandActivity;
 import com.silverlinesoftwares.intratips.activity.ResultActivtiy;
+import com.silverlinesoftwares.intratips.activity.ResultActivtiyOption;
 import com.silverlinesoftwares.intratips.activity.ShortSellActivity;
 import com.silverlinesoftwares.intratips.activity.VolumeGainerActivity;
 import com.silverlinesoftwares.intratips.util.Constant;
@@ -82,6 +83,7 @@ public class MoreFragment extends Fragment {
         CardView sip_news=view.findViewById(R.id.sip_news);
         CardView politics_news=view.findViewById(R.id.politics_news);
         CardView result=view.findViewById(R.id.result);
+        CardView option=view.findViewById(R.id.result_option);
 
         CardView sport_news=view.findViewById(R.id.sport_news);
         CardView comodity_news=view.findViewById(R.id.comodity_news);
@@ -112,6 +114,13 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), ResultActivtiy.class));
+            }
+        });
+
+        option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ResultActivtiyOption.class));
             }
         });
         learn.setOnClickListener(new View.OnClickListener() {

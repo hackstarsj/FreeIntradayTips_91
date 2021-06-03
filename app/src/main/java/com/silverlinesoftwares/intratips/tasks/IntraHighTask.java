@@ -2,6 +2,8 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -19,13 +21,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class IntraHighTask extends AsyncTask<String ,String ,String> {
+public class IntraHighTask  {
 
     Context context;
     EquityAdapterR homeAdapter;
@@ -40,9 +44,7 @@ public class IntraHighTask extends AsyncTask<String ,String ,String> {
 
     }
 
-    @Override
     protected void onPostExecute(String string) {
-        super.onPostExecute(string);
         if(string!=null) {
             if (!string.isEmpty()) {
                 try {
@@ -114,7 +116,6 @@ public class IntraHighTask extends AsyncTask<String ,String ,String> {
         }
     }
 
-    @Override
     protected String doInBackground(String... strings) {
             OkHttpClient client = new OkHttpClient();
             client.retryOnConnectionFailure();
@@ -166,6 +167,16 @@ public class IntraHighTask extends AsyncTask<String ,String ,String> {
 
 
 
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
 
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
+    }
 
 }

@@ -289,6 +289,26 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Notification"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.SwitchCompat
+            android:padding="5dp"
+            android:id="@+id/notification_on_off"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -638,15 +658,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="BUY NOW SERVER 2" />
-                    <Button
-                        android:id="@+id/buy_pre_1"
-                        style="@style/Button.Green"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="BUY NOW SERVER 1" />
+                        android:text="BUY NOW" />
+
 
 
 
@@ -729,16 +742,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="BUY NOW SERVER 1" />
+                        android:text="BUY NOW" />
 
-                    <Button
-                        android:id="@+id/buy_pre_2"
-                        style="@style/Button.Green"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="BUY NOW SERVER 2" />
+
 
 
                 </LinearLayout>
@@ -819,16 +825,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_weight="1"
-                        android:text="BUY NOW SERVER 1" />
+                        android:text="BUY NOW" />
 
-                    <Button
-                        android:id="@+id/buy_pre_3"
-                        style="@style/Button.Green"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:text="BUY NOW SERVER 2" />
+
 
 
 

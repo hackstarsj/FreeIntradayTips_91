@@ -1,8 +1,6 @@
 package com.silverlinesoftwares.intratips.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,14 +9,12 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -30,9 +26,7 @@ import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PreMarketOpen extends AppCompatActivity implements GainerLooserListener {
 
@@ -43,7 +37,12 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_market_open);
-        MobileAds.initialize(PreMarketOpen.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(PreMarketOpen.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         String[] selecs={"Nifty","FO Stocks","NIFTY Bank","SME","Other"};
         ArrayAdapter arrayAdapter=new ArrayAdapter(PreMarketOpen.this,android.R.layout.simple_spinner_item,selecs);
         spinner=findViewById(R.id.select_pre_market);

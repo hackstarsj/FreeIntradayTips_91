@@ -4,9 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
@@ -40,7 +49,12 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_image_teal);
-        MobileAds.initialize(LoginActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(LoginActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         parent_view = findViewById(android.R.id.content);
         floatingActionButton=findViewById(R.id.fab);
         final TextInputEditText email=findViewById(R.id.email);
@@ -85,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
                     progress_bar.setVisibility(View.VISIBLE);
 
                     LoginTask loginTask=new LoginTask(LoginActivity.this);
-                    StaticMethods.executeAsyncTask(loginTask,new String[]{email.getText().toString(),password.getText().toString()});
+                    loginTask.execute(new String[]{email.getText().toString(),password.getText().toString()});
                 }
             }
         });
@@ -119,15 +133,32 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        String fcm="";
 
-        fcm= FirebaseInstanceId.getInstance().getToken();
-        if(fcm==null){
-            fcm="";
-        }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()){
+                    return;
+                }
+                String tok=task.getResult();
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),tok);
 
-        FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
-        fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),fcm);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
+            }
+        });
+
     }
     Realm realm;
 

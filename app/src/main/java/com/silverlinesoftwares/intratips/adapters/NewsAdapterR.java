@@ -3,8 +3,6 @@ package com.silverlinesoftwares.intratips.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -15,11 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.models.NewsModel;
-import com.squareup.picasso.Picasso;
-
 
 import java.util.ArrayList;
 import java.util.List;

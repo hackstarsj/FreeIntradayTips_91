@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -19,13 +21,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ResultTask extends AsyncTask<String ,String ,String> {
+public class ResultTask  {
 
 
     ResultListener gainerLooserListener;
@@ -34,9 +38,7 @@ public class ResultTask extends AsyncTask<String ,String ,String> {
         this.gainerLooserListener=gainerLooserListener;
     }
 
-    @Override
     protected void onPostExecute(String string) {
-        super.onPostExecute(string);
         if(string!=null){
 
 
@@ -63,7 +65,6 @@ public class ResultTask extends AsyncTask<String ,String ,String> {
 
 
 
-    @Override
     protected String doInBackground(String... strings) {
             OkHttpClient client = new OkHttpClient();
             client.retryOnConnectionFailure();
@@ -107,6 +108,17 @@ public class ResultTask extends AsyncTask<String ,String ,String> {
     }
 
 
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
+    }
 
 
 }

@@ -2,7 +2,6 @@ package com.silverlinesoftwares.intratips.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,7 @@ import com.silverlinesoftwares.intratips.activity.AdvanceScreenerActivity;
 import com.silverlinesoftwares.intratips.activity.ScreenerNseActivity;
 import com.silverlinesoftwares.intratips.models.ScreenerItem;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ScreenAdapter extends BaseAdapter {

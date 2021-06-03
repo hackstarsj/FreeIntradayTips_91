@@ -1,6 +1,10 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -65,7 +69,12 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_details);
-        MobileAds.initialize(StockDetailsActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(StockDetailsActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         string=getIntent().getStringExtra(Constant.search);
         tabLayout=findViewById(R.id.tab_item);
         webview=findViewById(R.id.webview);
@@ -88,7 +97,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         }
         stock_title.setText(string);
         StockDetailHometask detailHometask=new StockDetailHometask(string,low,price,opens,pr_close,high);
-        StaticMethods.executeAsyncTask(detailHometask);
+        detailHometask.execute(new String[]{});
         LoadHomePage();
         StaticMethods.showInterestialAds(StockDetailsActivity.this);
 
@@ -97,9 +106,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
 
         webview.loadUrl("file:///android_asset/data.html");   // now it will not fail here
         webview.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webview.setWebContentsDebuggingEnabled(true);
-        }
+      
         //if(Build.VERSION.SDK_INT>Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webview.addJavascriptInterface(this, "Android");
         //}

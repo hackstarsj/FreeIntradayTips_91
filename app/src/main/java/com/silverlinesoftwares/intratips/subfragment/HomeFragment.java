@@ -338,7 +338,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         listView.setAdapter(equityAdapter);
         EquityTask equityTask=new EquityTask(getContext(),equityAdapter,currentequityModels);
 
-        StaticMethods.executeAsyncTask(equityTask);
+        equityTask.execute(new String[]{});
 
 
 

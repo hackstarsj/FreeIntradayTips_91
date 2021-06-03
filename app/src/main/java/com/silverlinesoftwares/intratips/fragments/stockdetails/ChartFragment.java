@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.ChartWebActivity;
 import com.silverlinesoftwares.intratips.util.Constant;
@@ -25,7 +24,6 @@ public class ChartFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    HorizontalBarChart combinedChart;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +64,6 @@ public class ChartFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        combinedChart=view.findViewById(R.id.chart);
         full_scrren=view.findViewById(R.id.full_scrren);
         Bundle bundle=getArguments();
         final String symbol=bundle.getString(Constant.search);

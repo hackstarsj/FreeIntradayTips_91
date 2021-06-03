@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
@@ -8,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.adapters.BulkDealAdapter;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
@@ -34,7 +38,12 @@ public class BlockDealActivity extends AppCompatActivity implements ChartListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volume_gainers);
-        MobileAds.initialize(BlockDealActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(BlockDealActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         progress=findViewById(R.id.progress);
         listView=findViewById(R.id.list_volume_gainer);
         BlockDealTask gainerLooserTask=new BlockDealTask(BlockDealActivity.this);

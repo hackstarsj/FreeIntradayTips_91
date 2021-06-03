@@ -27,13 +27,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.formats.MediaView;
-import com.google.android.gms.ads.formats.NativeAd;
-import com.google.android.gms.ads.formats.UnifiedNativeAd;
-import com.google.android.gms.ads.formats.UnifiedNativeAdView;
+
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.ChartWebActivity;
 import com.silverlinesoftwares.intratips.activity.StockDetailsActivity;
@@ -50,7 +44,7 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class EquityAdapterR extends RecyclerView.Adapter{
+public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int AD_TYPE = 1;
     private boolean isLoading;

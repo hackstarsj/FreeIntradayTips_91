@@ -3,6 +3,8 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -33,7 +37,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class DeliveryDataTask extends AsyncTask<String,String,String > {
+public class DeliveryDataTask  {
 
     Context context;
     OptionAdapter equityAdapter;
@@ -53,7 +57,6 @@ public class DeliveryDataTask extends AsyncTask<String,String,String > {
         this.button=button;
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -95,17 +98,13 @@ public class DeliveryDataTask extends AsyncTask<String,String,String > {
 
     }
 
-    @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         if(HomeFragment.progress!=null){
             HomeFragment.progress.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(HomeFragment.progress!=null){
             HomeFragment.progress.setVisibility(View.GONE);
         }
@@ -138,5 +137,18 @@ public class DeliveryDataTask extends AsyncTask<String,String,String > {
         else {
             Toast.makeText(context, "Network Error Try Again!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void execute(String... strings) {
+        onPreExecute();
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

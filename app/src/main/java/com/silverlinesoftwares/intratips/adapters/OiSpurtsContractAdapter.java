@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.models.OiSpurtsContractsModel;
-import com.silverlinesoftwares.intratips.models.OiSpurtsUnderlyingModel;
 
 import java.util.List;
 

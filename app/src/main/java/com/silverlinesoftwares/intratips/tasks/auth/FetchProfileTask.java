@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks.auth;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,6 +11,8 @@ import com.silverlinesoftwares.intratips.listeners.DetailsResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -17,7 +21,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class FetchProfileTask extends AsyncTask<String ,String ,String > {
+public class FetchProfileTask  {
 
     private DetailsResponseListener apiResponseListener;
     public FetchProfileTask(DetailsResponseListener apiResponseListener){
@@ -25,7 +29,6 @@ public class FetchProfileTask extends AsyncTask<String ,String ,String > {
 
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -66,14 +69,8 @@ public class FetchProfileTask extends AsyncTask<String ,String ,String > {
         return null;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s!=null){
             Gson gson = new GsonBuilder().create();
             ResponseModel r = gson.fromJson(s, ResponseModel.class);
@@ -82,5 +79,17 @@ public class FetchProfileTask extends AsyncTask<String ,String ,String > {
         else{
             apiResponseListener.onFailedProfile("Something Went Wrong! Try Again");
         }
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

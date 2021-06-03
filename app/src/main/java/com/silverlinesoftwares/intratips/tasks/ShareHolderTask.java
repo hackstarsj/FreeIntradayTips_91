@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.IncomeStateListener;
 import com.silverlinesoftwares.intratips.listeners.ShareHolderListener;
@@ -22,13 +24,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
+public class ShareHolderTask{
 
 
     ShareHolderListener gainerLooserListener;
@@ -37,43 +41,37 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
         this.gainerLooserListener=gainerLooserListener;
     }
 
-    @Override
-    protected void onPostExecute(String majorHolderModels) {
-        super.onPostExecute(majorHolderModels);
-    }
 
-    @Override
-    protected String doInBackground(String... strings) {
+    protected void doInBackground(Handler handler, Handler handler2, Handler handler3, String... strings) {
 
         List<MajorHolderModel> majorHolderModels=getMajorList(strings[0]);
         List<Object> objects=new ArrayList<>();
         objects.add(new DataTypeObject("1"));
         objects.add(majorHolderModels);
-        publishProgress(objects);
+        publishProgress(handler,objects);
 
 
         List<InsiderRosterModel> majorHolderModels1=getInsiderRoast(strings[0]);
         List<Object> objects1=new ArrayList<>();
         objects1.add(new DataTypeObject("2"));
         objects1.add(majorHolderModels1);
-        publishProgress(objects1);
+        publishProgress(handler2,objects1);
 //
         List<InsiderTransactionModel> majorHolderModels2=getInsidertransaction(strings[0]);
         List<Object> objects2=new ArrayList<>();
         objects2.add(new DataTypeObject("3"));
         objects2.add(majorHolderModels2);
-        publishProgress(objects2);
-        return null;
+        publishProgress(handler3,objects2);
 
     }
 
-    @Override
-    protected void onProgressUpdate(List<Object>... values) {
-        super.onProgressUpdate(values);
+    public void publishProgress(Handler handler, List<Object>... values) {
         List<List<Object>> list= Arrays.asList(values);
         DataTypeObject list1=(DataTypeObject)list.get(0).get(0);
 
         if(list1.getId().equalsIgnoreCase("1")) {
+            handler.post(()->{
+
             List<MajorHolderModel> list2=(List<MajorHolderModel>)(Object)list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onMajorLoaded(list2);
@@ -81,8 +79,12 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
             else{
                 gainerLooserListener.onFailed("Failed to load Major Holders");
             }
+
+            });
         }
         if(list1.getId().equalsIgnoreCase("2")) {
+            handler.post(()->{
+
             List<InsiderRosterModel> list2=(List<InsiderRosterModel>)(Object)list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onInsiderLoader(list2);
@@ -90,8 +92,12 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
             else{
                 gainerLooserListener.onFailed("Failed to load Insider Roaster");
             }
+
+            });
         }
         if(list1.getId().equalsIgnoreCase("3")) {
+            handler.post(()->{
+
             List<InsiderTransactionModel> list2=(List<InsiderTransactionModel>)(Object)list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onInsiderTransaction(list2);
@@ -99,6 +105,8 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
             else{
                 gainerLooserListener.onFailed("Failed to load Insider Roaster");
             }
+
+            });
         }
     }
 
@@ -325,4 +333,14 @@ public class ShareHolderTask extends AsyncTask<String ,List<Object> ,String>{
         return majorHolderModels;
     }
 
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        Handler handler2 = new Handler(Looper.getMainLooper());
+        Handler handler3 = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            doInBackground(handler,handler2,handler3,strings);
+        });
+    }
 }

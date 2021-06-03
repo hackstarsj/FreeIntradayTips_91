@@ -2,22 +2,22 @@ package com.silverlinesoftwares.intratips.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.MobileAds;
-import com.instamojo.android.Instamojo;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.fragments.AboutFragment;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.SignupTask;
@@ -34,7 +34,12 @@ public class SignUpActivity extends AppCompatActivity implements ApiResponseList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        MobileAds.initialize(SignUpActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(SignUpActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         parent_view = findViewById(android.R.id.content);
 
         final TextInputEditText email=findViewById(R.id.email);

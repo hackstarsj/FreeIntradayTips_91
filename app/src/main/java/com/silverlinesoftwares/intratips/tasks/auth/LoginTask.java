@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -25,7 +29,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginTask extends AsyncTask<String ,String ,String > {
+public class LoginTask  {
 
     private ApiResponseListener apiResponseListener;
     public LoginTask(ApiResponseListener apiResponseListener){
@@ -33,7 +37,6 @@ public class LoginTask extends AsyncTask<String ,String ,String > {
 
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -74,14 +77,8 @@ public class LoginTask extends AsyncTask<String ,String ,String > {
         return null;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s!=null){
             Gson gson = new GsonBuilder().create();
             ResponseModel r = gson.fromJson(s, ResponseModel.class);
@@ -90,5 +87,17 @@ public class LoginTask extends AsyncTask<String ,String ,String > {
         else{
             apiResponseListener.onFailed("Something Went Wrong! Try Again");
         }
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

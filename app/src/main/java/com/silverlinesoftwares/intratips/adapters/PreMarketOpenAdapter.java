@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.GainerLosserModel;
 import com.silverlinesoftwares.intratips.models.PreMarketOpenModel;
 
 import java.util.List;

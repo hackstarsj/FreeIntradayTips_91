@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.CommodityModel;
 import com.silverlinesoftwares.intratips.models.CurrencyModel;
 
 import java.util.List;

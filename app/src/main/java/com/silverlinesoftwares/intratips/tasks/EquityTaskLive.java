@@ -2,6 +2,8 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -28,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class EquityTaskLive extends AsyncTask<String,String,String > {
+public class EquityTaskLive  {
 
     Context context;
     EquityAdapterR equityAdapter;
@@ -40,7 +44,6 @@ public class EquityTaskLive extends AsyncTask<String,String,String > {
         this.equityModels = equityModels;
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         OkHttpClient client = new OkHttpClient();
         client.retryOnConnectionFailure();
@@ -86,15 +89,8 @@ public class EquityTaskLive extends AsyncTask<String,String,String > {
 
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
 
-    }
-
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s!=null){
             try {
                 JSONObject jsonObject=new JSONObject(s);
@@ -111,7 +107,7 @@ public class EquityTaskLive extends AsyncTask<String,String,String > {
                     for (EquityModel equityModel:contactList){
                         if(!equityModel.getSymbol().isEmpty()) {
                             IntraHighTask intraHighTask = new IntraHighTask(context, equityAdapter, equityModel);
-                            StaticMethods.executeAsyncTask(intraHighTask);
+                            intraHighTask.execute(new String[]{});
                         }
                     }
                 }
@@ -131,5 +127,17 @@ public class EquityTaskLive extends AsyncTask<String,String,String > {
                 Toast.makeText(context, "Network Error Try Again!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
     }
 }

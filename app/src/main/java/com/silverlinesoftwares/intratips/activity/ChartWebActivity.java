@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Display;
@@ -15,6 +17,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
@@ -32,7 +36,12 @@ public class ChartWebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_web);
-        MobileAds.initialize(ChartWebActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(ChartWebActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
         }
@@ -51,9 +60,7 @@ public class ChartWebActivity extends AppCompatActivity {
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(true);
-        }
+
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setPadding(0, 0, 0, 0);
         webView.setInitialScale(getScale());

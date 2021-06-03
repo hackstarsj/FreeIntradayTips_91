@@ -17,12 +17,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.adapters.ResultAdapter;
 import com.silverlinesoftwares.intratips.listeners.ResultListener;
 import com.silverlinesoftwares.intratips.models.ResultModel;
 import com.silverlinesoftwares.intratips.tasks.ResultTask;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +41,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
     private String mParam2;
     private ListView listView;
     private Context mContext;
+    private View headeview;
 
     @Override
     public void onAttach(Context context) {
@@ -83,14 +87,28 @@ public class ResultFragment extends Fragment  implements ResultListener {
     ProgressBar progressBar;
     TextView  only_profit_text;
     TextView only_loss_text,accuracy;
+    TextView target_1_text,target_2_text,target_3_text,target_total,investment_amt,return_amt,target_1_profit,target_2_profit,target_3_profit,target_all_profit;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         listView=view.findViewById(R.id.listview);
         progressBar=view.findViewById(R.id.progress);
-        only_loss_text=view.findViewById(R.id.loss_amount);
-        only_profit_text=view.findViewById(R.id.profit_amount);
-        accuracy=view.findViewById(R.id.accuracy);
+
+        headeview=getLayoutInflater().inflate(R.layout.result_header,null);
+        only_loss_text=headeview.findViewById(R.id.loss_amount);
+        only_profit_text=headeview.findViewById(R.id.profit_amount);
+        accuracy=headeview.findViewById(R.id.accuracy);
+        target_1_text=headeview.findViewById(R.id.target_1_txt);
+        target_2_text=headeview.findViewById(R.id.target_2_txt);
+        target_3_text=headeview.findViewById(R.id.target_3_txt);
+        target_total=headeview.findViewById(R.id.target_all_txt);
+        investment_amt=headeview.findViewById(R.id.investment_amt);
+        return_amt=headeview.findViewById(R.id.return_amt);
+        target_1_profit=headeview.findViewById(R.id.target_1_profit);
+        target_2_profit=headeview.findViewById(R.id.target_2_profit);
+        target_3_profit=headeview.findViewById(R.id.target_3_profit);
+        target_all_profit=headeview.findViewById(R.id.target_all_profit);
+
         final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
 
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -123,6 +141,10 @@ public class ResultFragment extends Fragment  implements ResultListener {
 
         ResultTask resultTask=new ResultTask(ResultFragment.this);
         resultTask.execute();
+
+        AdView mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -130,6 +152,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
         progressBar.setVisibility(View.GONE);
         if(mContext != null) {
             ResultAdapter resultAdapter = new ResultAdapter(mContext, data);
+            listView.addHeaderView(headeview);
             listView.setAdapter(resultAdapter);
             BuildProfit(data);
         }
@@ -151,6 +174,15 @@ public class ResultFragment extends Fragment  implements ResultListener {
 
         double final_profit=0.0;
         double final_loss=0.0;
+        int target_1_count=0;
+        int target_2_count=0;
+        int target_3_count=0;
+        int target_total_count=0;
+        int total_investment=0;
+        double target_1_profit=0;
+        double target_2_profit=0;
+        double target_3_profit=0;
+
         for (ResultModel equityModel:resultModels) {
             int amount=100000;
             String[] price_Range = equityModel.getBuy_price().split("-");
@@ -175,6 +207,9 @@ public class ResultFragment extends Fragment  implements ResultListener {
                 final_loss=final_loss+only_loss;
             } else {
                 if (equityModel.getAchieved3().contains("Done")) {
+                    target_3_count++;
+                    target_2_count++;
+                    target_1_count++;
                     if (equityModel.getBuy_text().contains("SELL")) {
                         only_profit = quantity * (avg_amt - Double.parseDouble(equityModel.getBuy3()));
                         ////  is_loss=true;
@@ -182,8 +217,11 @@ public class ResultFragment extends Fragment  implements ResultListener {
                         only_profit = quantity * (Double.parseDouble(equityModel.getBuy3()) - avg_amt);
                         //  is_loss=true;
                     }
+                    target_3_profit=target_3_profit+only_profit;
 
                 } else if (equityModel.getAchieved2().contains("Done")) {
+                    target_2_count++;
+                    target_1_count++;
                     if (equityModel.getBuy_text().contains("SELL")) {
                         only_profit = quantity * (avg_amt - Double.parseDouble(equityModel.getBuy2()));
                         //  is_loss=true;
@@ -191,7 +229,9 @@ public class ResultFragment extends Fragment  implements ResultListener {
                         only_profit = quantity * (Double.parseDouble(equityModel.getBuy2()) - avg_amt);
                         //  is_loss=true;
                     }
+                    target_2_profit=target_2_profit+only_profit;
                 } else if (equityModel.getAchieved1().contains("Done")) {
+                    target_1_count++;
                     if (equityModel.getBuy_text().contains("SELL")) {
                         only_profit = quantity * (avg_amt - Double.parseDouble(equityModel.getBuy1()));
                         //// is_loss=true;
@@ -199,12 +239,16 @@ public class ResultFragment extends Fragment  implements ResultListener {
                         only_profit = quantity * (Double.parseDouble(equityModel.getBuy1()) - avg_amt);
                         //   is_loss=true;
                     }
+                    target_1_profit=target_1_profit+only_profit;
                 } else {
                     only_profit = 0.0;
                 }
 
                 final_profit=final_profit+only_profit;
             }
+            target_total_count++;
+
+            total_investment=total_investment+amount;
         }
 
         double accu=final_profit+final_loss;
@@ -214,5 +258,29 @@ public class ResultFragment extends Fragment  implements ResultListener {
         only_profit_text.setText(""+formatter.format(final_profit));
         only_loss_text.setText(""+formatter.format(final_loss));
         accuracy.setText(""+roundOff+" %");
+
+        int target_1_per=(target_1_count*100)/target_total_count;
+
+        int target_2_per=(target_2_count*100)/target_total_count;
+
+        int target_3_per=(target_3_count*100)/target_total_count;
+
+        target_1_text.setText(""+target_1_count+" ( "+target_1_per+" %)");
+        target_2_text.setText(""+target_2_count+" ( "+target_2_per+" %)");
+        target_3_text.setText(""+target_3_count+" ( "+target_3_per+" %)");
+        target_total.setText(""+target_total_count);
+
+
+        investment_amt.setText(""+formatter.format(total_investment));
+        double return_per=(final_profit/total_investment)*100;
+        double roundOffPer = Math.round(return_per * 100.0) / 100.0;
+        return_amt.setText(""+roundOffPer+" %");
+
+        this.target_1_profit.setText(""+formatter.format(target_1_profit));
+        this.target_2_profit.setText(""+formatter.format(target_2_profit));
+        this.target_3_profit.setText(""+formatter.format(target_3_profit));
+        this.target_all_profit.setText(""+formatter.format(target_1_profit+target_2_profit+target_3_profit));
+
+
     }
 }

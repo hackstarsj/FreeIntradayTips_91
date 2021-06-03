@@ -2,6 +2,7 @@ package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
@@ -9,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -32,7 +35,12 @@ public class VolumeGainerActivity extends AppCompatActivity implements GainerLoo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volume_gainers);
-        MobileAds.initialize(VolumeGainerActivity.this,getString(R.string.app_ads_id));
+        MobileAds.initialize(VolumeGainerActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
         progress=findViewById(R.id.progress);
         listView=findViewById(R.id.list_volume_gainer);
         VolumeGainerTask gainerLooserTask=new VolumeGainerTask(VolumeGainerActivity.this);
