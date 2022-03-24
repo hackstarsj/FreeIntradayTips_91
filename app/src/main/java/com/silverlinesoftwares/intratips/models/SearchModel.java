@@ -1,11 +1,8 @@
 package com.silverlinesoftwares.intratips.models;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class SearchModel extends RealmObject {
+public class SearchModel  {
 
-    @PrimaryKey
     private String symbol;
     private String name;
     private String exch;

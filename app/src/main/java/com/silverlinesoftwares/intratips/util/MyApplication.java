@@ -10,28 +10,15 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
-
-/**
- * Created by pankajsharma on 21-Aug-17.
- */
 public class MyApplication extends Application {
     private SharedPreferences sharedPreferences;
     public static final String PREFS = "MY_SHARED";
+    AppOpenAdManager appOpenManager;
     private static MyApplication mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .name(Realm.DEFAULT_REALM_NAME)
-                .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(config);
 
         MobileAds.initialize(
                 this,
@@ -40,7 +27,7 @@ public class MyApplication extends Application {
                     public void onInitializationComplete(InitializationStatus initializationStatus) {}
                 });
 
-        AppOpenAdManager appOpenManager = new AppOpenAdManager(this);
+        appOpenManager = new AppOpenAdManager(this);
     }
 
     @Override

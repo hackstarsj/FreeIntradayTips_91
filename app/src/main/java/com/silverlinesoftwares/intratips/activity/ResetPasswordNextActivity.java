@@ -13,6 +13,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
@@ -80,7 +82,6 @@ public class ResetPasswordNextActivity extends AppCompatActivity implements ApiR
             }
         });
 
-        StaticMethods.showInterestialAds(ResetPasswordNextActivity.this);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class ResetPasswordNextActivity extends AppCompatActivity implements ApiR
         send_btn.setAlpha(1f);
         Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
         if(data.getStatus_code().equalsIgnoreCase("200")){
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startActivity(new Intent(ResetPasswordNextActivity.this,LoginActivity.class));

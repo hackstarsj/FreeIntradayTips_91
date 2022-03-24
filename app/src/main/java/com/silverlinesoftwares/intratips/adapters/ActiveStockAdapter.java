@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -57,7 +58,7 @@ public class ActiveStockAdapter extends BaseAdapter {
         TextView  percentage_text;
 
         if(view==null){
-              view=inflater.inflate(R.layout.active_rows,null);
+              view=inflater.inflate(R.layout.active_rows,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.traded_qty_text,view.findViewById(R.id.traded_qty_text));
             view.setTag(R.id.prev_close_text,view.findViewById(R.id.prev_close_text));

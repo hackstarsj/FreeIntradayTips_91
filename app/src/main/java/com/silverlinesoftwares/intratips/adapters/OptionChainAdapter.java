@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class OptionChainAdapter extends BaseAdapter {
 
 
         if(view==null){
-              view=inflater.inflate(R.layout.option_chain_row,null);
+              view=inflater.inflate(R.layout.option_chain_row,parent,false);
             view.setTag(R.id.oi_1,view.findViewById(R.id.oi_1));
             view.setTag(R.id.change_oi_1,view.findViewById(R.id.change_oi_1));
             view.setTag(R.id.oi_2,view.findViewById(R.id.oi_2));

@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.AdvanceScreenerActivity;
@@ -54,7 +58,7 @@ public class ScreenAdapter extends BaseAdapter {
 
 
         if(view==null){
-            view=inflater.inflate(R.layout.screener_item,null);
+            view=inflater.inflate(R.layout.screener_item,parent,false);
             view.setTag(R.id.list_sub_item,view.findViewById(R.id.list_sub_item));
             view.setTag(R.id.button_clck,view.findViewById(R.id.button_clck));
         }
@@ -84,7 +88,7 @@ public class ScreenAdapter extends BaseAdapter {
         });
 
         for(int i=0;i<DataList.get(position).getScreenerSubItemList().size();i++) {
-            View view1 = inflater.inflate(R.layout.sub_screen_row, null);
+            View view1 = inflater.inflate(R.layout.sub_screen_row, parent,false);
             Button btn_sub;
             final TextView methods;
             final TextView url_item;
@@ -109,14 +113,18 @@ public class ScreenAdapter extends BaseAdapter {
         }
 
         if(DataList.get(position).getClick()){
-            Drawable img = context.getResources().getDrawable( R.drawable.ic_remove_circle_black_24dp);
-            img.setBounds( 0, 0, 60, 60 );
+            Drawable img = ContextCompat.getDrawable(context,R.drawable.ic_remove_circle_black_24dp);
+            if (img != null) {
+                img.setBounds( 0, 0, 60, 60 );
+            }
             button_one.setCompoundDrawables(img,null,null,null);
-         linearLayout.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
         }
         else{
-            Drawable img = context.getResources().getDrawable( R.drawable.ic_add_circle_black_24dp);
-            img.setBounds( 0, 0, 60, 60 );
+            Drawable img = ContextCompat.getDrawable(context,R.drawable.ic_add_circle_black_24dp);
+            if (img != null) {
+                img.setBounds( 0, 0, 60, 60 );
+            }
             button_one.setCompoundDrawables(img,null,null,null);
             linearLayout.setVisibility(View.GONE);
 

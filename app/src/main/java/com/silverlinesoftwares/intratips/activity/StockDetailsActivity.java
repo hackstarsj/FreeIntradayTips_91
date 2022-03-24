@@ -7,10 +7,13 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.adapters.ViewPagerAdapter;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.AnalysisFragment;
@@ -49,7 +53,7 @@ import tech.gusavila92.websocketclient.WebSocketClient;
 public class StockDetailsActivity extends AppCompatActivity implements StockDetailListener {
 
     private TabLayout tabLayout;
-    ViewPager viewPager;
+    ViewPager2 viewPager;
     TextView stock_title;
     TextView price;
     TextView low;
@@ -99,10 +103,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         StockDetailHometask detailHometask=new StockDetailHometask(string,low,price,opens,pr_close,high);
         detailHometask.execute(new String[]{});
         LoadHomePage();
-        StaticMethods.showInterestialAds(StockDetailsActivity.this);
 
-        View adContainer2 = findViewById(R.id.adView2);
-        StaticMethods.showBannerAds(adContainer2,StockDetailsActivity.this);
 
         webview.loadUrl("file:///android_asset/data.html");   // now it will not fail here
         webview.getSettings().setJavaScriptEnabled(true);
@@ -184,7 +185,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
 
     @JavascriptInterface
     public void alertJson(final String myJSON) {
-        new android.os.Handler().postDelayed(
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
                         runOnUiThread(new Runnable() {
@@ -269,7 +270,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
     }
 
     private void LoadHomePage(){
-        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
         Bundle bundle=new Bundle();
         bundle.putString(Constant.search,getIntent().getStringExtra(Constant.search));
 
@@ -333,8 +334,22 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         viewPagerAdapter.addTitle("Management");
 
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount()-1);
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(viewPagerAdapter.getTitle(position));
+            }
+        }).attach();
+        viewPager.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1);
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(StockDetailsActivity.this);
+                }
+            });
+        },10000);
 
     }
 

@@ -18,7 +18,7 @@
     <TextView
         android:padding="3dp"
         android:textSize="14sp"
-        android:text="Hello Test Message"
+        android:text="@string/notification_title"
         android:background="#000"
         android:textColor="#fff"
         android:visibility="gone"
@@ -35,7 +35,8 @@
         android:id="@+id/line1"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
         <LinearLayout
             android:padding="5dp"
             android:orientation="vertical"
@@ -48,7 +49,7 @@
                 android:singleLine="true"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/equity_title"
-                android:text="HindPetro"
+                android:text="@string/stock_name"
                 android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -58,7 +59,7 @@
                 android:singleLine="true"
                 android:textColor="#000"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Date/Time"
+                android:text="@string/date_time"
                 android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -67,7 +68,7 @@
                 android:id="@+id/equity_datetime"
                 android:singleLine="true"
                 android:textSize="12sp"
-                android:text="30-Jul-2018 at 9:08 pm"
+                android:text="@string/date_time_value"
                 android:fontFamily="sans-serif-condensed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -75,7 +76,7 @@
                 android:singleLine="true"
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/txt_small_title"
-                android:text="CMP"
+                android:text="@string/cmp"
                 android:textColor="#000"
                 android:textSize="13sp"
                 android:layout_marginBottom="5dp"
@@ -85,7 +86,7 @@
                 android:id="@+id/equity_time"
                 android:fontFamily="sans-serif-condensed"
                 android:layout_width="wrap_content"
-                android:text="03:35:09 AM"
+                android:text="@string/time"
                 android:textColor="#000"
                 android:textSize="12sp"
                 android:layout_marginBottom="5dp"
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/equity_price"
-                android:text="200.00"
+                android:text="@string/_200_00"
                 android:padding="3dp"
                 android:textSize="16sp"
                 android:singleLine="true"
@@ -108,7 +109,8 @@
                     android:id="@+id/ticker"
                     android:padding="3dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/ticker" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -124,7 +126,8 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -134,14 +137,14 @@
                         style="@style/Bottom_Text_Title"
                         android:textColor="#000"
                         android:padding="5dp"
-                        android:text="Low"
+                        android:text="@string/low"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <TextView
                         style="@style/Bottom_Text_Value"
                         android:textColor="#000"
-                        android:text="112.0"
+                        android:text="@string/_112_0"
                         android:id="@+id/low"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -155,7 +158,7 @@
                         style="@style/Bottom_Text_Title"
                         android:textColor="#000"
                         android:padding="5dp"
-                        android:text="High"
+                        android:text="@string/high"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -163,7 +166,7 @@
                         style="@style/Bottom_Text_Value"
                         android:textColor="#000"
                         android:id="@+id/high"
-                        android:text="112.0"
+                        android:text="@string/_112_0"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -176,7 +179,8 @@
                 android:padding="5dp"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
             <LinearLayout
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -186,7 +190,7 @@
                     style="@style/Bottom_Text_Title"
                     android:textColor="#000"
                     android:padding="5dp"
-                    android:text="Pr. Close"
+                    android:text="@string/pr_close"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -194,7 +198,7 @@
                     style="@style/Bottom_Text_Value"
                     android:textColor="#000"
                     android:id="@+id/pr_close"
-                    android:text="112.0"
+                    android:text="@string/_112_0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -207,7 +211,7 @@
                         style="@style/Bottom_Text_Title"
                         android:textColor="#000"
                         android:padding="5dp"
-                        android:text="Open"
+                        android:text="@string/open"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -215,7 +219,7 @@
                         style="@style/Bottom_Text_Value"
                         android:textColor="#000"
                         android:id="@+id/opens"
-                        android:text="112.0"
+                        android:text="@string/_112_0"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -243,7 +247,7 @@
             android:id="@+id/stop_loss"
             android:fontFamily="sans-serif-condensed"
             android:layout_width="match_parent"
-            android:text="STOP LOSS"
+            android:text="@string/stop_loss"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
         <View
@@ -258,7 +262,7 @@
             android:id="@+id/equity_loss"
             android:fontFamily="sans-serif-condensed"
             android:layout_width="match_parent"
-            android:text="280.00"
+            android:text="@string/_280_00"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
         <View
@@ -273,7 +277,7 @@
             android:id="@+id/equity_loss_text"
             android:fontFamily="sans-serif-condensed"
             android:layout_width="match_parent"
-            android:text="LOSS"
+            android:text="@string/loss"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
     </LinearLayout>
@@ -288,21 +292,21 @@
         <TextView
             android:textColor="#fff"
             android:textAlignment="center"
-            android:text="BUY Range"
+            android:text="@string/buy_range"
             android:layout_weight="1"
             android:id="@+id/buy_text"
             android:fontFamily="sans-serif-condensed"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
         <TextView
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:layout_weight="1"
             android:id="@+id/equity_buy"
             android:textAlignment="center"
             android:fontFamily="sans-serif-condensed"
-            android:text="291.01-292.00"
+            android:text="@string/buy_range_price"
             android:textColor="#fff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -322,7 +326,8 @@
         android:layout_below="@+id/divider2"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"
@@ -331,7 +336,7 @@
             <TextView
                 android:textColor="#000"
                 android:textAlignment="center"
-                android:text="TARGETS"
+                android:text="@string/targets"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
@@ -346,7 +351,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_target_1"
-                android:text="1"
+                android:text="@string/_1"
                 android:layout_marginBottom="5dp"
                 android:textColor="#000"
                 android:textSize="14sp"
@@ -357,7 +362,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_target_2"
-                android:text="2"
+                android:text="@string/_2"
                 android:textColor="#000"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -368,7 +373,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_target_3"
-                android:text="2"
+                android:text="@string/_2"
                 android:textColor="#000"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -384,7 +389,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Price"
+                android:text="@string/price"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 android:layout_marginBottom="3dp"
@@ -401,7 +406,7 @@
                 android:layout_height="2dp"/>
             <TextView
                 android:id="@+id/text_buy_1"
-                android:text="1"
+                android:text="@string/_1"
                 android:layout_marginBottom="5dp"
                 android:textColor="#000"
                 android:textSize="14sp"
@@ -411,7 +416,7 @@
                 android:gravity="center_horizontal" />
             <TextView
                 android:id="@+id/text_buy_2"
-                android:text="2"
+                android:text="@string/_2"
                 android:textColor="#000"
                 android:layout_marginBottom="5dp"
                 android:textSize="14sp"
@@ -421,7 +426,7 @@
                 android:gravity="center_horizontal" />
             <TextView
                 android:id="@+id/text_buy_3"
-                android:text="2"
+                android:text="@string/_2"
                 android:textColor="#000"
                 android:layout_marginBottom="5dp"
                 android:textSize="15sp"
@@ -438,7 +443,7 @@
             <TextView
                 android:textColor="#000"
                 android:textAlignment="center"
-                android:text="ACHIEVED"
+                android:text="@string/achieved"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
@@ -453,7 +458,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_achieved_1"
-                android:text="DONE"
+                android:text="@string/done"
                 android:textColor="#000"
                 android:layout_marginBottom="5dp"
                 android:textSize="14sp"
@@ -464,7 +469,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_achieved_2"
-                android:text="DONE"
+                android:text="@string/done"
                 android:layout_marginBottom="5dp"
                 android:textColor="#000"
                 android:textSize="14sp"
@@ -475,7 +480,7 @@
             <TextView
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/text_achieved_3"
-                android:text="DONE"
+                android:text="@string/done"
                 android:layout_marginBottom="5dp"
                 android:textColor="#000"
                 android:textSize="14sp"
@@ -501,7 +506,8 @@
             android:orientation="horizontal"
             android:clipToPadding="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
             <LinearLayout
                 android:layout_weight="1"
                 android:gravity="center"
@@ -512,7 +518,7 @@
                     android:background="@drawable/border_blue"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="#2196F3"
-                    android:text="BUY"
+                    android:text="@string/buy"
                     android:id="@+id/buy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -522,7 +528,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <Button
@@ -530,14 +536,14 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="#F44336"
                     android:id="@+id/sell"
-                    android:text="SELL"
+                    android:text="@string/sell"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -547,7 +553,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="#9C27B0"
                     android:id="@+id/chart"
-                    android:text="CHART"
+                    android:text="@string/chart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -555,7 +561,7 @@
             <LinearLayout
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -564,7 +570,7 @@
                     android:background="@drawable/border_pinkk"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="#E91E63"
-                    android:text="FUND."
+                    android:text="@string/fund"
                     android:singleLine="true"
                     android:id="@+id/fundamental"
                     android:textSize="12sp"
@@ -574,7 +580,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -584,7 +590,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="#F44336"
                     android:id="@+id/technical"
-                    android:text="TECH."
+                    android:text="@string/tech"
                     android:singleLine="true"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"

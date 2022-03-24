@@ -2,15 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-apply plugin: 'realm-android'
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.silverlinesoftwares.intratips"
         minSdkVersion 17
-        targetSdkVersion 30
-        versionCode 64
-        versionName "64.0"
+        targetSdkVersion 31
+        versionCode 76
+        versionName "76.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -29,38 +28,36 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.android.gms:play-services-ads:20.1.0'
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
-    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     implementation 'com.balysv:material-ripple:1.0.2'
-//    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     testImplementation 'junit:junit:4.13.2'
     implementation 'tech.gusavila92:java-android-websocket-client:1.2.2'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.instamojo:android-sdk:3.2.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.facebook.android:facebook-login:5.0.0'
-    implementation 'com.google.android.play:core:1.10.0'
+    implementation 'com.google.android.play:core:1.10.3'
 
-    def lifecycle_version = "2.0.0"
+    def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
-    implementation files('libs/cashfreesdk-1.4.9.8-release.aar')
+
 
 }

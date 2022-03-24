@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -90,6 +91,7 @@ public class ResultOptionFragment extends Fragment  implements ResultListener {
     TextView  only_profit_text;
     TextView only_loss_text,accuracy;
     TextView target_1_text,target_2_text,target_3_text,target_total,investment_amt,return_amt,target_1_profit,target_2_profit,target_3_profit,target_all_profit;
+    @SuppressLint("InflateParams")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -118,8 +120,8 @@ public class ResultOptionFragment extends Fragment  implements ResultListener {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(ResultOptionFragment.this).attach(ResultOptionFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }

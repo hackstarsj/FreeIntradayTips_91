@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ public class MutualFundAdapter extends BaseAdapter {
         TextView ytd;
 
         if(view==null){
-              view=inflater.inflate(R.layout.mutual_fund_row,null);
+              view=inflater.inflate(R.layout.mutual_fund_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.change_data,view.findViewById(R.id.change_data));
             view.setTag(R.id.change_percentage_data,view.findViewById(R.id.change_percentage_data));

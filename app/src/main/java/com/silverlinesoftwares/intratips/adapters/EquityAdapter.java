@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -95,7 +96,7 @@ public class EquityAdapter extends BaseAdapter {
         TextView high,low,pres;
 
         if(view==null){
-              view=inflater.inflate(R.layout.equity_row,null);
+              view=inflater.inflate(R.layout.equity_row,parent,false);
              view.setTag(R.id.line_buy_sell,view.findViewById(R.id.line_buy_sell));
              view.setTag(R.id.buy,view.findViewById(R.id.buy));
             view.setTag(R.id.sell,view.findViewById(R.id.sell));

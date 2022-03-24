@@ -21,7 +21,7 @@
                     android:layout_height="wrap_content">
                     <Button
                         android:layout_weight="1"
-                        android:text="BUY"
+                        android:text="@string/buy"
                         android:elevation="5dp"
                         android:layout_margin="5dp"
                         android:textColor="#00BCD4"
@@ -31,7 +31,7 @@
                         android:layout_height="wrap_content"
                         tools:targetApi="lollipop" />
                     <Button
-                        android:text="SELL"
+                        android:text="@string/sell"
                         android:textColor="#F44336"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Button
-                        android:text="CHART"
+                        android:text="@string/chart"
                         android:textColor="#673AB7"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -60,7 +60,7 @@
                         tools:targetApi="lollipop" />
                     <Button
                         android:layout_weight="1"
-                        android:text="Information"
+                        android:text="@string/information"
                         android:elevation="5dp"
                         android:layout_margin="5dp"
                         android:textColor="#E91E63"

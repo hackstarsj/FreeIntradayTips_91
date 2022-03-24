@@ -99,7 +99,7 @@ public class SingleScreenTask{
         }
 
         tl.addView(tr_head, new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.FILL_PARENT,
+                TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT));
 
     }
@@ -154,7 +154,7 @@ public class SingleScreenTask{
 
                         TableRow tr = new TableRow(context);
                         tr.setLayoutParams(new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.FILL_PARENT,
+                                TableLayout.LayoutParams.MATCH_PARENT,
                                 TableLayout.LayoutParams.WRAP_CONTENT));
 
 
@@ -179,7 +179,7 @@ public class SingleScreenTask{
 
 
                         tl.addView(tr, new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.FILL_PARENT,
+                                TableLayout.LayoutParams.MATCH_PARENT,
                                 TableLayout.LayoutParams.WRAP_CONTENT));
                     }
                 }

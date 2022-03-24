@@ -11,11 +11,11 @@
     <item
         android:id="@+id/forum_menu"
         android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
-        android:title="Screener"/>
+        android:title="@string/screener"/>
     <item
         android:icon="@drawable/trending_up"
         android:id="@+id/trending"
-        android:title="Trending"/>
+        android:title="@string/trending"/>
     <item
         android:id="@+id/option2_menu"
         android:icon="@drawable/ic_info_outline_black_24dp"

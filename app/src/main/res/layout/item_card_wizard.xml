@@ -35,7 +35,8 @@
                     android:layout_marginRight="@dimen/spacing_xlarge"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:src="@drawable/stock_imge" />
+                    android:src="@drawable/stock_imge"
+                    android:contentDescription="Logo" />
 
                 <TextView
                     android:id="@+id/title"

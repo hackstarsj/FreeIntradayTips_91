@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/pullToRefresh"
@@ -28,7 +28,7 @@
                 android:id="@+id/major_holders"
                 android:layout_margin="1.5dp"
                 android:textColor="#000"
-                android:text="Major Holders"
+                android:text="@string/major_holders"
                 android:background="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="40sp" />
@@ -48,7 +48,7 @@
                 android:id="@+id/insider_roster"
                 android:layout_margin="1.5dp"
                 android:textColor="#000"
-                android:text="Insider Roster"
+                android:text="@string/insider_roster"
                 android:background="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="40sp" />
@@ -69,7 +69,7 @@
                 android:id="@+id/insider_transaction"
                 android:layout_weight="1"
                 android:textColor="#000"
-                android:text="Insider Transactions"
+                android:text="@string/insider_transactions"
                 android:background="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="40sp" />
@@ -81,7 +81,7 @@
         android:fillViewport="true"
         android:layout_height="match_parent">
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -114,6 +114,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:targetApi="lollipop" />
 </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

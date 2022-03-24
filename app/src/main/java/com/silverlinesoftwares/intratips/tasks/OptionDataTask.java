@@ -1,6 +1,7 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -107,6 +108,7 @@ public class OptionDataTask {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     protected void onPostExecute(String s) {
         if(HomeFragment.progress!=null){
             HomeFragment.progress.setVisibility(View.GONE);
@@ -120,9 +122,10 @@ public class OptionDataTask {
                     Type type = new TypeToken<List<OptionModel>>(){}.getType();
                     List<OptionModel> contactList = gson.fromJson(finance, type);
                     equityModels.clear();
-                    equityModels.add(new BannerModel(""));
+                   // equityModels.add(new BannerModel("1"));
+                    //equityModels.add(new BannerModel("0"));
                     equityModels.addAll(contactList);
-                    equityModels.add(new BannerModel(""));
+                 //   equityModels.add(new BannerModel("1"));
                     equityAdapter.notifyDataSetChanged();
                     Log.d("Ok","ok");
                 }

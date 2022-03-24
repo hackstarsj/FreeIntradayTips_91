@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import androidx.recyclerview.widget.RecyclerView;
@@ -158,10 +159,10 @@ public class IncomeStatementAdapterR extends RecyclerView.Adapter<RecyclerView.V
                 vItem.data_4.setGravity(Gravity.CENTER);
             }
             else{
-                vItem.data_1.setGravity(Gravity.LEFT);
-                vItem.data_2.setGravity(Gravity.LEFT);
-                vItem.data_3.setGravity(Gravity.LEFT);
-                vItem.data_4.setGravity(Gravity.LEFT);
+                vItem.data_1.setGravity(Gravity.START);
+                vItem.data_2.setGravity(Gravity.START);
+                vItem.data_3.setGravity(Gravity.START);
+                vItem.data_4.setGravity(Gravity.START);
 
             }
 
@@ -214,6 +215,7 @@ public class IncomeStatementAdapterR extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void resetListData() {
         this.items = new ArrayList<>();
         notifyDataSetChanged();

@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="@color/indigo_900" />
 
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Traded Qty"
+                android:text="@string/traded_qty"
                 android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/traded_qty_text"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Prev Close"
+                    android:text="@string/prev_close"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/prev_close_text"
                         android:layout_height="wrap_content"
-                        android:text="300"
+                        android:text="@string/_300"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -96,17 +96,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ltp"
-                android:text="1.639 ETH"
+                android:text="@string/_1_639_eth"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/light_blue_500" />
 
             <TextView
-                android:text="Oll"
+                android:text="@string/oll"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:id="@+id/percentage_text"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
@@ -115,7 +115,7 @@
         <RelativeLayout
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="5dp">
 
 
@@ -124,7 +124,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                android:contentDescription="@string/indicator" />
 
         </RelativeLayout>
 

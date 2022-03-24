@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ public class GainerLooserAdapter extends BaseAdapter {
         TextView  percentage_text;
 
         if(view==null){
-              view=inflater.inflate(R.layout.gain_loss_row,null);
+              view=inflater.inflate(R.layout.gain_loss_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.open_text,view.findViewById(R.id.open_text));
             view.setTag(R.id.close_text,view.findViewById(R.id.close_text));

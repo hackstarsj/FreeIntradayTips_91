@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -22,7 +23,7 @@
             android:id="@+id/yearly"
             android:layout_margin="1.5dp"
             android:textColor="#000"
-            android:text="Yearly"
+            android:text="@string/yearly"
             android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="40sp" />
@@ -42,7 +43,7 @@
             android:id="@+id/quaterly"
             android:layout_weight="1"
             android:textColor="#000"
-            android:text="Quaterly"
+            android:text="@string/quaterly"
             android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="40sp" />
@@ -54,7 +55,7 @@
          android:fillViewport="true"
          android:layout_height="match_parent">
         <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
          <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -80,5 +81,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:targetApi="lollipop" />
 </RelativeLayout>

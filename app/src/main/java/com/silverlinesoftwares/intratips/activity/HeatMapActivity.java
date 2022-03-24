@@ -9,11 +9,16 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -34,7 +39,7 @@ import java.util.List;
 
 public class HeatMapActivity extends AppCompatActivity implements GainerLooserListener {
 
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ProgressBar progress;
 
@@ -53,7 +58,6 @@ public class HeatMapActivity extends AppCompatActivity implements GainerLooserLi
         viewPager=findViewById(R.id.mover_looser_page);
         HeatMapTask gainerLooserTask=new HeatMapTask(HeatMapActivity.this);
         gainerLooserTask.execute(new String[]{getIntent().getStringExtra(Constant.data_text)});
-        StaticMethods.showInterestialAds(HeatMapActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,HeatMapActivity.this);
 
@@ -89,7 +93,7 @@ public class HeatMapActivity extends AppCompatActivity implements GainerLooserLi
             List<SectorStockModel> looser=new ArrayList<>();
             List<SectorStockModel> looser1=new ArrayList<>();
 
-            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
 
             for (SectorStockModel sectorStockModel:animals){
                 if(checkInList(looser,sectorStockModel.getSector())){
@@ -140,9 +144,23 @@ public class HeatMapActivity extends AppCompatActivity implements GainerLooserLi
             viewPagerAdapter.addTitle(getString(R.string.stock));
             viewPagerAdapter.addTitle(getString(R.string.sector));
             viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
+          new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(viewPagerAdapter.getTitle(position));
+            }
+        }).attach();
 
 
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(HeatMapActivity.this);
+                }
+            });
+        },5000);
 
     }
 

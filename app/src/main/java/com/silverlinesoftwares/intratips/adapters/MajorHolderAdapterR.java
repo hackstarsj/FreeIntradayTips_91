@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import androidx.recyclerview.widget.RecyclerView;
@@ -174,6 +175,7 @@ public class MajorHolderAdapterR extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void resetListData() {
         this.items = new ArrayList<>();
         notifyDataSetChanged();

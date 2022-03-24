@@ -1,20 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/image_pen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 <ImageView
-    android:id="@+id/image_pen"
     android:adjustViewBounds="true"
     android:scaleType="centerInside"
     android:src="@drawable/zerodhaad"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-    <ImageView
-        android:layout_below="@id/image_pen"
+    android:layout_height="wrap_content"
+    android:contentDescription="ZERODHA" />
+        <TextView
+            android:text="Ads"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:gravity="top|left"
+            android:padding="3dp"
+            android:layout_margin="3dp"
+            android:background="@color/yellow_400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/alice_pen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:src="@drawable/alice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:contentDescription="ALICE BLUE" />
+        <TextView
+            android:text="Ads"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:gravity="top|left"
+            android:padding="3dp"
+            android:layout_margin="3dp"
+            android:background="@color/yellow_400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/upstock_pen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/upstock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="UPSTOCK" />
+        <TextView
+            android:text="Ads"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:gravity="top|left"
+            android:padding="3dp"
+            android:layout_margin="3dp"
+            android:background="@color/yellow_400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

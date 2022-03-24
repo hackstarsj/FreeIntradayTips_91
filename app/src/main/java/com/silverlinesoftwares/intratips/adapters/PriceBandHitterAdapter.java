@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -64,7 +65,7 @@ public class PriceBandHitterAdapter extends BaseAdapter {
         ImageView indicator;
 
         if(view==null){
-              view=inflater.inflate(R.layout.price_band_row,null);
+              view=inflater.inflate(R.layout.price_band_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.high_data,view.findViewById(R.id.high_data));
             view.setTag(R.id.low_data,view.findViewById(R.id.low_data));

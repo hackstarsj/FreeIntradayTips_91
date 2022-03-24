@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -47,7 +50,6 @@ public class MutualFundActivity extends AppCompatActivity implements ChartListen
         listView=findViewById(R.id.list_volume_gainer);
         MutualFundTask gainerLooserTask=new MutualFundTask(MutualFundActivity.this);
         gainerLooserTask.execute();
-        StaticMethods.showInterestialAds(MutualFundActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,MutualFundActivity.this);
 
@@ -71,6 +73,16 @@ public class MutualFundActivity extends AppCompatActivity implements ChartListen
 
         MutualFundAdapter bulkDealAdapter=new MutualFundAdapter(MutualFundActivity.this,bulkModels);
         listView.setAdapter(bulkDealAdapter);
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(MutualFundActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

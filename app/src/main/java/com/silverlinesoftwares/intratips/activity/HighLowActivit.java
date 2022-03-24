@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,7 +58,6 @@ public class HighLowActivit extends AppCompatActivity implements GainerLooserLis
 
         }
 
-        StaticMethods.showInterestialAds(HighLowActivit.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,HighLowActivit.this);
 
@@ -76,6 +78,16 @@ public class HighLowActivit extends AppCompatActivity implements GainerLooserLis
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(HighLowActivit.this);
+                }
+            });
+        },5000);
     }
 
     @Override

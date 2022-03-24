@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.silverlinesoftwares.intratips.R;
@@ -112,7 +114,7 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         if (holder instanceof HeadingViewHolder) {
             final NewsModel p = items.get(position);
@@ -265,6 +267,7 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void resetListData() {
         this.items = new ArrayList<>();
         notifyDataSetChanged();

@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -104,7 +106,7 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
                         singleScreenTask.execute(new String[]{});
         }
 
-        StaticMethods.showInterestialAds(AdvanceScreenerActivity.this);
+
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,AdvanceScreenerActivity.this);
 
@@ -112,7 +114,7 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isLandscape){
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     rotate.setImageResource(R.drawable.ic_baseline_stay_current_landscape_24);
                     isLandscape=false;
                 }
@@ -124,5 +126,15 @@ public class AdvanceScreenerActivity extends AppCompatActivity {
              }
         });
 
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(AdvanceScreenerActivity.this);
+                }
+            });
+        },5000);
     }
 }

@@ -11,6 +11,9 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="TabLayoutTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
@@ -22,8 +25,8 @@
         <item name="textAllCaps">true</item>
         <item name="android:singleLine">true</item>
     </style>
-    <style name="Bottom_Text_Value"><item name="android:singleLine">true</item><item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item><item name="android:textColor">#535353</item><item name="android:textSize">13dp</item><item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item></style>
-    <style name="Bottom_Text_Title"><item name="android:singleLine">true</item><item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item><item name="android:textColor">#000</item><item name="android:textSize">15dp</item><item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item></style>
+    <style name="Bottom_Text_Value"><item name="android:singleLine">true</item><item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item><item name="android:textColor">#535353</item><item name="android:textSize">13sp</item><item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item></style>
+    <style name="Bottom_Text_Title"><item name="android:singleLine">true</item><item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item><item name="android:textColor">#000</item><item name="android:textSize">15sp</item><item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item></style>
     <style name="Button.Primary" parent="@style/Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>

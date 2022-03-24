@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -45,7 +48,6 @@ public class VolumeGainerActivity extends AppCompatActivity implements GainerLoo
         listView=findViewById(R.id.list_volume_gainer);
         VolumeGainerTask gainerLooserTask=new VolumeGainerTask(VolumeGainerActivity.this);
         gainerLooserTask.execute();
-        StaticMethods.showInterestialAds(VolumeGainerActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,VolumeGainerActivity.this);
 
@@ -68,6 +70,15 @@ public class VolumeGainerActivity extends AppCompatActivity implements GainerLoo
             e.printStackTrace();
         }
 
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(VolumeGainerActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

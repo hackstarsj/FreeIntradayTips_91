@@ -23,7 +23,6 @@ import com.silverlinesoftwares.intratips.util.Constant;
 
 import java.util.List;
 
-import static androidx.constraintlayout.solver.widgets.ConstraintWidget.DimensionBehaviour.MATCH_PARENT;
 
 
 public class IncomeStatementFragment extends Fragment implements IncomeStateListener {

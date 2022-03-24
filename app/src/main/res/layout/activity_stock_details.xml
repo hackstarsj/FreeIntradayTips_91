@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <WebView
@@ -15,7 +14,6 @@
     <androidx.cardview.widget.CardView
         app:cardUseCompatPadding="true"
         app:cardElevation="3dp"
-        android:layout_marginBottom="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -30,15 +28,15 @@
                     android:padding="5dp"
                     android:textColor="@color/grey_900"
                     android:textSize="16sp"
-                    android:text="-"
+                    android:text="@string/hypene"
                     android:layout_weight="1"
                     android:id="@+id/stock_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <RelativeLayout
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:layout_gravity="right"
+                    android:gravity="end"
+                    android:layout_gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <LinearLayout
@@ -49,30 +47,31 @@
                 android:padding="5dp"
                 android:id="@+id/price"
                 android:textSize="17sp"
-                android:paddingRight="10dp"
-                android:text="-"
+                android:text="@string/hypene"
                 android:gravity="end"
                 android:textColor="@color/grey_900"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="1dp"
                 android:paddingEnd="10dp" />
                 <TextView
                     android:padding="5dp"
                     android:id="@+id/price_per"
                     android:textSize="14sp"
-                    android:paddingRight="10dp"
-                    android:text="-"
+                    android:text="@string/hypene"
                     android:gravity="end"
                     android:textColor="@color/grey_900"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="1dp"
                     android:paddingEnd="10dp" />
                 <ImageView
                     android:src="@drawable/ic_arrow_drop_up_black_24dp"
                     android:id="@+id/ticker"
                     android:padding="3dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="TICKER" />
                 </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -183,7 +182,7 @@
                 android:layout_height="wrap_content">
 
             </com.google.android.material.tabs.TabLayout>
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/stock_page"
                 android:padding="3dp"
                 android:layout_width="match_parent"
@@ -192,19 +191,6 @@
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-        <LinearLayout
-            android:layout_gravity="bottom"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp">
-            <RelativeLayout
-                android:id="@+id/adView2"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+
     </FrameLayout>
 </RelativeLayout>

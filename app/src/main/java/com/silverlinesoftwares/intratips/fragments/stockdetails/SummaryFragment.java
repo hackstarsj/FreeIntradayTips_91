@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.fragments.stockdetails;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -163,6 +164,7 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
 
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public void onSucess(List<NewsModel> data) {
         progress_news.setVisibility(View.GONE);

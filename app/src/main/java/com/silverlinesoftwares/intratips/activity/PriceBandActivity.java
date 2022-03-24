@@ -9,11 +9,16 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -34,7 +39,7 @@ import java.util.List;
 
 public class PriceBandActivity extends AppCompatActivity implements PriceBandListener {
 
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ProgressBar progress;
 
@@ -53,7 +58,6 @@ public class PriceBandActivity extends AppCompatActivity implements PriceBandLis
         viewPager=findViewById(R.id.mover_looser_page);
         PricebandTask gainerLooserTask=new PricebandTask(PriceBandActivity.this);
         gainerLooserTask.execute();
-        StaticMethods.showInterestialAds(PriceBandActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,PriceBandActivity.this);
 
@@ -79,7 +83,7 @@ public class PriceBandActivity extends AppCompatActivity implements PriceBandLis
 
 
 
-            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
 
             UpperBandFragment topMoversFragment=new UpperBandFragment();
             Bundle bundle=new Bundle();
@@ -100,15 +104,29 @@ public class PriceBandActivity extends AppCompatActivity implements PriceBandLis
             viewPagerAdapter.addTitle("Upper Band");
             viewPagerAdapter.addTitle("Lower Band");
             viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
 
-
+            new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+                @Override
+                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                    tab.setText(viewPagerAdapter.getTitle(position));
+                }
+            }).attach();
 
 
         } catch (JSONException e) {
             Toast.makeText(PriceBandActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(PriceBandActivity.this);
+                }
+            });
+        },5000);
 
 
     }

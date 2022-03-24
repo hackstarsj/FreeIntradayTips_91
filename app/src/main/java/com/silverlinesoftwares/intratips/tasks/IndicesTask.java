@@ -33,7 +33,7 @@ public class IndicesTask  {
 
         Request request =
                 new Request.Builder()
-                        .url("https://in.finance.yahoo.com/world-indices")
+                        .url("https://finance.yahoo.com/world-indices?guccounter=1")
                         .build();
         Response response = null;
         try {

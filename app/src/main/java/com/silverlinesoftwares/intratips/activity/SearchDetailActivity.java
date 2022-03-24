@@ -3,6 +3,8 @@ package com.silverlinesoftwares.intratips.activity;
 import android.content.res.AssetManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -45,9 +47,19 @@ public class SearchDetailActivity extends AppCompatActivity {
 
 
 
-        StaticMethods.showInterestialAds(SearchDetailActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,SearchDetailActivity.this);
+
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(SearchDetailActivity.this);
+                }
+            });
+        },5000);
 
     }
 

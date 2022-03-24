@@ -173,8 +173,8 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(OptionFragment.this).attach(OptionFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }
@@ -273,5 +273,13 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://alicebluepartner.com/furthergrow/"));
         startActivity(intent);
+    }
+
+    @Override
+    public void onUpstockClick() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://upstox.com/open-account/?f=Z1JV"));
+        startActivity(intent);
+
     }
 }

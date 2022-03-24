@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
@@ -21,16 +22,14 @@
                 android:layout_width="match_parent"
                 android:padding="3dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
+                android:layout_height="wrap_content">
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -53,7 +52,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/market_cap_summary"
-                                android:text="Market Cap"
+                                android:text="@string/market_cap"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -74,11 +73,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/market_cap_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textSize="11sp"
@@ -125,7 +124,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/stock_pe_summary"
-                                android:text="Stock PE"
+                                android:text="@string/stock_pe"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -146,11 +145,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/stock_pe_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -203,7 +202,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/book_value_summary"
-                                android:text="Book Value"
+                                android:text="@string/book_value"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -224,11 +223,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/book_value_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -274,7 +273,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/roce_summary"
-                                android:text="ROCE"
+                                android:text="@string/roce"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -295,11 +294,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/roce_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -352,7 +351,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/face_value_summary"
-                                android:text="Face Value"
+                                android:text="@string/face_value"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -373,11 +372,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/face_value_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -423,7 +422,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/roe_summary"
-                                android:text="ROE"
+                                android:text="@string/roe"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -444,11 +443,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/roe_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -501,7 +500,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/dividend_yield_summary"
-                                android:text="Diviend Yield"
+                                android:text="@string/diviend_yield"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -522,11 +521,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/dividend_yield_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -572,7 +571,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/volume_summary"
-                                android:text="Volume"
+                                android:text="@string/volume"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -593,11 +592,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/volume_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -650,7 +649,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/average_volume_summary"
-                                android:text="Average Volume"
+                                android:text="@string/average_volume"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -671,11 +670,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/average_volume_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -721,7 +720,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/vwap_summary"
-                                android:text="VWAP"
+                                android:text="@string/vwap"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -742,11 +741,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/vwap_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -799,7 +798,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/week_52_high_summary"
-                                android:text="52 Week High"
+                                android:text="@string/_52_week_high"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -820,11 +819,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/week_52_high_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -870,7 +869,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/week_52_low_summary"
-                                android:text="52 Week Low"
+                                android:text="@string/_52_week_low"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -891,11 +890,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/week_52_low_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -947,7 +946,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/upper_circuit_summary"
-                                android:text="Upper Circuit"
+                                android:text="@string/upper_circuit"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -968,11 +967,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/upper_circuit_summary_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -1018,7 +1017,7 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:id="@+id/lower_circuit_summary"
-                                android:text="Lower Circuit"
+                                android:text="@string/lower_circuit"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
@@ -1039,11 +1038,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/lower_circuit_value"
                                 android:layout_weight="1"
-                                android:text="-"
+                                android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
@@ -1064,7 +1063,7 @@
             android:textSize="18sp"
             android:padding="10dp"
             android:textColor="#000"
-            android:text="News"
+            android:text="@string/news"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -1078,7 +1077,8 @@
                 android:elevation="5dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:targetApi="lollipop" />
 
         </LinearLayout>
     </LinearLayout>
@@ -1090,6 +1090,7 @@
             android:padding="10dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:targetApi="lollipop" />
     </FrameLayout>
 </RelativeLayout>

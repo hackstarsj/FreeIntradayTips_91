@@ -9,11 +9,16 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.adapters.ViewPagerAdapter;
 import com.silverlinesoftwares.intratips.fragments.subfragment.ForcastFragment;
@@ -35,7 +40,7 @@ public class ForCastActivity extends AppCompatActivity implements ChartListener 
 
     private TabLayout tabLayout;
     ProgressBar progressBar;
-    ViewPager viewPager;
+    ViewPager2 viewPager;
 
     public static List<String> datas=new ArrayList<>();
     String[] titles={"Overview","GDP","Labour","Prices","Money","Trade","Government","Business","Consumer"};
@@ -57,14 +62,13 @@ public class ForCastActivity extends AppCompatActivity implements ChartListener 
         ForecastTask economyTask=new ForecastTask(ForCastActivity.this);
         economyTask.execute();
 
-        StaticMethods.showInterestialAds(ForCastActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,ForCastActivity.this);
 
     }
 
     private void LoadHomePage(){
-        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
 
         for (int i=0;i<titles.length;i++) {
             Bundle bundle = new Bundle();
@@ -76,8 +80,14 @@ public class ForCastActivity extends AppCompatActivity implements ChartListener 
         }
 
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount()-1);
+        viewPager.setUserInputEnabled(false);
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(viewPagerAdapter.getTitle(position));
+            }
+        }).attach();
+        viewPager.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1);
 
     }
 
@@ -213,6 +223,15 @@ public class ForCastActivity extends AppCompatActivity implements ChartListener 
         all_data9=all_data9.replaceAll("</a>","");
         datas.add(all_data9);
         LoadHomePage();
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(ForCastActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

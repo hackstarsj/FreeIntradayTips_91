@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textAlignment="center"
+                android:background="#EF5350"
+                android:id="@+id/hide"
+                android:padding="10dp"
+                android:textColor="#FFF"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="@string/privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <WebView
+                android:id="@+id/privacy_content"
+                android:layout_below="@id/hide"
+                android:layout_width="match_parent"
+                android:layout_above="@id/clode"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:layout_alignParentBottom="true"
+                android:text="@string/accept"
+                android:id="@+id/clode"
+                android:textColor="#fff"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>

@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -33,20 +34,12 @@ import java.util.Date;
 
 public class Tools {
 
-    public static void setSystemBarColor(Activity act) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = act.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(act.getResources().getColor(R.color.colorPrimaryDark));
-        }
-    }
 
     public static void setSystemBarColor(Activity act, @ColorRes int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = act.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+           // window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(act.getResources().getColor(color));
         }
     }
@@ -55,7 +48,7 @@ public class Tools {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = dialog.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(act.getResources().getColor(color));
         }
     }
@@ -101,17 +94,17 @@ public class Tools {
 
 
     public static String getFormattedDateSimple(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy");
         return newFormat.format(new Date(dateTime));
     }
 
     public static String getFormattedDateEvent(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat newFormat = new SimpleDateFormat("EEE, MMM dd yyyy");
         return newFormat.format(new Date(dateTime));
     }
 
     public static String getFormattedTimeEvent(Long time) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("h:mm a");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat newFormat = new SimpleDateFormat("h:mm a");
         return newFormat.format(new Date(time));
     }
 

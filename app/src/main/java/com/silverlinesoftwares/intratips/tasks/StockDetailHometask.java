@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.tasks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -58,7 +59,7 @@ public class StockDetailHometask {
                     JSONObject SummaryObject = finance.getJSONObject("summaryDetail");
                     JSONObject PriceObject = finance.getJSONObject("price");
 
-                    DateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy hh:mm a");
+                    @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy hh:mm a");
                     Date date = new Date();
                     high.setText(SummaryObject.getJSONObject("dayHigh").getString("fmt"));
                     low.setText(SummaryObject.getJSONObject("dayLow").getString("raw"));

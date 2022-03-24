@@ -13,6 +13,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -90,7 +92,6 @@ public class SignUpActivityNext extends AppCompatActivity implements ApiResponse
             }
         });
 
-        StaticMethods.showInterestialAds(SignUpActivityNext.this);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class SignUpActivityNext extends AppCompatActivity implements ApiResponse
         verify_btn.setAlpha(1f);
         Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
         if(data.getStatus_code().equalsIgnoreCase("200")){
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startActivity(new Intent(SignUpActivityNext.this,LoginActivity.class));

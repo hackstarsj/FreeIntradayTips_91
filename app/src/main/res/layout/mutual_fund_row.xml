@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="@color/indigo_900" />
 
@@ -46,14 +46,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CHANGE"
+                android:text="@string/change"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/change_data"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -65,13 +65,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CHANGE %"
+                    android:text="@string/change_percentage"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:id="@+id/change_percentage_data"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="PRICE (Intraday)"
+                    android:text="@string/price_intraday"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
 
@@ -96,7 +96,7 @@
                         android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:id="@+id/price_data"
-                        android:text="200"
+                        android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -120,14 +120,14 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="50 Day Avg."
+                        android:text="@string/_50_day_avg"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/avg_50_data"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -140,13 +140,13 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="200 Day Avg."
+                        android:text="@string/_200_day_avg"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:id="@+id/avg_20_data"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -163,7 +163,7 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="3 Mo Return"
+                        android:text="@string/_3_mo_return"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -172,7 +172,7 @@
                         android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:id="@+id/avg_30_data"
-                        android:text="200"
+                        android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -186,7 +186,7 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="YTD Return"
+                        android:text="@string/ytd_return"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -195,7 +195,7 @@
                         android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:id="@+id/ytd_data"
-                        android:text="200"
+                        android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>

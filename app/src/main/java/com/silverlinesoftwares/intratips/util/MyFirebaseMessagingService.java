@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -26,6 +28,11 @@ import com.silverlinesoftwares.intratips.R;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+    }
 
     /**
      * Called when message is received.
@@ -161,17 +168,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(pendingIntent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            // build a complex notification, with buttons and such
-            //
-            builder = builder.setContent(getComplexNotificationView(title,messageBody));
-        } else {
-            // Build a simpler notification, without buttons
-            //
-            builder = builder.setContentTitle(title)
-                    .setContentText(messageBody)
-                    .setSmallIcon(android.R.drawable.ic_menu_send);
-        }
+        // build a complex notification, with buttons and such
+        //
+        builder = builder.setContent(getComplexNotificationView(title,messageBody));
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

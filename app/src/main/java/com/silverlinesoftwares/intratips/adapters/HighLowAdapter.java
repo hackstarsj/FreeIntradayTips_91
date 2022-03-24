@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -64,7 +65,7 @@ public class HighLowAdapter extends BaseAdapter {
 
 
         if(view==null){
-              view=inflater.inflate(R.layout.row_52_high_low,null);
+              view=inflater.inflate(R.layout.row_52_high_low,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.new_52_h_data,view.findViewById(R.id.new_52_h_data));
             view.setTag(R.id.prev_low_high_text,view.findViewById(R.id.prev_low_high_text));

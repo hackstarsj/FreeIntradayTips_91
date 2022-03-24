@@ -63,12 +63,10 @@ public class EconomyFragment  extends Fragment {
         WebView webView=view.findViewById(R.id.webview);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowFileAccess(true);
-     //   webView.setWebChromeClient(new WebChromeClient());
+        webView.setHorizontalScrollBarEnabled(true);
+        webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(true);
-        }
         webView.loadData(EconomyActivity.datas.get(post),"text/html","UTF-8");
 
 

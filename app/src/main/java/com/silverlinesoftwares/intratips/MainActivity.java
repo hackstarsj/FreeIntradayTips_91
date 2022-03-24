@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,12 +31,14 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -50,6 +54,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.silverlinesoftwares.intratips.activity.BulkDealActivity;
 import com.silverlinesoftwares.intratips.adapters.StockUpperAdapter;
 import com.silverlinesoftwares.intratips.adapters.ViewPagerAdapter;
 import com.silverlinesoftwares.intratips.fragments.HomeTabFragment;
@@ -84,11 +89,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, GainerLooserListener, DetailsResponseListener {
+public class MainActivity extends AppCompatActivity implements OnUserEarnedRewardListener,BottomNavigationView.OnNavigationItemSelectedListener, GainerLooserListener, DetailsResponseListener {
 
 
-    ViewPager upper_page;
-    ViewPager bottom_page;
+    ViewPager2 upper_page;
+    ViewPager2 bottom_page;
     BottomNavigationView bottom_menu;
     BottomNavigationView upper_menu;
     MenuItem prevMenuItem;
@@ -139,20 +144,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         sharedPreferences=getApplicationContext().getSharedPreferences("MyPref",0);
         editor=sharedPreferences.edit();
-        if(!sharedPreferences.contains("first")) {
-            showDiscalamer();
-        }
-        else{
-         //   showProDialog();
-        }
+
+
         if(StaticMethods.getUserDetails(MainActivity.this)!=null){
             String is_pro=StaticMethods.getUserDetails(MainActivity.this).getIs_pro();
             if(!is_pro.equalsIgnoreCase("1")){
                 if(!sharedPreferences.contains("first")) {
-                   // showDiscalamer();
-                }
-                else{
-                    showProDialog();
+                    showDiscalamer();
                 }
             }
             if(StaticMethods.getLoginToken(MainActivity.this)!=null){
@@ -188,11 +186,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         else{
             if(!sharedPreferences.contains("first")) {
-                // showDiscalamer();
+                showDiscalamer();
             }
-            else{
-                showProDialog();
-            }
+
         }
         upper_page=findViewById(R.id.top_page);
         bottom_page=findViewById(R.id.bottom_page);
@@ -201,13 +197,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         upper_menu=findViewById(R.id.top_menu);
         ticker=findViewById(R.id.mywidget);
 
+
       //  tv.setSelected(true);  // Set focus to the textview
 
 
         bottom_menu.setOnNavigationItemSelectedListener(MainActivity.this);
         upper_menu.setOnNavigationItemSelectedListener(MainActivity.this);
 
-        ViewPagerAdapter upper_adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter upper_adapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
         upper_adapter.addFragment(new HeatMapFragment());
         upper_adapter.addFragment(new MoverLooserFragment());
         upper_adapter.addFragment(new ScreenerFragment());
@@ -215,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         upper_adapter.addFragment(new AboutFragment());
         upper_page.setAdapter(upper_adapter);
 
-        ViewPagerAdapter bottom_adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter bottom_adapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
         bottom_adapter.addFragment(new HomeTabFragment());
         bottom_adapter.addFragment(new SearchFragment());
         bottom_adapter.addFragment(new NewsFragment());
@@ -225,7 +222,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottom_page.setOffscreenPageLimit(5);
         upper_page.setOffscreenPageLimit(5);
 
-        bottom_page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        bottom_page.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -243,17 +241,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 bottom_menu.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottom_menu.getMenu().getItem(position);
                 StaticMethods.showInterestialAds(MainActivity.this);
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                super.onPageScrollStateChanged(state);
             }
         });
 
-
-        upper_page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        upper_page.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -271,14 +267,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 upper_menu.getMenu().getItem(position).setChecked(true);
                 prevMenuItem2 = upper_menu.getMenu().getItem(position);
                 StaticMethods.showInterestialAds(MainActivity.this);
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                super.onPageScrollStateChanged(state);
             }
         });
+
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            upper_page.setNestedScrollingEnabled(true);
+            bottom_page.setNestedScrollingEnabled(true);
+        }
+
 
 
 
@@ -286,7 +288,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         GainerLooserTask gainerLooserTask=new GainerLooserTask(MainActivity.this);
        gainerLooserTask.execute(new String[]{"NIFTY%20500"});
         //StaticMethods.executeAsyncTask(gainerLooserTask,new String[]{"NIFTY%20500"});
-        StaticMethods.showInterestialAds(MainActivity.this);
         FirebaseApp.initializeApp(MainActivity.this);
         if(StaticMethods.getNotification(MainActivity.this).equalsIgnoreCase("1")){
             FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
@@ -315,91 +316,55 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         checkForUpdate();
+
     }
 
-    private void showProDialog() {
-        try {
-            AlertDialog.Builder al = new AlertDialog.Builder(MainActivity.this);
-            View view = getLayoutInflater().inflate(R.layout.pro_dialog, null);
-            al.setView(view);
-            Button close = view.findViewById(R.id.close_dialog);
-            final AlertDialog alertDialog = al.show();
-            Button buy_1 = view.findViewById(R.id.buy_pre_1);
-            Button buy_2 = view.findViewById(R.id.buy_pre_2);
-            Button buy_3 = view.findViewById(R.id.buy_pre_3);
 
-
-            buy_1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                    showFragment(4, true);
-
-                }
-            });
-
-            buy_3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                    showFragment(4, true);
-
-                }
-            });
-
-            buy_2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                    showFragment(4, true);
-                }
-            });
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                }
-            });
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.home_menu:
-                showFragment(0,false);
+            if(menuItem.getItemId()==R.id.home_menu) {
+                showFragment(0, false);
+                //StaticMethods.showRewardAds(MainActivity.this,MainActivity.this);
                 return true;
-            case R.id.search_menu:
-                showFragment(1,false);
+            }
+            if(menuItem.getItemId()==R.id.search_menu) {
+                showFragment(1, false);
                 return true;
-            case R.id.news_menu:
-                showFragment(2,false);
+            }
+            if(menuItem.getItemId()==R.id.news_menu) {
+                showFragment(2, false);
                 return true;
-            case R.id.global_menu:
-                showFragment(3,false);
+            }
+            if(menuItem.getItemId()==R.id.global_menu) {
+                showFragment(3, false);
                 return true;
-            case R.id.more_menu:
-                showFragment(4,false);
+            }
+            if(menuItem.getItemId()==R.id.more_menu) {
+                showFragment(4, false);
                 return true;
-            case R.id.intra_menu:
-                showFragment(0,true);
+            }
+            if(menuItem.getItemId()==R.id.intra_menu) {
+                showFragment(0, true);
                 return true;
-            case R.id.trending:
-                showFragment(3,true);
+            }
+            if(menuItem.getItemId()==R.id.trending) {
+                showFragment(3, true);
                 return true;
-            case R.id.option2_menu:
-                showFragment(4,true);
+            }
+            if(menuItem.getItemId()==R.id.option2_menu) {
+                showFragment(4, true);
                 return true;
-            case R.id.mover_looser:
-                showFragment(1,true);
+            }
+            if(menuItem.getItemId()==R.id.mover_looser) {
+                showFragment(1, true);
                 return true;
-            case R.id.forum_menu:
-                showFragment(2,true);
+            }
+            if(menuItem.getItemId()==R.id.forum_menu) {
+                showFragment(2, true);
                 return true;
-        }
+            }
+
 
         return false;
     }
@@ -415,8 +380,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             bottom_page.setVisibility(View.VISIBLE);
             upper_page.setVisibility(View.GONE);
         }
+
+        if(click<=4) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StaticMethods.showRewardAds(MainActivity.this, new OnUserEarnedRewardListener() {
+                            @Override
+                            public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                                Log.d("Reward","Earned");
+                            }
+                        });
+                    }
+                });
+            }, 5000);
+            click=click+1;
+        }
     }
 
+    public int click=0;
 
 
     @Override
@@ -469,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         int lastItem = layoutManager.findLastCompletelyVisibleItemPosition();
                         if(lastItem == layoutManager.getItemCount()-1){
                             mHandler.removeCallbacks(SCROLLING_RUNNABLE);
-                            Handler postHandler = new Handler();
+                            Handler postHandler = new Handler(Looper.getMainLooper());
                             postHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -506,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public void autoScroll(){
         final int speedScroll = 0;
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(Looper.getMainLooper());
         final Runnable runnable = new Runnable() {
             int count = 0;
             @Override
@@ -656,5 +640,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(bcNewMessageDownload);
+    }
+
+    @Override
+    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+
     }
 }

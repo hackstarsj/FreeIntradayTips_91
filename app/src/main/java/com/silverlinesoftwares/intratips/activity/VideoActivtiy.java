@@ -16,10 +16,10 @@ public class VideoActivtiy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_activtiy);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, new VideoFragment());
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction =
+//                fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(android.R.id.content, new VideoFragment());
+//        fragmentTransaction.commit();
     }
 }

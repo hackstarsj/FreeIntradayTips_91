@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -59,7 +60,7 @@ public class PreMarketOpenAdapter extends BaseAdapter {
         TextView  percentage_text;
 
         if(view==null){
-              view=inflater.inflate(R.layout.pre_market_open,null);
+              view=inflater.inflate(R.layout.pre_market_open,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.prev_close_data,view.findViewById(R.id.prev_close_data));
             view.setTag(R.id.value_data,view.findViewById(R.id.value_data));

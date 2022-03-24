@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <EditText
         android:id="@+id/edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:visibility="invisible"/>
+        android:hint="@string/edit"
+        android:visibility="invisible"
+        android:inputType="text" />
     <TextView
         android:id="@+id/title"
         android:padding="5dp"
@@ -16,7 +20,7 @@
         android:textColor="#fff"
         android:background="#009688"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="Free Intraday Tips - Buy / Sell"
+        android:text="@string/free_intraday_tips_buy_sell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ProgressBar
@@ -25,7 +29,8 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:targetApi="lollipop" />
 <WebView
     android:layout_below="@id/title"
     android:id="@+id/webview"
@@ -39,7 +44,7 @@
         android:layout_height="wrap_content">
     <Button
         android:layout_weight="1"
-        android:text="OPEN ZERODHA ACCOUNT"
+        android:text="@string/open_zerodha_account"
         android:id="@+id/open_zerodha"
         android:textSize="12sp"
         android:singleLine="true"
@@ -50,7 +55,7 @@
     <Button
         android:layout_weight="1"
         android:textSize="12sp"
-        android:text="CLOSE"
+        android:text="@string/close"
         android:id="@+id/close"
         android:textColor="#2196F3"
         android:background="@drawable/border_blue"

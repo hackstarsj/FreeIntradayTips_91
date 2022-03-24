@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -23,24 +23,20 @@
                 android:fontFamily="sans-serif-condensed"
                 android:paddingBottom="3dp"
                 android:paddingEnd="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
                 android:paddingStart="10dp"
                 android:id="@+id/txt_symbol"
                 android:paddingTop="3dp"
-                android:text="Cola"
+                android:text="@string/cola"
                 android:textColor="#000"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
             <TextView
-                android:text="Cola"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
+                android:text="@string/cola"
                 android:paddingTop="1dp"
                 android:id="@+id/txt_name"
                 android:paddingBottom="2dp"
                 android:textColor="#646464"
                 android:fontFamily="sans-serif-condensed"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
@@ -51,10 +47,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Ok"
+                android:text="@string/ok"
                 android:textColor="#504f4f"
                 android:id="@+id/txt_exchange"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:fontFamily="sans-serif-condensed"
                 android:padding="3dp"
                 android:textAlignment="center"

@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
@@ -34,7 +35,6 @@ import com.silverlinesoftwares.intratips.tasks.auth.FetchProfileTask;
 import com.silverlinesoftwares.intratips.tasks.auth.LoginTask;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
-import io.realm.Realm;
 
 public class LoginActivity extends AppCompatActivity implements ApiResponseListener, DetailsResponseListener {
 
@@ -104,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
             }
         });
 
-        StaticMethods.showInterestialAds(LoginActivity.this);
 
     }
 
@@ -118,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
             ShowNextStep();
         }
         else if(data.getStatus_code().equalsIgnoreCase("402")){
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startActivity(new Intent(LoginActivity.this, SignUpActivityNext.class).putExtra("email", emails));
@@ -160,15 +159,13 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
         });
 
     }
-    Realm realm;
-
     @Override
     public void onProfile(ResponseModel data) {
         if(data.getStatus_code().equalsIgnoreCase("200")) {
             Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
 
             StaticMethods.saveUserDetails(LoginActivity.this, data.getUser());
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
 

@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.util;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -18,16 +19,20 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
-import com.silverlinesoftwares.intratips.R;
+import com.silverlinesoftwares.intratips.models.StrongBuySellModel;
 import com.silverlinesoftwares.intratips.models.UserModel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -37,6 +42,58 @@ public class StaticMethods {
 
 
 
+    public static String getStrongSellPost(){
+        return "{\"filter\":[{\"left\":\"Recommend.All\",\"operation\":\"nempty\"},{\"left\":\"type\",\"operation\":\"in_range\",\"right\":[\"stock\",\"dr\"]},{\"left\":\"subtype\",\"operation\":\"in_range\",\"right\":[\"common\",\"\",\"etf\",\"etf,odd\",\"etf,otc\",\"etf,cfd\"]}],\"options\":{\"lang\":\"en\"},\"symbols\":{\"query\":{\"types\":[]},\"tickers\":[]},\"columns\":[\"logoid\",\"name\",\"close\",\"change\",\"change_abs\",\"Recommend.All\",\"volume\",\"market_cap_basic\",\"price_earnings_ttm\",\"earnings_per_share_basic_ttm\",\"number_of_employees\",\"sector\",\"description\",\"name\",\"type\",\"subtype\",\"update_mode\",\"pricescale\",\"minmov\",\"fractional\",\"minmove2\"],\"sort\":{\"sortBy\":\"Recommend.All\",\"sortOrder\":\"asc\"},\"range\":[0,150]}";
+    }
+
+    public static String getStrongBuy(){
+        return "{\"filter\":[{\"left\":\"Recommend.All\",\"operation\":\"nempty\"},{\"left\":\"type\",\"operation\":\"in_range\",\"right\":[\"stock\",\"dr\"]},{\"left\":\"subtype\",\"operation\":\"in_range\",\"right\":[\"common\",\"\",\"etf\",\"etf,odd\",\"etf,otc\",\"etf,cfd\"]}],\"options\":{\"lang\":\"en\"},\"symbols\":{\"query\":{\"types\":[]},\"tickers\":[]},\"columns\":[\"logoid\",\"name\",\"close\",\"change\",\"change_abs\",\"Recommend.All\",\"volume\",\"market_cap_basic\",\"price_earnings_ttm\",\"earnings_per_share_basic_ttm\",\"number_of_employees\",\"sector\",\"description\",\"name\",\"type\",\"subtype\",\"update_mode\",\"pricescale\",\"minmov\",\"fractional\",\"minmove2\"],\"sort\":{\"sortBy\":\"Recommend.All\",\"sortOrder\":\"desc\"},\"range\":[0,150]}";
+    }
+
+    public static List<StrongBuySellModel> getBuySellModel(String data, boolean isSell) {
+        if(data==null){
+            return null;
+        }
+        else{
+            try {
+                List<StrongBuySellModel> strongBuySellModels=new ArrayList<>();
+                JSONObject jsonObject=new JSONObject(data);
+                JSONArray jsonArray=jsonObject.getJSONArray("data");
+                for(int i=0;i<jsonArray.length();i++){
+                    String[] stock_full=jsonArray.getJSONObject(i).getString("s").split(":");
+                    String stock=stock_full[1];
+                    String exh=stock_full[0];
+                    JSONArray jsondata=jsonArray.getJSONObject(i).getJSONArray("d");
+                    strongBuySellModels.add(new StrongBuySellModel(stock,stock+"."+exh,exh,jsondata.getString(4),String.format(Locale.getDefault(),"%.2f", Double.parseDouble(jsondata.getString(3))),jsondata.getString(2),""+coolFormat(Integer.parseInt(jsondata.getString(6))),jsondata.getString(7),isSell));
+                }
+                return strongBuySellModels;
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    private static final String[] c = new String[]{"K", "L", "Cr"};
+    private static String coolFormat(int n) {
+        int size = String.valueOf(n).length();
+        if (size>=4 && size<6) {
+            int value = (int) Math.pow(10, 1);
+            double d = (double) Math.round(n/1000.0 * value) / value;
+            return (double) Math.round(n/1000.0 * value) / value+" "+c[0];
+        } else if(size>5 && size<8) {
+            int value = (int) Math.pow(10, 1);
+            return (double) Math.round(n/100000.0 * value) / value+" "+c[1];
+        } else if(size>=8) {
+            int value = (int) Math.pow(10, 1);
+            return (double) Math.round(n/10000000.0 * value) / value+" "+c[2];
+        } else {
+            return n+"";
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
     public static String getCurrency(String text, String currency) {
         if (text != null) {
             Double douple=Double.parseDouble(text);
@@ -46,6 +103,7 @@ public class StaticMethods {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public static String getCurrencywithcomma(String text, String currency) {
         if (text != null) {
             Double douple=Double.parseDouble(text);
@@ -55,6 +113,7 @@ public class StaticMethods {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public static String ConverToTwoDigit(String string){
         if(string!=null){
             if(string.isEmpty()){
@@ -80,6 +139,21 @@ public class StaticMethods {
         }
         else {
             return "";
+        }
+    }
+
+    public static boolean isPrivacyRun(Context context) {
+        SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
+        if(sharedPreferences.contains("is_second")){
+            if(sharedPreferences.getString("is_second",null).equalsIgnoreCase("no")){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            return true;
         }
     }
 
@@ -257,6 +331,14 @@ public class StaticMethods {
         editor.apply();
     }
 
+    public static void setSecondStart(Context context){
+        SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("is_second","no");
+        editor.apply();
+    }
+
+
     public static int clicks=0;
 
     public static boolean showAds(Context context){
@@ -321,47 +403,90 @@ public class StaticMethods {
     private static InterstitialAd mInterstitialAd;
 
     public static void showInterestialAds(Activity context){
-         if(showAds(context))
-         {
-             try {
-                 if (mInterstitialAd == null) {
-                     LoadAds(context);
-                 } else {
-                         mInterstitialAd.show(context);
-                         Handler handler=new Handler(Looper.getMainLooper());
-                        handler.postDelayed(()->{
-                            LoadAds(context);
-                        },5000);
-                 }
-             }
-             catch (Exception e){
-                 e.printStackTrace();
-             }
-         }
-         clicks=clicks+1;
+//         if(showAds(context))
+//         {
+//             try {
+//                 if (mInterstitialAd == null) {
+//                     LoadAds(context);
+//                 } else {
+//                         mInterstitialAd.show(context);
+//                         Handler handler=new Handler(Looper.getMainLooper());
+//                        handler.postDelayed(()->{
+//                            LoadAds(context);
+//                        },5000);
+//                 }
+//             }
+//             catch (Exception e){
+//                 e.printStackTrace();
+//             }
+//         }
+//         clicks=clicks+1;
+    }
+
+    public static void showRewardAds(Activity context, OnUserEarnedRewardListener onUserEarnedRewardListener){
+//        if(showAds(context))
+//        {
+//            try {
+//                if (rewardedInterstitialAd == null) {
+//                    LoadAdsReward(context);
+//                } else {
+//                    rewardedInterstitialAd.show(context,onUserEarnedRewardListener);
+//                    Log.d("REWARD","REWARD");
+//                    Handler handler=new Handler(Looper.getMainLooper());
+//                    handler.postDelayed(()->{
+//                        LoadAdsReward(context);
+//                    },5000);
+//                }
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
+    public static int failedreward=0;
+    private static void LoadAdsReward(Activity context) {
+//        RewardedInterstitialAd.load(context, "ca-app-pub-8515817249593489/9036584202",
+//                new AdRequest.Builder().build(),  new RewardedInterstitialAdLoadCallback() {
+//                    @Override
+//                    public void onAdLoaded(RewardedInterstitialAd ad) {
+//                        failedreward=0;
+//                        rewardedInterstitialAd = ad;
+//                    }
+//                    @Override
+//                    public void onAdFailedToLoad(LoadAdError loadAdError) {
+//                        rewardedInterstitialAd=null;
+//                        if(failedreward<=10) {
+//                            failedreward=failedreward+1;
+//                            LoadAdsReward(context);
+//                        }
+//                    }
+//                });
     }
 
     private static void LoadAds(Activity context) {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(context,"ca-app-pub-8515817249593489/9989773924", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                super.onAdLoaded(interstitialAd);
-                failedInt=0;
-                mInterstitialAd = interstitialAd;
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-                mInterstitialAd=null;
-                if(failedInt<=10) {
-                    failedInt=failedInt+1;
-                    LoadAds(context);
-                }
-            }
-        });
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        InterstitialAd.load(context,"ca-app-pub-8515817249593489/9989773924", adRequest, new InterstitialAdLoadCallback() {
+//            @Override
+//            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+//                super.onAdLoaded(interstitialAd);
+//                failedInt=0;
+//                mInterstitialAd = interstitialAd;
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                super.onAdFailedToLoad(loadAdError);
+//                mInterstitialAd=null;
+//                if(failedInt<=10) {
+//                    failedInt=failedInt+1;
+//                    LoadAds(context);
+//                }
+//            }
+//        });
     }
+
+
 
     public static void showBannerAds(View adContainer2,Context context){
         if(showBannerAds(context)) {

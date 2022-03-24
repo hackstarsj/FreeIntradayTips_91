@@ -1,6 +1,7 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -13,9 +14,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
+import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.subfragment.HomeFragment;
 import com.silverlinesoftwares.intratips.models.BannerModel;
 import com.silverlinesoftwares.intratips.models.EquityModel;
+import com.silverlinesoftwares.intratips.util.Constant;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONException;
@@ -37,13 +40,18 @@ import okhttp3.Response;
 public class EquityTask  {
 
     Context context;
+    String  userid;
     EquityAdapterR equityAdapter;
     List<Object> equityModels;
+    String token;
 
-    public EquityTask(Context context, EquityAdapterR equityAdapter, List<Object> equityModels) {
+
+    public EquityTask(Context context, EquityAdapterR equityAdapter, List<Object> equityModels,String userid,String token) {
         this.context = context;
         this.equityAdapter = equityAdapter;
         this.equityModels = equityModels;
+        this.userid=userid;
+        this.token=token;
     }
 
     protected String doInBackground(String... strings) {
@@ -55,7 +63,8 @@ public class EquityTask  {
                 .build(); // connect timeout
 
         RequestBody requestBody=new FormBody.Builder()
-               // .add("token",Constant.getToken(context))
+                .add("user_id",userid)
+                .add("login_token",token)
                 .build();
 
         Request request =
@@ -91,6 +100,7 @@ public class EquityTask  {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     protected void onPostExecute(String s) {
         if(HomeFragment.progress!=null){
             HomeFragment.progress.setVisibility(View.GONE);
@@ -104,9 +114,10 @@ public class EquityTask  {
                     Type type = new TypeToken<List<EquityModel>>(){}.getType();
                     List<EquityModel> contactList = gson.fromJson(finance, type);
                     equityModels.clear();
-                    equityModels.add(new BannerModel(""));
+                   // equityModels.add(new BannerModel("1"));
+                    //equityModels.add(new BannerModel("0"));
                     equityModels.addAll(contactList);
-                    equityModels.add(new BannerModel(""));
+                    //equityModels.add(new BannerModel("1"));
                     equityAdapter.notifyDataSetChanged();
                     Log.d("Ok","ok");
                     for (EquityModel equityModel:contactList){

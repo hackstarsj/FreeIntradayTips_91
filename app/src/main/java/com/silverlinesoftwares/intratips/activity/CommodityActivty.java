@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -47,7 +50,6 @@ public class CommodityActivty extends AppCompatActivity implements ChartListener
         listView=findViewById(R.id.list_volume_gainer);
         CommodityTask gainerLooserTask=new CommodityTask(CommodityActivty.this);
         gainerLooserTask.execute();
-        StaticMethods.showInterestialAds(CommodityActivty.this);
 
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,CommodityActivty.this);
@@ -73,6 +75,15 @@ public class CommodityActivty extends AppCompatActivity implements ChartListener
 
         CommodityAdapter bulkDealAdapter=new CommodityAdapter(CommodityActivty.this,bulkModels);
         listView.setAdapter(bulkDealAdapter);
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(CommodityActivty.this);
+                }
+            });
+        },5000);
     }
 
     @Override

@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="@color/indigo_900" />
 
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OPEN"
+                android:text="@string/open"
                 android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/open_text"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -67,14 +67,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HIGH"
+                    android:text="@string/high"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:id="@+id/high_text"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -91,7 +91,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LOW"
+                    android:text="@string/low"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
@@ -100,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/low_text"
-                        android:text="200"
+                        android:text="@string/_200_00"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -114,7 +114,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CLOSE"
+                    android:text="@string/close"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/close_text"
                         android:layout_height="wrap_content"
-                        android:text="300"
+                        android:text="@string/_300"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -143,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ltp"
-                android:text="1.639 ETH"
+                android:text="@string/_1_639_eth"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/light_blue_500" />
 
@@ -151,14 +151,14 @@
                 android:id="@+id/change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.38 USD"
+                android:text="@string/_4_38_usd"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
             <TextView
                 android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:id="@+id/percentage_text"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
@@ -167,7 +167,7 @@
         <RelativeLayout
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="5dp">
 
 
@@ -176,7 +176,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                android:contentDescription="Indicator" />
 
         </RelativeLayout>
 

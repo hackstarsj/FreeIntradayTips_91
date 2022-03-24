@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -49,7 +52,7 @@ public class BulkDealActivity extends AppCompatActivity implements ChartListener
         BulkDealTask gainerLooserTask=new BulkDealTask(BulkDealActivity.this);
         gainerLooserTask.execute();
 
-        StaticMethods.showInterestialAds(BulkDealActivity.this);
+
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,BulkDealActivity.this);
 
@@ -73,6 +76,16 @@ public class BulkDealActivity extends AppCompatActivity implements ChartListener
         Collections.reverse(bulkModels);
         BulkDealAdapter bulkDealAdapter=new BulkDealAdapter(BulkDealActivity.this,bulkModels);
         listView.setAdapter(bulkDealAdapter);
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(BulkDealActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

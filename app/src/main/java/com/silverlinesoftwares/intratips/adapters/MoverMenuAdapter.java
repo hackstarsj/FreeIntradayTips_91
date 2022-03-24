@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.cardview.widget.CardView;
@@ -57,7 +58,7 @@ public class MoverMenuAdapter extends BaseAdapter {
 
 
         if(view==null){
-              view=inflater.inflate(R.layout.row_gainer_losser_menu,null);
+              view=inflater.inflate(R.layout.row_gainer_losser_menu,parent,false);
             view.setTag(R.id.mover_text,view.findViewById(R.id.mover_text));
             view.setTag(R.id.mover_text_data,view.findViewById(R.id.mover_text_data));
             view.setTag(R.id.item_mover,view.findViewById(R.id.item_mover));

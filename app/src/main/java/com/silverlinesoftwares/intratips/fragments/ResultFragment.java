@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -88,6 +89,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
     TextView  only_profit_text;
     TextView only_loss_text,accuracy;
     TextView target_1_text,target_2_text,target_3_text,target_total,investment_amt,return_amt,target_1_profit,target_2_profit,target_3_profit,target_all_profit;
+    @SuppressLint("InflateParams")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -116,8 +118,8 @@ public class ResultFragment extends Fragment  implements ResultListener {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(ResultFragment.this).attach(ResultFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }
@@ -188,6 +190,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
             String[] price_Range = equityModel.getBuy_price().split("-");
             Log.d("Crash",equityModel.getSymbol()+" "+equityModel.getDatetime());
 
+            Log.d("SYMBOL ID : ",""+equityModel.getId());
             double amt_1=Double.parseDouble(price_Range[0]);
             double amt_2=Double.parseDouble(price_Range[1]);
             double avg_amt=(amt_1+amt_2)/2;

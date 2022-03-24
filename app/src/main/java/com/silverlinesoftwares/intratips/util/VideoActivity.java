@@ -2,6 +2,8 @@ package com.silverlinesoftwares.intratips.util;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -30,8 +32,9 @@ public class VideoActivity extends YouTubeBaseActivity {
             }
         });
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+       //         WindowManager.LayoutParams.FLAG_FULLSCREEN);
         StaticMethods.showInterestialAds(VideoActivity.this);
 
         YouTubePlayerView youTubePlayerView =

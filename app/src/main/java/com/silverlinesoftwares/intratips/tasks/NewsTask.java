@@ -115,9 +115,9 @@ public class NewsTask {
                         Elements title = element.getElementsByClass("vvjwJb");
                         Elements desc = element.getElementsByClass("s3v9rd");
                         Elements links = element.getElementsByTag("a");
-                        Elements dates = element.getElementsByClass("rQMQod");
+                        Elements dates = element.getElementsByClass("UMOHqf");
 
-                        Elements id = element.getElementsByClass("EYOsld");
+                        Elements id = element.getElementsByClass("h1hFNe");
 
                         String url = links.get(0).attr("href").replace("/url?q=", "");
                         String img = getImages(s, id.get(0).attr("id"));

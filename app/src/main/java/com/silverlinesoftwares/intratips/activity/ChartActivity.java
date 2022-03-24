@@ -1,10 +1,13 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -115,7 +118,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         sym=getIntent().getStringExtra("symbol");
 
         times=(new java.util.Date().getTime())/1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         long newdate=0;
         String dates=dateFormat.format(date);
@@ -166,14 +169,10 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         webSetting.setJavaScriptEnabled(true);
         htmlWebView.getSettings().setAllowFileAccess(true);
         htmlWebView.getSettings().setAllowContentAccess(true);
-        htmlWebView.getSettings().setAllowFileAccessFromFileURLs(true);
-        htmlWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        htmlWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webSetting.setDisplayZoomControls(true);
 
         showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1m&range=1d","1d");
 
-        StaticMethods.showInterestialAds(ChartActivity.this);
 
     }
 
@@ -210,6 +209,15 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
             e.printStackTrace();
         }
         progress.setVisibility(View.GONE);
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(ChartActivity.this);
+                }
+            });
+        },5000);
 
     }
 
@@ -223,7 +231,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
     public void onClick(View v) {
 
         ResetActive();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         long newdate=0;
         String dates=dateFormat.format(date);
@@ -235,8 +243,8 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
             newdate=(new java.util.Date().getTime())/1000;
         }
         times=newdate;
-        switch(v.getId()){
-            case R.id.ten_year:
+
+            if(v.getId()==R.id.ten_year) {
                 ten_year.setBackgroundResource(R.drawable.border_bottom);
 
                 Itemsstrings.clear();
@@ -246,10 +254,10 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1d&range=10y","10y");
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=1d&range=10y", "10y");
 
-                break;
-            case R.id.one_day:
+            }
+            if(v.getId()==R.id.one_day) {
                 one_day.setBackgroundResource(R.drawable.border_bottom);
 
                 Itemsstrings.clear();
@@ -265,10 +273,10 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1m&range=1d","1d");
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=1m&range=1d", "1d");
 
-                break;
-            case R.id.five_day:
+            }
+            if(v.getId()==R.id.five_day) {
                 five_day.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("1M");
@@ -277,16 +285,16 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("15M");
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1m&range=5d","5d");
-                break;
-            case R.id.one_month:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=1m&range=5d", "5d");
+            }
+            if(v.getId()==R.id.one_month) {
                 one_month.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("2M");
@@ -294,87 +302,87 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("15M");
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=2m&range=1mo","1mo");
-                break;
-            case R.id.three_month:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=2m&range=1mo", "1mo");
+            }
+            if(v.getId()==R.id.three_month) {
                 three_month.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=30m&range=3mo","3mo");
-                break;
-            case R.id.six_month:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=30m&range=3mo", "3mo");
+            }
+            if(v.getId()==R.id.six_month) {
                 six_month.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=30m&range=6mo","6mo");
-                break;
-            case R.id.nine_month:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=30m&range=6mo", "6mo");
+            }
+            if(v.getId()==R.id.nine_month) {
                 nine_month.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=30m&range=ytd","ytd");
-                break;
-            case R.id.one_year:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=30m&range=ytd", "ytd");
+            }
+            if(v.getId()==R.id.one_year) {
                 one_year.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=30m&range=1y","1y");
-                break;
-            case R.id.two_year:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=30m&range=1y", "1y");
+            }
+            if(v.getId()==R.id.two_year) {
                 two_year.setBackgroundResource(R.drawable.border_bottom);
                 //   showCharts("1wk", times,times-63072000,"two_year");
                 Itemsstrings.clear();
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=30m&range=2y","2y");
-                break;
-            case R.id.five_year:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=30m&range=2y", "2y");
+            }
+            if(v.getId()==R.id.five_year) {
                 five_year.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("1D");
@@ -383,9 +391,9 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1d&range=5y","5y");
-                break;
-            case R.id.all_data:
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=1d&range=5y", "5y");
+            }
+            if(v.getId()==R.id.all_data) {
                 all_data.setBackgroundResource(R.drawable.border_bottom);
                 Itemsstrings.clear();
                 Itemsstrings.add("1M");
@@ -394,19 +402,19 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
                 Itemsstrings.add("15M");
                 Itemsstrings.add("30M");
                 Itemsstrings.add("60M");
-                
+
                 Itemsstrings.add("1D");
                 Itemsstrings.add("5D");
                 Itemsstrings.add("1WK");
                 Itemsstrings.add("1MO");
                 Itemsstrings.add("3MO");
                 LisarrayAdapter.notifyDataSetChanged();
-                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1m&range=max","max");
-                break;
+                showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/" + sym + "?&interval=1m&range=max", "max");
+            }
 
         }
 
-    }
+
 
     private void ResetActive() {
         one_day.setBackgroundResource(0);

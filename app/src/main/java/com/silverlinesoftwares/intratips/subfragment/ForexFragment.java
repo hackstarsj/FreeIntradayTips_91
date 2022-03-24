@@ -143,8 +143,8 @@ public class ForexFragment extends Fragment implements AccountOpenClick {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(ForexFragment.this).attach(ForexFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }
@@ -242,6 +242,13 @@ public class ForexFragment extends Fragment implements AccountOpenClick {
     public void onAliceClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://alicebluepartner.com/furthergrow/"));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUpstockClick() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://upstox.com/open-account/?f=Z1JV"));
         startActivity(intent);
     }
 }

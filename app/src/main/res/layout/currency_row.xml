@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="@color/indigo_900" />
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/latest_price_data"
-                android:text="1.639 ETH"
+                android:text="@string/_1_639_eth"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/light_blue_500" />
 
@@ -55,16 +55,16 @@
                 android:id="@+id/change_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.38 USD"
+                android:text="@string/_4_38_usd"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
             <TextView
                 android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:id="@+id/change_percentage_data"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="11"
+                android:text="@string/_11"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
 
@@ -72,7 +72,7 @@
         <RelativeLayout
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="5dp">
 
 
@@ -81,7 +81,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                android:contentDescription="Indicator" />
 
         </RelativeLayout>
 

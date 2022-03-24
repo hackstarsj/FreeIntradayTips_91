@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,13 +45,16 @@ public class OptionAdapter extends RecyclerView.Adapter{
 
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image_pen;
-        public ImageView alice_pen;
+        public RelativeLayout image_pen;
+        public RelativeLayout alice_pen;
+        public RelativeLayout upstock;
 
         public BannerViewHolder(View view) {
             super(view);
-            image_pen = (ImageView) view.findViewById(R.id.image_pen);
-            alice_pen = (ImageView) view.findViewById(R.id.alice_pen);
+            image_pen = (RelativeLayout) view.findViewById(R.id.image_pen);
+            alice_pen = (RelativeLayout) view.findViewById(R.id.alice_pen);
+            upstock = (RelativeLayout) view.findViewById(R.id.upstock_pen);
+
         }
     }
 
@@ -269,6 +273,16 @@ public class OptionAdapter extends RecyclerView.Adapter{
 
         }
         else if (holder instanceof BannerViewHolder) {
+            BannerModel bannerModel= (BannerModel) contacts.get(position);
+            if(bannerModel.getTextData().equalsIgnoreCase("0")){
+                ((BannerViewHolder) holder).alice_pen.setVisibility(View.GONE);
+                ((BannerViewHolder) holder).upstock.setVisibility(View.VISIBLE);
+            }
+            else{
+                ((BannerViewHolder) holder).alice_pen.setVisibility(View.VISIBLE);
+                ((BannerViewHolder) holder).upstock.setVisibility(View.GONE);
+
+            }
             BannerViewHolder loadingViewHolder = (BannerViewHolder) holder;
             loadingViewHolder.image_pen.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -280,6 +294,12 @@ public class OptionAdapter extends RecyclerView.Adapter{
                 @Override
                 public void onClick(View view) {
                     accountOpenClick.onAliceClick();
+                }
+            });
+            loadingViewHolder.upstock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accountOpenClick.onUpstockClick();
                 }
             });
             //loadingViewHolder.progressBar.setIndeterminate(true);

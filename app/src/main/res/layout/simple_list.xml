@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="20sp"
-    android:gravity="left"
-    android:text="55"
+    android:gravity="start"
+    android:text="@string/_55"
     android:padding="5dip"
     />

@@ -3,6 +3,7 @@ package com.silverlinesoftwares.intratips.adapters;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +61,7 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
     BuySellClickListener buySellClickListener;
     AccountOpenClick accountOpenClick;
 
+    @SuppressLint("NotifyDataSetChanged")
     public void changePrice(String regularMarketPrice, int i) {
         if(contacts.get(i) instanceof EquityModel){
             Log.d("Price ","Change");
@@ -72,13 +74,15 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //    }
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image_pen;
-        public ImageView alice_pen;
+        public RelativeLayout image_pen;
+        public RelativeLayout alice_pen;
+        public RelativeLayout upstock;
 
         public BannerViewHolder(View view) {
             super(view);
-            image_pen = (ImageView) view.findViewById(R.id.image_pen);
-            alice_pen = (ImageView) view.findViewById(R.id.alice_pen);
+            image_pen = (RelativeLayout) view.findViewById(R.id.image_pen);
+            alice_pen = (RelativeLayout) view.findViewById(R.id.alice_pen);
+            upstock = (RelativeLayout) view.findViewById(R.id.upstock_pen);
         }
     }
 
@@ -376,17 +380,13 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
             userViewHolder.rel_line.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
                     if(context!=null) {
                         StaticMethods.showInterestialAds(context);
                     }
-                    if(contact.isIs_Open()){
-                        contact.setIs_Open(false);
-                    }
-                    else{
-                        contact.setIs_Open(true);
-                    }
+                    contact.setIs_Open(!contact.isIs_Open());
                     notifyDataSetChanged();
                 }
             });
@@ -419,6 +419,16 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
         else if (holder instanceof BannerViewHolder) {
+            BannerModel bannerModel= (BannerModel) contacts.get(position);
+            if(bannerModel.getTextData().equalsIgnoreCase("0")){
+                ((BannerViewHolder) holder).alice_pen.setVisibility(View.GONE);
+                ((BannerViewHolder) holder).upstock.setVisibility(View.VISIBLE);
+            }
+            else{
+                ((BannerViewHolder) holder).alice_pen.setVisibility(View.VISIBLE);
+                ((BannerViewHolder) holder).upstock.setVisibility(View.GONE);
+
+            }
             BannerViewHolder loadingViewHolder = (BannerViewHolder) holder;
             loadingViewHolder.image_pen.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -430,6 +440,12 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View view) {
                     accountOpenClick.onAliceClick();
+                }
+            });
+            loadingViewHolder.upstock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accountOpenClick.onUpstockClick();
                 }
             });
             //loadingViewHolder.progressBar.setIndeterminate(true);

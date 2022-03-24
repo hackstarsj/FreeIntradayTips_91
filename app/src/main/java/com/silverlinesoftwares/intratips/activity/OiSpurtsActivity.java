@@ -9,11 +9,16 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -35,7 +40,7 @@ import java.util.List;
 
 public class OiSpurtsActivity extends AppCompatActivity implements PriceBandListener {
 
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ProgressBar progress;
 
@@ -55,7 +60,6 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
         OiSpurtsTask gainerLooserTask=new OiSpurtsTask(OiSpurtsActivity.this);
         gainerLooserTask.execute();
 
-        StaticMethods.showInterestialAds(OiSpurtsActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,OiSpurtsActivity.this);
 
@@ -89,7 +93,7 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
 
 
 
-            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
 
             OiContractFragment topMoversFragment=new OiContractFragment();
             Bundle bundle=new Bundle();
@@ -114,7 +118,12 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
             viewPagerAdapter.addTitle("Contract");
             viewPagerAdapter.addTitle("Underlying");
             viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
+            new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+                @Override
+                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                    tab.setText(viewPagerAdapter.getTitle(position));
+                }
+            }).attach();
 
 
 
@@ -125,6 +134,15 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
         }
 
 
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(OiSpurtsActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

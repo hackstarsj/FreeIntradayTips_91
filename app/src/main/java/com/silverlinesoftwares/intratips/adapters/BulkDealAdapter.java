@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class BulkDealAdapter extends BaseAdapter {
         TextView traded_quantity;
 
         if(view==null){
-              view=inflater.inflate(R.layout.bulk_deal_row,null);
+              view=inflater.inflate(R.layout.bulk_deal_row,parent,false);
             view.setTag(R.id.date_data,view.findViewById(R.id.date_data));
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.price_data,view.findViewById(R.id.price_data));

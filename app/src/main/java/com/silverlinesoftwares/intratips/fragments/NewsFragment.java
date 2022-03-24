@@ -88,7 +88,6 @@ public class NewsFragment extends Fragment implements NewsListener {
         newsAdapter.setOnItemClickListener(new NewsAdapterR.OnItemClickListener() {
             @Override
             public void onItemClick(View v, NewsModel obj, int position) {
-                StaticMethods.showInterestialAds(getActivity());
                 Intent intent=new Intent(getContext(), NewWebActivity.class);
                 intent.putExtra("url",newsModels.get(position).getLinks());
                 startActivity(intent);

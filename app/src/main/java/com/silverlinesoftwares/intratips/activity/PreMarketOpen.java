@@ -1,6 +1,8 @@
 package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,7 +66,6 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
             }
         });
 
-        StaticMethods.showInterestialAds(PreMarketOpen.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,PreMarketOpen.this);
 
@@ -85,6 +86,16 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(PreMarketOpen.this);
+                }
+            });
+        },5000);
     }
 
     @Override

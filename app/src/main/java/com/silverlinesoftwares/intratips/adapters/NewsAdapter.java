@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +54,7 @@ public class NewsAdapter extends BaseAdapter {
         ImageView imageView;
 
         if(view==null){
-            view=inflater.inflate(R.layout.news_rows,null);
+            view=inflater.inflate(R.layout.news_rows,parent,false);
             view.setTag(R.id.title,view.findViewById(R.id.title));
             view.setTag(R.id.images,view.findViewById(R.id.images));
             view.setTag(R.id.description,view.findViewById(R.id.description));
@@ -78,16 +79,18 @@ public class NewsAdapter extends BaseAdapter {
            }
             else {
 
-                Picasso.with(context).load(DataList.get(position).getImages()).into(imageView, new Callback() {
+                Picasso.get().load(DataList.get(position).getImages()).into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
                         progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
 
                     }
+
+
                 });
             }
         }

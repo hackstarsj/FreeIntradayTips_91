@@ -62,7 +62,7 @@ public class VolumeGainerAdapter extends BaseAdapter {
 
 
         if(view==null){
-              view=inflater.inflate(R.layout.volume_gainer_row,null);
+              view=inflater.inflate(R.layout.volume_gainer_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.turn_over_data,view.findViewById(R.id.turn_over_data));
             view.setTag(R.id.volume_data,view.findViewById(R.id.volume_data));

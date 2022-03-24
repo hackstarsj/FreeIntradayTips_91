@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.silverlinesoftwares.intratips.activity.PrivacyActivity;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 import com.silverlinesoftwares.intratips.util.Tools;
 
@@ -91,8 +92,14 @@ public class WalkThroughActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(current);
                 } else {
                     StaticMethods.setFirstStart(WalkThroughActivity.this);
-                    startActivity(new Intent(WalkThroughActivity.this,MainActivity.class));
-                    finish();
+                    if(StaticMethods.isPrivacyRun(WalkThroughActivity.this)){
+                        startActivity(new Intent(WalkThroughActivity.this, PrivacyActivity.class));
+                        finish();
+                    }
+                    else {
+                        startActivity(new Intent(WalkThroughActivity.this, MainActivity.class));
+                        finish();
+                    }
                     //finish();
                 }
             }

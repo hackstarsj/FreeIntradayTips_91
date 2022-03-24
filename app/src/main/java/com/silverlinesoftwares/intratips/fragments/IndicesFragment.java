@@ -94,8 +94,8 @@ public class IndicesFragment extends Fragment implements ChartListener {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(IndicesFragment.this).attach(IndicesFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }

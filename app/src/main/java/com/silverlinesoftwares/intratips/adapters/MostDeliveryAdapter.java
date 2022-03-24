@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -55,7 +56,7 @@ public class MostDeliveryAdapter extends BaseAdapter {
         TextView perentage_delivey;
 
         if(view==null){
-              view=inflater.inflate(R.layout.most_delivery_row,null);
+              view=inflater.inflate(R.layout.most_delivery_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.traded_qty,view.findViewById(R.id.traded_qty));
             view.setTag(R.id.reliable_qty,view.findViewById(R.id.reliable_qty));

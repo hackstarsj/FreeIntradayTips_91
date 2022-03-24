@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
         android:textColor="#fff"
         android:id="@+id/full_scrren"
         android:background="@color/colorAccent"
-        android:text="Full Screen Chart"
+        android:text="@string/full_screen_chart"
         android:elevation="5dp"
         android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="25dp"
+        tools:targetApi="lollipop" />
 
     <WebView
         android:id="@+id/webview"

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -48,7 +50,7 @@ public class ScreenerNseActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -65,7 +67,6 @@ public class ScreenerNseActivity extends AppCompatActivity {
         });
         webView.loadUrl("https://furthergrow.silverlinesoftwares.com/screener/market.php");
 
-        StaticMethods.showInterestialAds(ScreenerNseActivity.this);
 
 
     }
@@ -103,8 +104,21 @@ public class ScreenerNseActivity extends AppCompatActivity {
                     // TODO: finished... if you want to fire a method.
                     // progressDialog.dismiss();
                     progressBar.setVisibility(View.GONE);
+                    Showds();
                 }
             }
         });
+    }
+
+    private void Showds() {
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(ScreenerNseActivity.this);
+                }
+            });
+        },5000);
     }
 }

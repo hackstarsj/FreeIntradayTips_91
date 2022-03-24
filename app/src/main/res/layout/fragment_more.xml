@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             app:cardElevation="5dp"
             android:padding="5dp"
@@ -23,7 +22,7 @@
                 android:singleLine="true"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                android:text="Learn"
+                android:text="@string/learn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
@@ -46,7 +45,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="14sp"
-                    android:text="Stock News"
+                    android:text="@string/stock_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -64,7 +63,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="12sp"
-                    android:text="IPO"
+                    android:text="@string/ipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -82,7 +81,7 @@
                     android:singleLine="true"
                     android:textColor="#000"
                     android:textSize="14sp"
-                    android:text="Startup News"
+                    android:text="@string/startup_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -100,7 +99,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="ETF"
+                    android:text="@string/etf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -118,7 +117,7 @@
                     android:singleLine="true"
                     android:textColor="#000"
                     android:textSize="14sp"
-                    android:text="International"
+                    android:text="@string/international"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -136,7 +135,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="BONDS"
+                    android:text="@string/bonds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -159,7 +158,7 @@
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Top News"
+                    android:text="@string/top_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
@@ -177,7 +176,7 @@
                     android:textColor="#000"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:text="SIPS"
+                    android:text="@string/sips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
@@ -204,7 +203,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Global Market"
+                    android:text="@string/global_market"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -221,7 +220,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Mutual Fund"
+                    android:text="@string/mutual_fund"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -244,7 +243,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="SIPS News"
+                    android:text="@string/sips_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -261,7 +260,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Commodity"
+                    android:text="@string/commodity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -283,7 +282,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Politics News"
+                    android:text="@string/politics_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -300,7 +299,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Currency"
+                    android:text="@string/currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -327,7 +326,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Sports News"
+                    android:text="@string/sports_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -345,7 +344,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="18sp"
-                    android:text="Commodity News"
+                    android:text="@string/commodity_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -368,7 +367,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Business News"
+                    android:text="@string/business_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -385,7 +384,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Currency News"
+                    android:text="@string/currency_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -408,7 +407,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Economy News"
+                    android:text="@string/economy_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -425,7 +424,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Earning News"
+                    android:text="@string/earning_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -442,14 +441,14 @@
                 android:layout_weight="1"
                 app:cardElevation="5dp"
                 android:padding="5dp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Reports"
+                    android:text="@string/reports"
                     android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -478,7 +477,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Premarket Open"
+                    android:text="@string/premarket_open"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -495,7 +494,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Active Stock"
+                    android:text="@string/active_stock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -517,7 +516,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="52 Week High"
+                    android:text="@string/_52_week_high"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -534,7 +533,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="52 Week Low"
+                    android:text="@string/_52_week_low"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -556,7 +555,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Volume Gainers"
+                    android:text="@string/volume_gainers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -574,7 +573,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="18sp"
-                    android:text="Price Band Hitters"
+                    android:text="@string/price_band_hitters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -596,7 +595,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="OI Spurts"
+                    android:text="@string/oi_spurts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -614,7 +613,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="18sp"
-                    android:text="Bulk Deals"
+                    android:text="@string/bulk_deals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -636,7 +635,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Block Deals"
+                    android:text="@string/block_deals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -654,7 +653,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="18sp"
-                    android:text="FII &amp; DII Data"
+                    android:text="@string/fii_amp_dii_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -676,7 +675,7 @@
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:text="Most Delivery"
+                    android:text="@string/most_delivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -694,7 +693,7 @@
                     android:textColor="#000"
                     android:singleLine="true"
                     android:textSize="18sp"
-                    android:text="Short Selling"
+                    android:text="@string/short_selling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -713,14 +712,14 @@
                 android:id="@+id/economy"
                 android:padding="5dp"
                 app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
-                    android:text="Economy"
+                    android:text="@string/economy"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -745,14 +744,14 @@
                 android:id="@+id/forecast"
                 android:padding="5dp"
                 app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
-                    android:text="Forecast"
+                    android:text="@string/forecast"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -778,14 +777,14 @@
                 android:id="@+id/result"
                 android:padding="5dp"
                 app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
-                    android:text="Result Equity"
+                    android:text="@string/result_equity"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -803,14 +802,14 @@
                 android:id="@+id/result_option"
                 android:padding="5dp"
                 app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
-                    android:text="Result Option"
+                    android:text="@string/result_option"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

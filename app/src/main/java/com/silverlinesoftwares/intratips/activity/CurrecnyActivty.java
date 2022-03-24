@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -48,7 +51,6 @@ public class CurrecnyActivty extends AppCompatActivity implements ChartListener 
         CurrencyTask gainerLooserTask=new CurrencyTask(CurrecnyActivty.this);
         gainerLooserTask.execute();
 
-        StaticMethods.showInterestialAds(CurrecnyActivty.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,CurrecnyActivty.this);
 
@@ -73,6 +75,15 @@ public class CurrecnyActivty extends AppCompatActivity implements ChartListener 
 
         CurrencyAdapter bulkDealAdapter=new CurrencyAdapter(CurrecnyActivty.this,bulkModels);
         listView.setAdapter(bulkDealAdapter);
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(CurrecnyActivty.this);
+                }
+            });
+        },5000);
     }
 
     @Override

@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="#000" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/pointchange"
                 android:layout_weight="1"
-                android:text="1.639 ETH"
+                android:text="@string/_1_639_eth"
                 android:singleLine="true"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/blue_900" />
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
-                android:text="4.38 USD"
+                android:text="@string/_4_38_usd"
                 android:singleLine="true"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/pink_500"

@@ -110,8 +110,8 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(ShareHoldersFragment.this).attach(ShareHoldersFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }

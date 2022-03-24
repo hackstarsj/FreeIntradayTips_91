@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -48,7 +51,6 @@ public class ShortSellActivity extends AppCompatActivity implements ChartListene
         listView=findViewById(R.id.list_volume_gainer);
         ShortSelltask gainerLooserTask=new ShortSelltask(ShortSellActivity.this);
         gainerLooserTask.execute();
-        StaticMethods.showInterestialAds(ShortSellActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,ShortSellActivity.this);
 
@@ -73,6 +75,16 @@ public class ShortSellActivity extends AppCompatActivity implements ChartListene
         Collections.reverse(bulkModels);
         ShortSellData bulkDealAdapter=new ShortSellData(ShortSellActivity.this,bulkModels);
         listView.setAdapter(bulkDealAdapter);
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(ShortSellActivity.this);
+                }
+            });
+        },5000);
     }
 
     @Override

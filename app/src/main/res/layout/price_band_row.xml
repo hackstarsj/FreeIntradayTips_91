@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/symbol"
-                android:text="COALINDIA.NS"
+                android:text="@string/stock_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textColor="@color/indigo_900" />
 
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HIGH"
+                android:text="@string/high"
                 android:textSize="13sp"
                 android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/high_data"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:textSize="12sp"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -74,7 +74,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LOW"
+                    android:text="@string/low"
                     android:textSize="13sp"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -83,7 +83,7 @@
                         android:textSize="12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
+                        android:text="@string/_100"
                         android:id="@+id/low_data"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -100,7 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="52 High"
+                    android:text="@string/_52_high"
                     android:textSize="13sp"
                     android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -110,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/high_52_data"
-                        android:text="200"
+                        android:text="@string/_200_00"
                         android:textSize="12sp"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -125,7 +125,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="52 Low"
+                    android:text="@string/_52_low"
                     android:layout_weight="1"
                     android:textSize="13sp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/low_52"
                         android:layout_height="wrap_content"
-                        android:text="300"
+                        android:text="@string/_300"
                         android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ltp"
-                android:text="1.639 ETH"
+                android:text="@string/_1_639_eth"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/light_blue_500" />
 
@@ -164,16 +164,16 @@
                 android:id="@+id/change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.38 USD"
+                android:text="@string/_4_38_usd"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
             <TextView
                 android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:id="@+id/change_percentage"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="11"
+                android:text="@string/_11"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_40" />
 
@@ -182,7 +182,7 @@
         <RelativeLayout
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="5dp">
 
 
@@ -191,7 +191,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                android:contentDescription="Indicator" />
 
         </RelativeLayout>
 
@@ -283,7 +284,8 @@
                 android:layout_width="20sp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                android:contentDescription="Indicator" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

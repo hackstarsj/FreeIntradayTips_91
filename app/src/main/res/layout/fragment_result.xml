@@ -16,7 +16,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:text="Assuming 1,00,000 Capital in Each Stocks"
+        android:text="@string/assuming_1_00_000_capital_in_each_stocks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ProgressBar
@@ -28,7 +28,7 @@
 <ListView
     android:layout_below="@id/title"
     android:id="@+id/listview"
-    android:layout_marginBottom="50dp"
+    android:layout_marginBottom="60dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
     <com.google.android.gms.ads.AdView

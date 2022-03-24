@@ -105,8 +105,8 @@ public class OptionFragment extends Fragment implements ChartListener {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(OptionFragment.this).attach(OptionFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }

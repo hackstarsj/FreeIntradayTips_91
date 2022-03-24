@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -63,7 +66,6 @@ public class NewsActivity extends AppCompatActivity implements NewsListener {
 
             }
         });
-        StaticMethods.showInterestialAds(NewsActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,NewsActivity.this);
 
@@ -76,7 +78,15 @@ public class NewsActivity extends AppCompatActivity implements NewsListener {
         progress.setVisibility(View.GONE);
         newsModels.addAll(data);
         newsAdapter.notifyItemInserted(data.size());
-
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(NewsActivity.this);
+                }
+            });
+        },5000);
 
     }
 

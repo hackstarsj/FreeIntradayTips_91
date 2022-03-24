@@ -19,10 +19,9 @@
         android:id="@+id/sub_item_btn"
         android:padding="10dp"
         android:drawableStart="@drawable/ic_view_module_black_24dp"
-        android:text="ok"
+        android:text="@string/ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_view_module_black_24dp"
         tools:targetApi="lollipop" />
     <TextView
         android:id="@+id/text_url"

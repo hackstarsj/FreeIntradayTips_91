@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:id="@+id/tab"
-        android:background="@drawable/border_blue_2"
+        app:tabTextColor="#fff"
+        app:tabSelectedTextColor="#FFEE58"
+        android:background="@drawable/borderblue"
         android:layout_height="wrap_content">
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:text="EQUITY"
+            android:text="@string/equity"
             android:layout_height="wrap_content"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:text="OPTION"
+            android:text="@string/option"
             android:layout_height="wrap_content"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:text="MCX"
+            android:text="@string/mcx"
             android:layout_height="wrap_content"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:text="FOREX"
+            android:text="@string/forex"
             android:layout_height="wrap_content"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:text="DELIVERY"
+            android:text="@string/delivery"
             android:layout_height="wrap_content"/>
     </com.google.android.material.tabs.TabLayout>
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:id="@+id/page"
         android:layout_below="@+id/tab"

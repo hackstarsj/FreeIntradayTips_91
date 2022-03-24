@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.subfragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -53,6 +54,7 @@ import com.silverlinesoftwares.intratips.listeners.AccountOpenClick;
 import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
 import com.silverlinesoftwares.intratips.models.BannerModel;
 import com.silverlinesoftwares.intratips.models.EquityModel;
+import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.tasks.EquityTask;
 import com.silverlinesoftwares.intratips.tasks.IntraHighTask;
 import com.silverlinesoftwares.intratips.util.BuyButtonClick;
@@ -322,9 +324,6 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         webview=view.findViewById(R.id.webview);
         webview.loadUrl("file:///android_asset/data.html");   // now it will not fail here
         webview.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webview.setWebContentsDebuggingEnabled(true);
-        }
         //if(Build.VERSION.SDK_INT>Build.VERSION_CODES.JELLY_BEAN_MR1) {
         webview.addJavascriptInterface(this, "Android");
 
@@ -336,7 +335,16 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
        // currentequityModels.add(new BannerModel(""));
         equityAdapter=new EquityAdapterR(listView,currentequityModels,getActivity(),HomeFragment.this,getActivity(),HomeFragment.this);
         listView.setAdapter(equityAdapter);
-        EquityTask equityTask=new EquityTask(getContext(),equityAdapter,currentequityModels);
+        UserModel userModel=StaticMethods.getUserDetails(getContext());
+        String userid="";
+        String token="";
+        if(userModel!=null){
+            userid=userModel.getId();
+        }
+        if(StaticMethods.getLoginToken(getContext())!=null){
+            token=StaticMethods.getLoginToken(getContext());
+        }
+        EquityTask equityTask=new EquityTask(getContext(),equityAdapter,currentequityModels,userid,token);
 
         equityTask.execute(new String[]{});
 
@@ -349,8 +357,8 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
+                if (getParentFragmentManager() != null) {
+                    ft = getParentFragmentManager().beginTransaction();
                     ft.detach(HomeFragment.this).attach(HomeFragment.this).commit();
                     pullToRefresh.setRefreshing(false);
                 }
@@ -360,7 +368,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
 
 
 
-        new android.os.Handler().postDelayed(
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
                         StartTimer();
@@ -372,16 +380,18 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     }
 
     private void ShowBuySellStock(String symbol) {
-        BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(getContext());
-        View view=getLayoutInflater().inflate(R.layout.show_button_dialog,null);
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
+        if(getContext()!=null) {
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+            @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.show_button_dialog, null);
+            bottomSheetDialog.setContentView(view);
+            bottomSheetDialog.show();
+        }
 
     }
 
     @JavascriptInterface
     public void alertJson(final String myJSON) {
-        new android.os.Handler().postDelayed(
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
                         Log.i("tag", "This'll run 300 milliseconds later");
@@ -471,7 +481,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     @Override
     public void onResume() {
         super.onResume();
-        new android.os.Handler().postDelayed(
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
 
@@ -984,6 +994,13 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     public void onAliceClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://alicebluepartner.com/furthergrow/"));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUpstockClick() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://upstox.com/open-account/?f=Z1JV"));
         startActivity(intent);
     }
 }

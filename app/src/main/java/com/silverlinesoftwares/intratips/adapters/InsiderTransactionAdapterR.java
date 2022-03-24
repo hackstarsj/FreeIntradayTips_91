@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import androidx.recyclerview.widget.RecyclerView;
@@ -184,6 +185,7 @@ public class InsiderTransactionAdapterR extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void resetListData() {
         this.items = new ArrayList<>();
         notifyDataSetChanged();

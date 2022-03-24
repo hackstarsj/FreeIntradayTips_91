@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xlarge"
-                android:text="Julianna Carter"
+                android:text="@string/julianna_carter"
                 android:id="@+id/name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textColor="@color/grey_90" />
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/email"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:text="Photographer"
+                android:text="@string/photographer"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/grey_60" />
 
@@ -47,7 +47,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_margin="@dimen/spacing_middle"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/light_green_600" />
+                    app:tint="@color/light_green_600"
+                    android:contentDescription="@string/button" />
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/image"
@@ -65,7 +66,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_margin="@dimen/spacing_middle"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/light_green_600" />
+                    app:tint="@color/light_green_600"
+                    android:contentDescription="Button" />
 
             </LinearLayout>
 
@@ -114,7 +116,8 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -143,7 +146,8 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             android:textSize="16sp"
@@ -171,7 +175,8 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             android:textSize="16sp"
@@ -248,15 +253,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_fb_btn"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:padding="10dp"
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+
         <androidx.cardview.widget.CardView
             android:layout_weight="1"
             app:cardElevation="5dp"
@@ -271,7 +268,8 @@
             android:layout_width="match_parent"
             android:id="@+id/fb_login"
             android:layout_height="50dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:contentDescription="Facebook" />
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_weight="1"
@@ -285,7 +283,8 @@
             android:layout_width="match_parent"
             android:id="@+id/login_google"
             android:layout_height="50dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:contentDescription="Google" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
     <LinearLayout
@@ -308,6 +307,71 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_pen"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/zerodhaad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Zerodha" />
+            <TextView
+                android:text="Ads"
+                android:textColor="#000"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:background="@color/yellow_400"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <ImageView
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:id="@+id/upstock"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/upstock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Upstock" />
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/alice_pen"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/alice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Alice Blue" />
+            <TextView
+                android:text="Ads"
+                android:textColor="#000"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:background="@color/yellow_400"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+    </RelativeLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -345,7 +409,8 @@
                     <ImageView
                         android:layout_width="@dimen/spacing_xxlarge"
                         android:layout_height="@dimen/spacing_xxlarge"
-                        android:src="@drawable/web_hi_res_512" />
+                        android:src="@drawable/web_hi_res_512"
+                        android:contentDescription="Logo" />
 
                     <View
                         android:layout_width="@dimen/spacing_large"
@@ -384,7 +449,8 @@
                     android:minHeight="@dimen/spacing_xxlarge"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/spacing_medium"
-                    android:paddingRight="@dimen/spacing_medium">
+                    android:paddingRight="@dimen/spacing_medium"
+                    android:focusable="true">
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -394,8 +460,9 @@
                         android:layout_width="@dimen/spacing_xmlarge"
                         android:layout_height="@dimen/spacing_xmlarge"
                         android:background="@android:color/transparent"
-                        android:tint="@color/grey_40"
-                        android:src="@drawable/ic_info" />
+                        android:src="@drawable/ic_info"
+                        app:tint="@color/grey_40"
+                        android:contentDescription="Info" />
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -437,7 +504,8 @@
                     android:minHeight="@dimen/spacing_xxlarge"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/spacing_medium"
-                    android:paddingRight="@dimen/spacing_medium">
+                    android:paddingRight="@dimen/spacing_medium"
+                    android:focusable="true">
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -446,7 +514,8 @@
                     <ImageView
                         android:layout_width="@dimen/spacing_xmlarge"
                         android:layout_height="@dimen/spacing_xmlarge"
-                        app:srcCompat="@drawable/telegram" />
+                        app:srcCompat="@drawable/telegram"
+                        android:contentDescription="Telegram" />
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -471,7 +540,8 @@
                     android:minHeight="@dimen/spacing_xxlarge"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/spacing_medium"
-                    android:paddingRight="@dimen/spacing_medium">
+                    android:paddingRight="@dimen/spacing_medium"
+                    android:focusable="true">
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -480,7 +550,8 @@
                     <ImageView
                         android:layout_width="@dimen/spacing_xmlarge"
                         android:layout_height="@dimen/spacing_xmlarge"
-                        app:srcCompat="@drawable/youtube" />
+                        app:srcCompat="@drawable/youtube"
+                        android:contentDescription="Youtube" />
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -506,7 +577,8 @@
                     android:minHeight="@dimen/spacing_xxlarge"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/spacing_medium"
-                    android:paddingRight="@dimen/spacing_medium">
+                    android:paddingRight="@dimen/spacing_medium"
+                    android:focusable="true">
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -515,7 +587,8 @@
                     <ImageView
                         android:layout_width="@dimen/spacing_xmlarge"
                         android:layout_height="@dimen/spacing_xmlarge"
-                        android:src="@drawable/ic_share_black_24dp" />
+                        android:src="@drawable/ic_share_black_24dp"
+                        android:contentDescription="Share" />
 
                     <View
                         android:layout_width="@dimen/spacing_mlarge"
@@ -531,6 +604,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
 
         </androidx.cardview.widget.CardView>
 
@@ -550,7 +624,8 @@
                 android:layout_width="30dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10sp"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:contentDescription="Star" />
             <Button
                 android:id="@+id/rate_app"
                 android:text="Rate App"
@@ -569,12 +644,13 @@
                 <ImageView
                     android:src="@drawable/ic_thumbnail_video"
                     android:layout_width="30dp"
-                    android:tint="#F44336"
                     android:layout_gravity="center"
                     android:tintMode="multiply"
                     android:layout_marginBottom="10sp"
                     android:layout_height="30dp"
-                    tools:targetApi="lollipop" />
+                    tools:targetApi="lollipop"
+                    app:tint="#F44336"
+                    android:contentDescription="Thumbnail" />
                 <Button
                     android:id="@+id/youtube_video"
                     android:text="Youtube"
@@ -591,7 +667,7 @@
             android:layout_marginLeft="@dimen/spacing_middle"
             android:layout_marginRight="@dimen/spacing_middle"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/blue_700"
             app:cardCornerRadius="2dp"
             app:cardElevation="2dp">
@@ -674,7 +750,7 @@
             android:layout_marginLeft="@dimen/spacing_middle"
             android:layout_marginRight="@dimen/spacing_middle"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/green_700"
             app:cardCornerRadius="2dp"
             app:cardElevation="2dp">
@@ -758,7 +834,7 @@
             android:layout_marginLeft="@dimen/spacing_middle"
             android:layout_marginRight="@dimen/spacing_middle"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/yellow_900"
             app:cardCornerRadius="2dp"
             app:cardElevation="2dp">
@@ -841,6 +917,7 @@
             android:textSize="15sp"
             android:text="Note: All Plan is Working one Device at a time."
             android:textColor="#03A9F4"
+            android:visibility="gone"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -910,20 +987,7 @@
             android:layout_marginBottom="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/image_pen"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/zerodhaad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/alice_pen"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/alice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
         <View
             android:background="@android:color/darker_gray"
             android:layout_width="match_parent"

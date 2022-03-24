@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -58,7 +59,7 @@ public class CommodityAdapter extends BaseAdapter {
         TextView  percentage_text;
 
         if(view==null){
-              view=inflater.inflate(R.layout.commodity_row,null);
+              view=inflater.inflate(R.layout.commodity_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.latest_price_data,view.findViewById(R.id.latest_price_data));
             view.setTag(R.id.change_percentage_data,view.findViewById(R.id.change_percentage_data));

@@ -1,6 +1,7 @@
 package com.silverlinesoftwares.intratips.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,14 +21,13 @@ import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.StockDetailsActivity;
 import com.silverlinesoftwares.intratips.adapters.LocationAdapter;
 import com.silverlinesoftwares.intratips.adapters.SearchAdapter;
-import com.silverlinesoftwares.intratips.database.RealmController;
+import com.silverlinesoftwares.intratips.database.DataBaseController;
 import com.silverlinesoftwares.intratips.models.SearchModel;
 import com.silverlinesoftwares.intratips.util.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.ImportFlag;
-import io.realm.Realm;
 
 
 public class SearchFragment extends Fragment {
@@ -69,14 +69,16 @@ public class SearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
-    Realm realm;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final ListView listView=view.findViewById(R.id.search_stocks);
-        final List<SearchModel> searchModels= RealmController.with(this).getBooks();
-        this.realm = RealmController.with(this).getRealm();
+        List<SearchModel> searchModels=new ArrayList<>();
+        if(getContext()!=null){
+         searchModels= DataBaseController.getBooks(getContext());
+        }
+
         SearchAdapter locationAdapter=new SearchAdapter(getContext(),R.layout.searchrow,searchModels);
         listView.setAdapter(locationAdapter);
         final AutoCompleteTextView searchText = view.findViewById(R.id.search);
@@ -94,21 +96,12 @@ public class SearchFragment extends Fragment {
                 searchModel.setExch(exchange.getText().toString());
                 searchModel.setName(title.getText().toString());
                 searchModel.setSymbol(symbol.getText().toString());
-//                realm.beginTransaction();
-//                realm.copyToRealm(searchModel);
-//                realm.commitTransaction();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(searchModel, ImportFlag.CHECK_SAME_VALUES_BEFORE_SET);
-                        startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
-                    }
-                });
-
-
+                if(getContext()!=null) {
+                    DataBaseController.saveSearch(getContext(), searchModel);
+                }
+                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
 
             }
-
 
 
         });
@@ -120,11 +113,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onRefresh() {
                 FragmentTransaction ft = null;
-                if (getFragmentManager() != null) {
-                    ft = getFragmentManager().beginTransaction();
-                    ft.detach(SearchFragment.this).attach(SearchFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
+                ft = getParentFragmentManager().beginTransaction();
+                ft.detach(SearchFragment.this).attach(SearchFragment.this).commit();
+                pullToRefresh.setRefreshing(false);
             }
         });
 

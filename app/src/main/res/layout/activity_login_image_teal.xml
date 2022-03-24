@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/stock_imge" />
+        android:src="@drawable/stock_imge"
+        android:contentDescription="STOCKIMAGE" />
 
     <View
         android:layout_width="match_parent"
@@ -42,7 +43,8 @@
             android:layout_width="100dp"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:contentDescription="LOGO" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,7 +151,9 @@
                 app:backgroundTint="@android:color/white"
                 app:fabSize="normal"
                 app:rippleColor="@color/cyan_800"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                android:contentDescription="FLOAT BUTTON"
+                android:focusable="true" />
 
 
             <ProgressBar
@@ -181,7 +185,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:gravity="left"
+                android:gravity="start"
                 android:id="@+id/forgot"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"

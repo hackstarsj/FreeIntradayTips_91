@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -45,7 +47,7 @@ public class NewWebActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+       // webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -62,7 +64,6 @@ public class NewWebActivity extends AppCompatActivity {
         });
         webView.loadUrl(urls);
 
-        StaticMethods.showInterestialAds(NewWebActivity.this);
     }
 
 
@@ -98,8 +99,21 @@ public class NewWebActivity extends AppCompatActivity {
                     // TODO: finished... if you want to fire a method.
                     // progressDialog.dismiss();
                     progressBar.setVisibility(View.GONE);
+                    Showds();
                 }
             }
         });
+    }
+
+    private void Showds() {
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(NewWebActivity.this);
+                }
+            });
+        },5000);
     }
 }

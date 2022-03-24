@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class OiSpurtsContractAdapter extends BaseAdapter {
 
 
         if(view==null){
-              view=inflater.inflate(R.layout.oi_spurts_contacts_row,null);
+              view=inflater.inflate(R.layout.oi_spurts_contacts_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.ltp_data,view.findViewById(R.id.ltp_data));
             view.setTag(R.id.date_1,view.findViewById(R.id.date_1));

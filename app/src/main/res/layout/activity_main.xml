@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
     </com.silverlinesoftwares.intratips.util.CustomRecycleView>
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:id="@+id/top_page"
         android:layout_below="@id/mywidget"
@@ -49,7 +49,7 @@
         android:layout_above="@id/divider_bottom"
         android:layout_height="match_parent"/>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:id="@+id/bottom_page"
         android:layout_below="@id/mywidget"

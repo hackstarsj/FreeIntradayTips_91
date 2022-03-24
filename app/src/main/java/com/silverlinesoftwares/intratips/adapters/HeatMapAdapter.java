@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.cardview.widget.CardView;
@@ -57,7 +58,7 @@ public class HeatMapAdapter extends BaseAdapter {
         CardView card_stock;
 
         if(view==null){
-              view=inflater.inflate(R.layout.sector_stock_row,null);
+              view=inflater.inflate(R.layout.sector_stock_row,parent,false);
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.percentage,view.findViewById(R.id.percentage));
             view.setTag(R.id.pointchange,view.findViewById(R.id.pointchange));

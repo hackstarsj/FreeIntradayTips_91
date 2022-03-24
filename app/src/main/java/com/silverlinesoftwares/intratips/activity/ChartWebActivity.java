@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
@@ -57,7 +60,7 @@ public class ChartWebActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
 
@@ -76,28 +79,36 @@ public class ChartWebActivity extends AppCompatActivity {
             }
         });
         webView.loadUrl(urls);
-        StaticMethods.showInterestialAds(ChartWebActivity.this);
 
     }
 
     private void injectCSS() {
-        try {
-            InputStream inputStream = getAssets().open("style_chart.css");
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-            webView.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
-                    "var style = document.createElement('style');" +
-                    "style.type = 'text/css';" +
-                    // Tell the browser to BASE64-decode the string into your script !!!
-                    "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
-                    "})()");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            InputStream inputStream = getAssets().open("style_chart.css");
+//            byte[] buffer = new byte[inputStream.available()];
+//            inputStream.read(buffer);
+//            inputStream.close();
+//            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
+//            webView.loadUrl("javascript:(function() {" +
+//                    "var parent = document.getElementsByTagName('head').item(0);" +
+//                    "var style = document.createElement('style');" +
+//                    "style.type = 'text/css';" +
+//                    // Tell the browser to BASE64-decode the string into your script !!!
+//                    "style.innerHTML = window.atob('" + encoded + "');" +
+//                    "parent.appendChild(style)" +
+//                    "})()");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Handler handler=new Handler(Looper.getMainLooper());
+//        handler.postDelayed(()->{
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    StaticMethods.showInterestialAds(ChartWebActivity.this);
+//                }
+//            });
+//        },5000);
     }
 
 

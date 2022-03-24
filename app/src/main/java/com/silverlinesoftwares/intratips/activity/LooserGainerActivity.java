@@ -7,12 +7,17 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -34,7 +39,7 @@ import java.util.List;
 
 public class LooserGainerActivity extends AppCompatActivity implements GainerLooserListener {
 
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ProgressBar progress;
 
@@ -54,7 +59,6 @@ public class LooserGainerActivity extends AppCompatActivity implements GainerLoo
         GainerLooserTask gainerLooserTask=new GainerLooserTask(LooserGainerActivity.this);
         gainerLooserTask.execute(new String[]{getIntent().getStringExtra(Constant.data_text)});
 
-        StaticMethods.showInterestialAds(LooserGainerActivity.this);
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,LooserGainerActivity.this);
 
@@ -85,7 +89,7 @@ public class LooserGainerActivity extends AppCompatActivity implements GainerLoo
                 }
             }
 
-            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+            ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
 
             TopMoversFragment topMoversFragment=new TopMoversFragment();
             Bundle bundle=new Bundle();
@@ -108,14 +112,29 @@ public class LooserGainerActivity extends AppCompatActivity implements GainerLoo
             viewPagerAdapter.addTitle(getString(R.string.top_movers));
             viewPagerAdapter.addTitle(getString(R.string.top_loser));
             viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
 
+            new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+                @Override
+                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                    tab.setText(viewPagerAdapter.getTitle(position));
+                }
+            }).attach();
 
 
         } catch (JSONException e) {
             Toast.makeText(LooserGainerActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
+        Handler handler=new Handler(Looper.getMainLooper());
+        handler.postDelayed(()->{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StaticMethods.showInterestialAds(LooserGainerActivity.this);
+                }
+            });
+        },5000);
 
     }
 

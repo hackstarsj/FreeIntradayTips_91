@@ -52,7 +52,7 @@ public class ShortSellData extends BaseAdapter {
         TextView price_data;
 
         if(view==null){
-              view=inflater.inflate(R.layout.short_sell_row,null);
+              view=inflater.inflate(R.layout.short_sell_row,parent,false);
             view.setTag(R.id.date_data,view.findViewById(R.id.date_data));
             view.setTag(R.id.symbol,view.findViewById(R.id.symbol));
             view.setTag(R.id.price_data,view.findViewById(R.id.price_data));

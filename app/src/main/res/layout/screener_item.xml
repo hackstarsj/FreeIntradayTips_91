@@ -12,13 +12,12 @@
         android:elevation="10dp"
         android:padding="10dp"
         android:textAlignment="center"
-        android:text="OK"
+        android:text="@string/ok"
         android:id="@+id/button_clck"
         android:textColor="#FFF"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_add_circle_black_24dp"
         tools:targetApi="lollipop"
         android:drawableEnd="@drawable/ic_add_circle_black_24dp" />
     <LinearLayout

@@ -1,33 +1,44 @@
 package com.silverlinesoftwares.intratips.util;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+
 
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class VideoDataLoader extends AsyncTask<String,String,String> {
+public class VideoDataLoader  {
 
-    private MyAsyncListener myAsyncListener;
+    private final MyAsyncListener myAsyncListener;
 
     public VideoDataLoader(MyAsyncListener myAsyncListener) {
         this.myAsyncListener = myAsyncListener;
     }
+    public void execute(String... strings) {
+        Executor executor = Executors.newSingleThreadExecutor();
 
-    @Override
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            String  data=doInBackground(strings);
+            handler.post(()->{
+                onPostExecute(data);
+            });
+        });
+    }
+
     protected String doInBackground(String[] objects) {
         String vvv=BuilData();
         return vvv;
     }
 
-    @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
         if(s!=null) {
             myAsyncListener.onSuccessfulExecute(s);
         }

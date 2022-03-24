@@ -60,7 +60,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
         holder.video_id.setText(blogPost.getVideo_id());
 
-        Picasso.with(mContext)
+        Picasso.get()
                 .load("https://img.youtube.com/vi/"+blogPost.getVideo_id()+"/sddefault.jpg")
                 .placeholder(R.color.grey_10)
                 .into(holder.thumb);

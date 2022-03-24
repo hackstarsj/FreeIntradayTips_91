@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:id="@+id/pullToRefresh"
     xmlns:android="http://schemas.android.com/apk/res/android" >
-<RelativeLayout
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FF9800"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.EquityFragment">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF9800"
+        tools:context=".fragment.EquityFragment">
 
     <View
         android:id="@+id/border"
@@ -42,10 +41,9 @@
         android:paddingRight="20dp"
         android:drawableStart="@drawable/ic_lock_black_24dp"
         android:id="@+id/pro_plus_btn"
-        android:text="Login and Buy PRO PLus Plan to Unlock"
+        android:text="@string/login_and_buy_pro_plus_plan_to_unlock"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_lock_black_24dp" />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
