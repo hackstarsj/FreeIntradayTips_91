@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -29,7 +28,7 @@ import okhttp3.Response;
 public class DeleteWatch  {
 
     private final ProgressDialog progressDialog;
-    Context context;
+    final Context context;
     public DeleteWatch(Context context){
         this.context=context;
         progressDialog=new ProgressDialog(context);
@@ -111,9 +110,7 @@ public class DeleteWatch  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

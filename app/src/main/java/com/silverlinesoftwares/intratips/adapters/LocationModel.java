@@ -6,7 +6,6 @@ import com.silverlinesoftwares.intratips.models.SearchModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -32,23 +29,14 @@ public class LocationModel {
     private static final String URL = "https://furthergrow.silverlinesoftwares.com/symbol.php?symbol=hdf";
     private static final String API_TYPE = "search";
     private JSONArray PredictArray=new JSONArray();
-    //  private ArrayList<String> resultList2;
-    // private static final String OUTPUT = "/json";
-
-    //private static final String KEY = "YOUR API KEY";
 
     public List<SearchModel> autocomplete (String input) {
-//        ArrayList<String> resultList = null;
-  //      ArrayList<String> resultList2 = null;
 
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
 
         try {
 //            StringBuilder sb = new StringBuilder(URL  API_TYPE);
-  //          sb.append("/" +URLEncoder.encode(input, "utf8"));
-          //  sb.append("&types=(cities)");
-            //sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL("https://furthergrow.silverlinesoftwares.com/symbol.php?symbol="+URLEncoder.encode(input, "utf8"));
             conn = (HttpURLConnection) url.openConnection();
@@ -79,7 +67,7 @@ public class LocationModel {
         } catch (JSONException e) {
             Log.e(TAG, "Cannot Parse Json", e);
         }
-        List<SearchModel> arrayList=new ArrayList();
+        List<SearchModel> arrayList=new ArrayList<SearchModel>();
         for(int i=0;i<PredictArray.length();i++){
             try {
 

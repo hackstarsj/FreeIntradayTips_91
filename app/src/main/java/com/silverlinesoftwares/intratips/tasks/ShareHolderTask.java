@@ -1,20 +1,14 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.silverlinesoftwares.intratips.listeners.IncomeStateListener;
 import com.silverlinesoftwares.intratips.listeners.ShareHolderListener;
 import com.silverlinesoftwares.intratips.models.DataTypeObject;
-import com.silverlinesoftwares.intratips.models.IncomeStatementModel;
 import com.silverlinesoftwares.intratips.models.InsiderRosterModel;
 import com.silverlinesoftwares.intratips.models.InsiderTransactionModel;
 import com.silverlinesoftwares.intratips.models.MajorHolderModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -35,7 +29,7 @@ import okhttp3.Response;
 public class ShareHolderTask{
 
 
-    ShareHolderListener gainerLooserListener;
+    final ShareHolderListener gainerLooserListener;
 
     public ShareHolderTask(ShareHolderListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -72,7 +66,7 @@ public class ShareHolderTask{
         if(list1.getId().equalsIgnoreCase("1")) {
             handler.post(()->{
 
-            List<MajorHolderModel> list2=(List<MajorHolderModel>)(Object)list.get(0).get(1);
+            List<MajorHolderModel> list2=(List<MajorHolderModel>) list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onMajorLoaded(list2);
             }
@@ -85,7 +79,7 @@ public class ShareHolderTask{
         if(list1.getId().equalsIgnoreCase("2")) {
             handler.post(()->{
 
-            List<InsiderRosterModel> list2=(List<InsiderRosterModel>)(Object)list.get(0).get(1);
+            List<InsiderRosterModel> list2=(List<InsiderRosterModel>) list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onInsiderLoader(list2);
             }
@@ -98,7 +92,7 @@ public class ShareHolderTask{
         if(list1.getId().equalsIgnoreCase("3")) {
             handler.post(()->{
 
-            List<InsiderTransactionModel> list2=(List<InsiderTransactionModel>)(Object)list.get(0).get(1);
+            List<InsiderTransactionModel> list2=(List<InsiderTransactionModel>) list.get(0).get(1);
             if(list2!=null) {
                 gainerLooserListener.onInsiderTransaction(list2);
             }
@@ -131,10 +125,7 @@ public class ShareHolderTask{
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -210,10 +201,7 @@ public class ShareHolderTask{
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -281,10 +269,7 @@ public class ShareHolderTask{
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -339,8 +324,6 @@ public class ShareHolderTask{
         Handler handler = new Handler(Looper.getMainLooper());
         Handler handler2 = new Handler(Looper.getMainLooper());
         Handler handler3 = new Handler(Looper.getMainLooper());
-        executor.execute(() -> {
-            doInBackground(handler,handler2,handler3,strings);
-        });
+        executor.execute(() -> doInBackground(handler,handler2,handler3,strings));
     }
 }

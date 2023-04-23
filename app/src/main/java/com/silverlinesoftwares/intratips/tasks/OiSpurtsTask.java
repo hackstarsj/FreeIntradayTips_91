@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -22,7 +21,7 @@ import okhttp3.Response;
 public class OiSpurtsTask {
 
 
-    PriceBandListener gainerLooserListener;
+    final PriceBandListener gainerLooserListener;
 
     public OiSpurtsTask(PriceBandListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -76,10 +75,7 @@ public class OiSpurtsTask {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -88,8 +84,7 @@ public class OiSpurtsTask {
                     String data=response.body().string();
                     try {
 
-                        JSONObject jsonObject=new JSONObject(data);
-                        return jsonObject;
+                        return new JSONObject(data);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -126,10 +121,7 @@ public class OiSpurtsTask {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -138,8 +130,7 @@ public class OiSpurtsTask {
                     String data=response.body().string();
                     try {
 
-                        JSONObject jsonObject=new JSONObject(data);
-                        return jsonObject;
+                        return new JSONObject(data);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -159,9 +150,7 @@ public class OiSpurtsTask {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             JSONObject data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

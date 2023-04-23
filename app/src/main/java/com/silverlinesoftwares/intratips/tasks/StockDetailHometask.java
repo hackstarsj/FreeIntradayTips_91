@@ -1,16 +1,12 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapter;
-import com.silverlinesoftwares.intratips.models.EquityModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +25,12 @@ import okhttp3.Response;
 
 public class StockDetailHometask {
 
-    String symbol;
-    TextView prices;
-    TextView open;
-    TextView close;
-    TextView low;
-    TextView high;
+    final String symbol;
+    final TextView prices;
+    final TextView open;
+    final TextView close;
+    final TextView low;
+    final TextView high;
 
     public StockDetailHometask(String symbol,TextView low, TextView prices, TextView open, TextView close, TextView high) {
         this.symbol = symbol;
@@ -67,56 +63,6 @@ public class StockDetailHometask {
                     open.setText(SummaryObject.getJSONObject("open").getString("fmt"));
                     prices.setText(PriceObject.getJSONObject("regularMarketPrice").getString("raw"));
 
-                    // System.out.println(dateFormat.format(date));
-//                    equityModel.setHigh(SummaryObject.getJSONObject("dayHigh").getString("fmt"));
-//                    equityModel.setLow(SummaryObject.getJSONObject("dayLow").getString("fmt"));
-//                    equityModel.setPr_close(SummaryObject.getJSONObject("previousClose").getString("fmt"));
-//                    equityModel.setCmp_price(PriceObject.getJSONObject("regularMarketPrice").getString("raw"));
-//                    equityModel.setOpens(SummaryObject.getJSONObject("open").getString("fmt"));
-//                    equityModel.setRealtime_time(dateFormat.format(date));
-//                    equityModel.setPrev_close(SummaryObject.getJSONObject("previousClose").getString("raw"));
-//                    equityModel.setDay_low(SummaryObject.getJSONObject("dayLow").getString("raw"));
-//                    equityModel.setDay_high(SummaryObject.getJSONObject("dayHigh").getString("raw"));
-//                    equityModel.setPrice(PriceObject.getJSONObject("regularMarketPrice").getString("raw"));
-//                    equityModel.setOpen(SummaryObject.getJSONObject("open").getString("raw"));
-//                    //equityModel.setRealtime_time(SummaryObject.getJSONObject("previousClose").getString("fmt"));
-//                    equityModel.setAvg_3m_volume(SummaryObject.getJSONObject("averageVolume10days").getString("raw"));
-//                    equityModel.setChange(PriceObject.getJSONObject("regularMarketChange").getString("raw"));
-//                    equityModel.setChg_percent(PriceObject.getJSONObject("regularMarketChangePercent").getString("raw"));
-//                    equityModel.setCurrency(PriceObject.getString("currency"));
-//                    equityModel.setData_type(PriceObject.getString("quoteType"));
-//                    if(SummaryObject.getJSONObject("dividendRate").has("raw")) {
-//                        equityModel.setDividend_rate(SummaryObject.getJSONObject("dividendRate").getString("raw"));
-//                    }
-//                    equityModel.setEps_curr_year(SummaryObject.getJSONObject("previousClose").getString("raw"));
-//
-//
-//                    equityModel.setExchange(PriceObject.getString("exchangeName"));
-//                    equityModel.setExchange_external_id(PriceObject.getString("exchange"));
-//
-//                    if (SummaryObject.getJSONObject("dividendYield").has("raw")) {
-//                        equityModel.setDividend_yield(SummaryObject.getJSONObject("dividendYield").getString("raw"));
-//                    }
-//                    equityModel.setExchange_id(PriceObject.getString("exchange"));
-//
-//                    equityModel.setIssuer_name("-");
-//                    equityModel.setIssuer_name_lang("-");
-//                    equityModel.setMarket_cap(SummaryObject.getJSONObject("marketCap").getString("raw"));
-//                    equityModel.setPe_ratio(SummaryObject.getJSONObject("trailingPE").getString("raw"));
-//                    equityModel.setPre_mkt_change("-");
-//                    equityModel.setPre_mkt_chg_percent("-");
-//                    equityModel.setPre_mkt_price("-");
-//                    equityModel.setRealtime_change(PriceObject.getJSONObject("regularMarketChange").getString("raw"));
-//                    equityModel.setRealtime_chg_percent(PriceObject.getJSONObject("regularMarketChangePercent").getString("raw"));
-//                    equityModel.setRealtime_price(PriceObject.getJSONObject("regularMarketChangePercent").getString("raw"));
-//                    equityModel.setTime(dateFormat.format(date));
-//                    equityModel.setTs("-");
-//                    equityModel.setVolume(PriceObject.getJSONObject("regularMarketVolume").getString("raw"));
-//                    equityModel.setRealtime_ts("-");
-//                    equityModel.setYear_high(SummaryObject.getJSONObject("fiftyTwoWeekHigh").getString("raw"));
-//                    equityModel.setYear_low(SummaryObject.getJSONObject("fiftyTwoWeekLow").getString("raw"));
-//                    this.homeAdapter.notifyDataSetChanged();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -146,13 +92,10 @@ public class StockDetailHometask {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
                         String data=response.body().string();
@@ -179,9 +122,7 @@ public class StockDetailHometask {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
            String  data=doInBackground(strings);
-           handler.post(()->{
-               onPostExecute(data);
-           });
+           handler.post(()-> onPostExecute(data));
         });
     }
 

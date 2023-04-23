@@ -21,7 +21,7 @@ import okhttp3.Response;
 public class VolumeGainerTask  {
 
 
-    GainerLooserListener gainerLooserListener;
+    final GainerLooserListener gainerLooserListener;
 
     public VolumeGainerTask(GainerLooserListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -37,20 +37,18 @@ public class VolumeGainerTask  {
 
     }
 
-    public void execute(String... strings) {
+    public void execute() {
         Executor executor = Executors.newSingleThreadExecutor();
 
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-            String data=LoadData(strings);
-            handler.post(()->{
-               onPostExecute(data);
-            });
+            String data=LoadData();
+            handler.post(()-> onPostExecute(data));
         });
     }
 
-    public String LoadData(String... strings) {
+    public String LoadData() {
 
             OkHttpClient client = new OkHttpClient();
             client.retryOnConnectionFailure();
@@ -73,12 +71,10 @@ public class VolumeGainerTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (RuntimeException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
                         String data = response.body().string();

@@ -1,20 +1,16 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapter;
 import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
 import com.silverlinesoftwares.intratips.models.EquityModel;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,9 +30,9 @@ import okhttp3.Response;
 
 public class EquityTaskLive  {
 
-    Context context;
-    EquityAdapterR equityAdapter;
-    List<Object> equityModels;
+    final Context context;
+    final EquityAdapterR equityAdapter;
+    final List<Object> equityModels;
 
     public EquityTaskLive(Context context, EquityAdapterR equityAdapter, List<Object> equityModels) {
         this.context = context;
@@ -64,13 +60,9 @@ public class EquityTaskLive  {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
+        } catch (java.lang.RuntimeException e){
             e.printStackTrace();
-        }
-        catch (java.lang.RuntimeException e){
-            e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -107,7 +99,7 @@ public class EquityTaskLive  {
                     for (EquityModel equityModel:contactList){
                         if(!equityModel.getSymbol().isEmpty()) {
                             IntraHighTask intraHighTask = new IntraHighTask(context, equityAdapter, equityModel);
-                            intraHighTask.execute(new String[]{});
+                            intraHighTask.execute();
                         }
                     }
                 }
@@ -135,9 +127,7 @@ public class EquityTaskLive  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

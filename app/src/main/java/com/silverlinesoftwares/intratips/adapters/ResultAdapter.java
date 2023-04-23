@@ -3,6 +3,7 @@ package com.silverlinesoftwares.intratips.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,9 @@ import java.util.Locale;
 
 public class ResultAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<ResultModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<ResultModel> DataList;
 
     public ResultAdapter(Context context, List<ResultModel> equityModels){
         this.DataList=equityModels;
@@ -48,6 +49,7 @@ public class ResultAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view=convertView;
@@ -167,7 +169,7 @@ public class ResultAdapter extends BaseAdapter {
 
 //        double qtys=amount/
         date_time.setText(equityModel.getDatetime());
-        qty.setText("Qty : "+quantity);
+        qty.setText(String.format("Qty : %d", quantity));
         sell_buy.setText(equityModel.getBuy_text());
         symbol.setText(equityModel.getSymbol());
         price_range.setText(equityModel.getBuy_price());
@@ -206,7 +208,7 @@ public class ResultAdapter extends BaseAdapter {
 
         double only_profit=0.0;
         boolean is_loss=false;
-
+        Log.d("ID",""+equityModel.getId());
         if(equityModel.getStop_loss_end().contains("LOSS")){
             if(equityModel.getBuy_text().contains("SELL")) {
                 only_profit =quantity* (Double.parseDouble(equityModel.getStop_loss())-avg_amt);
@@ -218,7 +220,6 @@ public class ResultAdapter extends BaseAdapter {
             }
         }
         else{
-            is_loss=false;
             if(equityModel.getAchieved3().contains("Done")){
                 if(equityModel.getBuy_text().contains("SELL")) {
                     only_profit =quantity* (avg_amt-Double.parseDouble(equityModel.getBuy3()));
@@ -256,15 +257,15 @@ public class ResultAdapter extends BaseAdapter {
         }
 
         if(equityModel.getStop_loss_end().equalsIgnoreCase("EXIT")){
-            profit_or_loss_text.setText("EXIT");
+            profit_or_loss_text.setText(context.getString(R.string.exit));
             profit_loss_line.setBackgroundColor(Color.parseColor("#0091ea"));
         }
         else if(is_loss){
-            profit_or_loss_text.setText("LOSS");
+            profit_or_loss_text.setText(context.getString(R.string.loss));
             profit_loss_line.setBackgroundColor(Color.parseColor("#F44336"));
         }
         else{
-            profit_or_loss_text.setText("PROFIT");
+            profit_or_loss_text.setText(context.getString(R.string.profit));
             profit_loss_line.setBackgroundColor(Color.parseColor("#4CAF50"));
         }
 
@@ -272,30 +273,30 @@ public class ResultAdapter extends BaseAdapter {
 
         text_achieved_1.setText(equityModel.getAchieved1());
         text_achieved_2.setText(equityModel.getAchieved2());
-        price_avg.setText(""+formatter.format(avg_amt));
+        price_avg.setText(String.format("%s", formatter.format(avg_amt)));
         text_achieved_3.setText(equityModel.getAchieved3());
-        text_profit_1.setText(""+formatter.format(profit_1));
-        text_profit_2.setText(""+formatter.format(profit_2));
-        text_profit3.setText(""+formatter.format(profit_3));
-        text_buy_1.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy1())));
-        text_buy_2.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy2())));
-        text_buy_3.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy3())));
-        stop_loss_value.setText(""+formatter.format(Double.parseDouble(equityModel.getStop_loss())));
+        text_profit_1.setText(String.format("%s", formatter.format(profit_1)));
+        text_profit_2.setText(String.format("%s", formatter.format(profit_2)));
+        text_profit3.setText(String.format("%s", formatter.format(profit_3)));
+        text_buy_1.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy1()))));
+        text_buy_2.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy2()))));
+        text_buy_3.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy3()))));
+        stop_loss_value.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getStop_loss()))));
 
         stop_loss_text.setText(equityModel.getStop_loss_text());
         if(is_loss) {
-            amount_profit_loss.setText("- " + formatter.format(only_profit));
+            amount_profit_loss.setText(String.format("- %s", formatter.format(only_profit)));
         }
         else{
-            amount_profit_loss.setText("+ "+ formatter.format(only_profit));
+            amount_profit_loss.setText(String.format("+ %s", formatter.format(only_profit)));
         }
         if(is_loss) {
             double final_amt=amount-only_profit;
-            final_value.setText(""+ formatter.format(final_amt));
+            final_value.setText(String.format("%s", formatter.format(final_amt)));
         }
         else{
             double final_amt=amount+only_profit;
-            final_value.setText(""+ formatter.format(final_amt));
+            final_value.setText(String.format("%s", formatter.format(final_amt)));
         }
 
 

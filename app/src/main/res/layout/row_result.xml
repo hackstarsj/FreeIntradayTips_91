@@ -4,14 +4,11 @@
     android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/header_name"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="5dp"
         android:background="@drawable/card_border"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -135,14 +132,12 @@
                     android:layout_marginBottom="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+
                     <LinearLayout
-                        android:layout_below="@+id/divider2"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false">
                         <LinearLayout
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -350,7 +345,6 @@
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
                 <View
                     android:background="#2196F3"
                     android:layout_marginBottom="5dp"
@@ -434,6 +428,5 @@
                 </LinearLayout>
 
              </LinearLayout>
-        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

@@ -1,9 +1,7 @@
 package com.silverlinesoftwares.intratips;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -13,18 +11,15 @@ import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +33,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -54,7 +48,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.silverlinesoftwares.intratips.activity.BulkDealActivity;
 import com.silverlinesoftwares.intratips.adapters.StockUpperAdapter;
 import com.silverlinesoftwares.intratips.adapters.ViewPagerAdapter;
 import com.silverlinesoftwares.intratips.fragments.HomeTabFragment;
@@ -75,18 +68,15 @@ import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.tasks.GainerLooserTask;
 import com.silverlinesoftwares.intratips.tasks.auth.FetchProfileTask;
 import com.silverlinesoftwares.intratips.util.BgService;
-import com.silverlinesoftwares.intratips.util.BuyButtonClick;
 import com.silverlinesoftwares.intratips.util.CustomRecycleView;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity implements OnUserEarnedRewardListener,BottomNavigationView.OnNavigationItemSelectedListener, GainerLooserListener, DetailsResponseListener {
@@ -100,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
     MenuItem prevMenuItem2;
     private CustomRecycleView ticker;
     private StockUpperAdapter gainerLooserAdapter;
-    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private AppUpdateManager mAppUpdateManager;
     private static final int RC_APP_UPDATE = 101;
@@ -114,19 +103,10 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         Button button=view.findViewById(R.id.clode);
         alertDialog.setView(view);
         final AlertDialog alertDialog1=alertDialog.show();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog1.dismiss();
-            }
-        });
+        button.setOnClickListener(v -> alertDialog1.dismiss());
 
     }
 
-    void crash(){
-     //   throw new RuntimeException("This is a crash");
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,47 +116,35 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         registerReceiver(MainActivity.this.bcNewMessageDownload, new IntentFilter("bcNewMessageDownload"));
          try {
             startService(new Intent(MainActivity.this, BgService.class));
-        }catch (java.lang.IllegalStateException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        sharedPreferences=getApplicationContext().getSharedPreferences("MyPref",0);
-        editor=sharedPreferences.edit();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        editor= sharedPreferences.edit();
 
 
         if(StaticMethods.getUserDetails(MainActivity.this)!=null){
-            String is_pro=StaticMethods.getUserDetails(MainActivity.this).getIs_pro();
+            String is_pro= Objects.requireNonNull(StaticMethods.getUserDetails(MainActivity.this)).getIs_pro();
             if(!is_pro.equalsIgnoreCase("1")){
                 if(!sharedPreferences.contains("first")) {
                     showDiscalamer();
                 }
             }
             if(StaticMethods.getLoginToken(MainActivity.this)!=null){
-                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if(!task.isSuccessful()){
-                            return;
-                        }
-                        String tok=task.getResult();
-                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
-                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),tok);
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                    if(!task.isSuccessful()){
+                        return;
+                    }
+                    String tok=task.getResult();
+                    FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                    fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),tok);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
-                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
-                    }
-                }).addOnCanceledListener(new OnCanceledListener() {
-                    @Override
-                    public void onCanceled() {
-                        FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
-                        fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
-                    }
+                }).addOnFailureListener(e -> {
+                    FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                    fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
+                }).addOnCanceledListener(() -> {
+                    FetchProfileTask fetchProfileTask=new FetchProfileTask(MainActivity.this);
+                    fetchProfileTask.execute(StaticMethods.getLoginToken(MainActivity.this),"");
                 });
             }
             else{
@@ -200,9 +168,8 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
 
       //  tv.setSelected(true);  // Set focus to the textview
 
-
-        bottom_menu.setOnNavigationItemSelectedListener(MainActivity.this);
-        upper_menu.setOnNavigationItemSelectedListener(MainActivity.this);
+        bottom_menu.setOnItemSelectedListener(MainActivity.this);
+        upper_menu.setOnItemSelectedListener(MainActivity.this);
 
         ViewPagerAdapter upper_adapter=new ViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
         upper_adapter.addFragment(new HeatMapFragment());
@@ -240,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
                 }
                 bottom_menu.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottom_menu.getMenu().getItem(position);
-                StaticMethods.showInterestialAds(MainActivity.this);
             }
 
             @Override
@@ -266,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
                 }
                 upper_menu.getMenu().getItem(position).setChecked(true);
                 prevMenuItem2 = upper_menu.getMenu().getItem(position);
-                StaticMethods.showInterestialAds(MainActivity.this);
+
             }
 
             @Override
@@ -286,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
 
 
         GainerLooserTask gainerLooserTask=new GainerLooserTask(MainActivity.this);
-       gainerLooserTask.execute(new String[]{"NIFTY%20500"});
+       gainerLooserTask.execute("NIFTY%20500");
         //StaticMethods.executeAsyncTask(gainerLooserTask,new String[]{"NIFTY%20500"});
         FirebaseApp.initializeApp(MainActivity.this);
         if(StaticMethods.getNotification(MainActivity.this).equalsIgnoreCase("1")){
@@ -316,8 +282,10 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         }
 
         checkForUpdate();
+        showInterestialAds();
 
     }
+
 
 
 
@@ -381,23 +349,12 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
             upper_page.setVisibility(View.GONE);
         }
 
-        if(click<=4) {
+        if(click>=3) {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(() -> {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        StaticMethods.showRewardAds(MainActivity.this, new OnUserEarnedRewardListener() {
-                            @Override
-                            public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                                Log.d("Reward","Earned");
-                            }
-                        });
-                    }
-                });
-            }, 5000);
-            click=click+1;
+            handler.postDelayed(() -> runOnUiThread(this::showInterestialAdsView), 5000);
+            click=0;
         }
+        click=click+1;
     }
 
     public int click=0;
@@ -414,15 +371,11 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
             Gson gson = new Gson();
             List<StockUpperModel> animals = gson.fromJson(strings, token.getType());
             if(animals!=null) {
-                Collections.sort(animals, new Comparator<StockUpperModel>() {
-                    public int compare(StockUpperModel s1, StockUpperModel s2) {
-                        // notice the cast to (Integer) to invoke compareTo
-                        return (s1.getSymbol()).compareTo(s2.getSymbol());
-                    }
+                Collections.sort(animals, (s1, s2) -> {
+                    // notice the cast to (Integer) to invoke compareTo
+                    return (s1.getSymbol()).compareTo(s2.getSymbol());
                 });
                 gainerLooserAdapter = new StockUpperAdapter(ticker, MainActivity.this, animals);
-                //    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
-                //  linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
                     @Override
@@ -448,19 +401,16 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
 
                 ticker.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
                         int lastItem = layoutManager.findLastCompletelyVisibleItemPosition();
                         if(lastItem == layoutManager.getItemCount()-1){
                             mHandler.removeCallbacks(SCROLLING_RUNNABLE);
                             Handler postHandler = new Handler(Looper.getMainLooper());
-                            postHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ticker.setAdapter(null);
-                                    ticker.setAdapter(gainerLooserAdapter);
-                                    mHandler.postDelayed(SCROLLING_RUNNABLE, 2000);
-                                }
+                            postHandler.postDelayed(() -> {
+                                ticker.setAdapter(null);
+                                ticker.setAdapter(gainerLooserAdapter);
+                                mHandler.postDelayed(SCROLLING_RUNNABLE, 2000);
                             }, 2000);
                         }
                     }
@@ -548,12 +498,7 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         try {
             AlertDialog.Builder al = new AlertDialog.Builder(MainActivity.this);
             al.setMessage(msg);
-            al.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            al.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
             al.show();
         }
         catch (Exception e){
@@ -595,7 +540,7 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         });
     }
 
-    InstallStateUpdatedListener installStateUpdatedListener = new
+    final InstallStateUpdatedListener installStateUpdatedListener = new
             InstallStateUpdatedListener() {
                 @Override
                 public void onStateUpdate(InstallState state) {
@@ -627,7 +572,7 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
         Toast.makeText(MainActivity.this, "New Update is Ready to Install", Toast.LENGTH_SHORT).show();
     }
 
-    BroadcastReceiver bcNewMessageDownload = new BroadcastReceiver() {
+    final BroadcastReceiver bcNewMessageDownload = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent!=null) {
@@ -646,4 +591,34 @@ public class MainActivity extends AppCompatActivity implements OnUserEarnedRewar
     public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
 
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter_r), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 }

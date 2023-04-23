@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.cardview.widget.CardView;
@@ -18,10 +17,10 @@ import java.util.Random;
 
 public class MoverMenuAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<MoverLooserMenu> DataList;
-    String[] colors={"#d50000","#c51162","#aa00ff","#6200ea","#304ffe","#2962ff","#0091ea","#006064","#009688","#2e7d32","#558b2f","#827717","#e65100","#ff3d00","#5d4037","#455a64"};
+    final LayoutInflater inflater;
+    final Context context;
+    final List<MoverLooserMenu> DataList;
+    final String[] colors={"#d50000","#c51162","#aa00ff","#6200ea","#304ffe","#2962ff","#0091ea","#006064","#009688","#2e7d32","#558b2f","#827717","#e65100","#ff3d00","#5d4037","#455a64"};
 
     public MoverMenuAdapter(Context context, List<MoverLooserMenu> equityModels){
         this.DataList=equityModels;
@@ -73,7 +72,7 @@ public class MoverMenuAdapter extends BaseAdapter {
         mover_text.setText(equityModel.getName());
         mover_text_data.setText(equityModel.getData_text());
         Random rn=new Random();
-        int no=0 + rn.nextInt((colors.length-1) - 0 + 1);
+        int no= rn.nextInt((colors.length - 1) + 1);
         card_item.setCardBackgroundColor(Color.parseColor(colors[no]));
 
 

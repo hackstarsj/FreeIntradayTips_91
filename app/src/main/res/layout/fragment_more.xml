@@ -1,178 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
-            app:cardElevation="5dp"
-            android:padding="5dp"
-            android:layout_margin="5dp"
-            app:cardUseCompatPadding="true"
-            android:id="@+id/learn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                style="@style/TextAppearance.AppCompat.Title"
-                android:padding="10dp"
-                android:textColor="#000"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:text="@string/learn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-        </androidx.cardview.widget.CardView>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
+
+            <Button
+                style="@style/TextAppearance.AppCompat.Title"
+                android:id="@+id/learn"
+                android:textColor="#000"
+                android:singleLine="true"
+                android:background="@color/colorWhite"
+                android:textSize="16sp"
                 android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
+                android:text="@string/learn"
                 android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/stock_news"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                android:layout_height="wrap_content"/>
+
+                <Button
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="14sp"
-                    android:text="@string/stock_news"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/ipo"
-                android:visibility="gone"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:padding="10dp"
-                    android:textColor="#000"
-                    android:textSize="12sp"
-                    android:text="@string/ipo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/startup_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000"
-                    android:textSize="14sp"
-                    android:text="@string/startup_news"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:visibility="gone"
-                android:id="@+id/etf"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:padding="10dp"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:text="@string/etf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/internation_news"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000"
-                    android:textSize="14sp"
-                    android:text="@string/international"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/bonds"
-                android:padding="5dp"
-                android:visibility="gone"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:padding="10dp"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:text="@string/bonds"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/coins"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:text="@string/coin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                android:id="@+id/top_news"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
+                <Button
+                    android:padding="10dp"
+                    android:textColor="#000"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:text="@string/stock_news"
+                    android:id="@+id/stock_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    />
+
+
+                <Button
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:text="@string/startup_news"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:id="@+id/startup_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:id="@+id/internation_news"
+                    android:textColor="#000"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
+                    android:text="@string/international"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textColor="#000"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:layout_weight="1"
                     android:text="@string/top_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/sips"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <TextView
                     android:textStyle="bold"
                     android:padding="10dp"
+                    android:layout_weight="1"
                     android:textColor="#000"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -180,7 +118,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
         <View
             android:background="#272727"
@@ -190,119 +127,94 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/global_news"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
+                    android:id="@+id/global_news"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:text="@string/global_market"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/mutul_fund"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                 <Button
+                    android:id="@+id/mutul_fund"
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                     android:visibility="gone"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/mutual_fund"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:id="@+id/sip_news"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:id="@+id/sip_news"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="@string/sips_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:id="@+id/comodity"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/comodity"
                     android:text="@string/commodity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/politics_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/politics_news"
                     android:text="@string/politics_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:id="@+id/currency"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
+                    android:id="@+id/currency"
                     android:text="@string/currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
         <View
@@ -313,121 +225,95 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/sport_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:id="@+id/sport_news"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="@string/sports_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/comodity_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:id="@+id/comodity_news"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/commodity_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/business_news"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:id="@+id/business_news"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/business_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/currency_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
+                    android:id="@+id/currency_news"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/currency_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/economy_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/economy_news"
                     android:text="@string/economy_news"
                     android:layout_width="match_parent"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:id="@+id/earning_news"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/earning_news"
                     android:text="@string/earning_news"
                     android:layout_width="match_parent"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <View
             android:background="#272727"
@@ -437,12 +323,6 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
                 <TextView
                     android:padding="10dp"
                     android:textColor="#000"
@@ -453,7 +333,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
         <View
@@ -464,239 +343,192 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/premarket_open"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:id="@+id/premarket_open"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/premarket_open"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/active_stock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:id="@+id/active_stock"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/active_stock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/high_week"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="@string/_52_week_high"
+                    android:id="@+id/high_week"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/low_week"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/low_week"
                     android:text="@string/_52_week_low"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/volume_gainers"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/volume_gainers"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:text="@string/volume_gainers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/price_band_hitters"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:id="@+id/price_band_hitters"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/price_band_hitters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/oi_spurts"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/oi_spurts"
                     android:text="@string/oi_spurts"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/bulk_deals"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:id="@+id/bulk_deals"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="14sp"
                     android:text="@string/bulk_deals"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/block_deals"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="@string/block_deals"
+                    android:id="@+id/block_deals"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/fidi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:id="@+id/fidi"
+                    android:textSize="14sp"
                     android:text="@string/fii_amp_dii_data"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/most_delivery"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:id="@+id/most_delivery"
                     android:text="@string/most_delivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/short_selling"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textColor="#000"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:id="@+id/short_selling"
                     android:text="@string/short_selling"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <View
             android:background="#272727"
@@ -706,25 +538,22 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/economy"
-                android:padding="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textSize="20sp"
+                    android:id="@+id/economy"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="16sp"
                     android:text="@string/economy"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <View
             android:background="#272727"
@@ -738,25 +567,22 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/forecast"
-                android:padding="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:text="@string/forecast"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:id="@+id/forecast"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         <View
             android:background="#272727"
@@ -766,55 +592,41 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/result"
-                android:padding="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <TextView
+                <Button
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
+                    android:id="@+id/result"
+                    android:background="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:text="@string/result_equity"
-                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_weight="1"
-                app:cardElevation="5dp"
-                android:id="@+id/result_option"
-                android:padding="5dp"
-                app:cardUseCompatPadding="true"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <TextView
+
+                <Button
                     android:padding="10dp"
                     android:textAlignment="center"
                     android:textColor="#000"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:text="@string/result_option"
-                    android:textStyle="bold"
+                    android:id="@+id/result_option"
+                    android:background="@color/colorWhite"
+                    android:layout_margin="5dp"
+                    style="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" />
-            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
         </LinearLayout>
         <View

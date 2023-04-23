@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,28 +32,28 @@ public class OptionAdapter extends RecyclerView.Adapter{
 
     private static final int AD_TYPE = 1;
     private boolean isLoading;
-    private Activity activity;
-    private List<Object> contacts;
-    private int visibleThreshold = 5;
+    private final Activity activity;
+    private final List<Object> contacts;
+    private final int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
     private final int VIEW_TYPE_ITEM = 0;
-    public Activity context;
+    public final Activity context;
     private final int VIEW_TYPE_LOADING = 1;
 
-    AccountOpenClick accountOpenClick;
+    final AccountOpenClick accountOpenClick;
 
 
 
-    private class BannerViewHolder extends RecyclerView.ViewHolder {
-        public RelativeLayout image_pen;
-        public RelativeLayout alice_pen;
-        public RelativeLayout upstock;
+    private static class BannerViewHolder extends RecyclerView.ViewHolder {
+        public final RelativeLayout image_pen;
+        public final RelativeLayout alice_pen;
+        public final RelativeLayout upstock;
 
         public BannerViewHolder(View view) {
             super(view);
-            image_pen = (RelativeLayout) view.findViewById(R.id.image_pen);
-            alice_pen = (RelativeLayout) view.findViewById(R.id.alice_pen);
-            upstock = (RelativeLayout) view.findViewById(R.id.upstock_pen);
+            image_pen = view.findViewById(R.id.image_pen);
+            alice_pen = view.findViewById(R.id.alice_pen);
+            upstock = view.findViewById(R.id.upstock_pen);
 
         }
     }
@@ -68,63 +68,68 @@ public class OptionAdapter extends RecyclerView.Adapter{
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                if (linearLayoutManager != null) {
+                    totalItemCount = linearLayoutManager.getItemCount();
+                }
+                if (linearLayoutManager != null) {
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                }
             }
         });
     }
 
     // "Normal item" ViewHolder
-    private class OptionAdapterRow extends RecyclerView.ViewHolder {
+    private static class OptionAdapterRow extends RecyclerView.ViewHolder {
 
 
-        public TextView equity_title;
-        public TextView equity_datetime;
-        public TextView equity_price;
-        public TextView text_target_1;
-        public TextView text_target_2;
-        public TextView text_target_3;
-        public TextView equity_buy;
-        public TextView text_buy_1;
-        public TextView text_buy_2;
-        public TextView text_buy_3;
-        public TextView text_achieved_1;
-        public TextView text_achieved_2;
-        public TextView text_achieved_3;
-        public TextView equity_loss;
-        public TextView equity_loss_text;
-        public TextView stoploss;
-        public TextView buy_text;
-        public TextView notification_message;
-        public LinearLayout buy_line,linesss;
+        public final TextView equity_title;
+        public final TextView equity_datetime;
+        public final TextView equity_price;
+        public final TextView text_target_1;
+        public final TextView text_target_2;
+        public final TextView text_target_3;
+        public final TextView equity_buy;
+        public final TextView text_buy_1;
+        public final TextView text_buy_2;
+        public final TextView text_buy_3;
+        public final TextView text_achieved_1;
+        public final TextView text_achieved_2;
+        public final TextView text_achieved_3;
+        public final TextView equity_loss;
+        public final TextView equity_loss_text;
+        public final TextView stoploss;
+        public final TextView buy_text;
+        public final TextView notification_message;
+        public final LinearLayout buy_line;
+        public final LinearLayout linesss;
 
 
         public OptionAdapterRow(View view) {
             super(view);
-            equity_title=(TextView) view.findViewById(R.id.equity_title);
-            equity_datetime=(TextView) view.findViewById(R.id.equity_datetime);
-            equity_price=(TextView) view.findViewById(R.id.equity_price);
-            text_target_1=(TextView) view.findViewById(R.id.text_target_1);
-            text_target_2=(TextView) view.findViewById(R.id.text_target_2);
-            text_target_3=(TextView) view.findViewById(R.id.text_target_3);
-            equity_buy=(TextView) view.findViewById(R.id.equity_buy);
-            text_buy_1=(TextView) view.findViewById(R.id.text_buy_1);
+            equity_title= view.findViewById(R.id.equity_title);
+            equity_datetime= view.findViewById(R.id.equity_datetime);
+            equity_price= view.findViewById(R.id.equity_price);
+            text_target_1= view.findViewById(R.id.text_target_1);
+            text_target_2= view.findViewById(R.id.text_target_2);
+            text_target_3= view.findViewById(R.id.text_target_3);
+            equity_buy= view.findViewById(R.id.equity_buy);
+            text_buy_1= view.findViewById(R.id.text_buy_1);
 
 
-            text_buy_2=(TextView) view.findViewById(R.id.text_buy_2);
-            text_buy_3=(TextView) view.findViewById(R.id.text_buy_3);
-            text_achieved_1=(TextView) view.findViewById(R.id.text_achieved_1);
-            text_achieved_2=(TextView) view.findViewById(R.id.text_achieved_2);
-            text_achieved_3=(TextView) view.findViewById(R.id.text_achieved_3);
-            equity_loss=(TextView) view.findViewById(R.id.equity_loss);
-            equity_loss_text=(TextView) view.findViewById(R.id.equity_loss_text);
-            stoploss=(TextView) view.findViewById(R.id.stop_loss);
-            buy_text=(TextView) view.findViewById(R.id.buy_text);
-            buy_line=(LinearLayout) view.findViewById(R.id.line_buy);
-            linesss=(LinearLayout) view.findViewById(R.id.linesss);
-            notification_message=(TextView) view.findViewById(R.id.notification_text);
+            text_buy_2= view.findViewById(R.id.text_buy_2);
+            text_buy_3= view.findViewById(R.id.text_buy_3);
+            text_achieved_1= view.findViewById(R.id.text_achieved_1);
+            text_achieved_2= view.findViewById(R.id.text_achieved_2);
+            text_achieved_3= view.findViewById(R.id.text_achieved_3);
+            equity_loss= view.findViewById(R.id.equity_loss);
+            equity_loss_text= view.findViewById(R.id.equity_loss_text);
+            stoploss= view.findViewById(R.id.stop_loss);
+            buy_text= view.findViewById(R.id.buy_text);
+            buy_line= view.findViewById(R.id.line_buy);
+            linesss= view.findViewById(R.id.linesss);
+            notification_message= view.findViewById(R.id.notification_text);
 
         }
     }
@@ -144,8 +149,9 @@ public class OptionAdapter extends RecyclerView.Adapter{
 
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(activity).inflate(R.layout.option_row, parent, false);
             return new OptionAdapterRow(view);
@@ -153,11 +159,14 @@ public class OptionAdapter extends RecyclerView.Adapter{
             View view = LayoutInflater.from(activity).inflate(R.layout.bottom_layout_open_demat, parent, false);
             return new BannerViewHolder(view);
         }
-        return null;
+        else{
+            View view = LayoutInflater.from(activity).inflate(R.layout.bottom_layout_open_demat, parent, false);
+            return new BannerViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof OptionAdapterRow) {
             final OptionModel contact = (OptionModel) contacts.get(position);
             OptionAdapterRow userViewHolder = (OptionAdapterRow) holder;
@@ -169,20 +178,20 @@ public class OptionAdapter extends RecyclerView.Adapter{
             userViewHolder.text_target_1.setText(contact.getTarget1());
             userViewHolder.text_target_2.setText(contact.getTarget2());
             userViewHolder.text_target_3.setText(contact.getTarget3());
-            userViewHolder.equity_buy.setText(""+contact.getBuy_price());
-            userViewHolder.text_buy_1.setText(""+formatter.format(Double.parseDouble(contact.getBuy1())));
-            userViewHolder.text_buy_2.setText(""+formatter.format(Double.parseDouble(contact.getBuy2())));
-            userViewHolder.text_buy_3.setText(""+formatter.format(Double.parseDouble(contact.getBuy3())));
+            userViewHolder.equity_buy.setText(String.format("%s", contact.getBuy_price()));
+            userViewHolder.text_buy_1.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy1()))));
+            userViewHolder.text_buy_2.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy2()))));
+            userViewHolder.text_buy_3.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy3()))));
             userViewHolder.text_achieved_1.setText(contact.getAchieved1());
             userViewHolder.text_achieved_2.setText(contact.getAchieved2());
             userViewHolder.text_achieved_3.setText(contact.getAchieved3());
-            userViewHolder.equity_loss.setText(""+formatter.format(Double.parseDouble(contact.getStop_loss())));
+            userViewHolder.equity_loss.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getStop_loss()))));
             userViewHolder.stoploss.setText(contact.getStop_loss_text());
             userViewHolder.equity_loss_text.setText(contact.getStop_loss_end());
 
             if(contact.getNotification_message()!=null) {
                 if (!contact.getNotification_message().isEmpty()) {
-                    userViewHolder.notification_message.setText("" + contact.getNotification_message());
+                    userViewHolder.notification_message.setText(String.format("%s", contact.getNotification_message()));
                     userViewHolder.notification_message.setVisibility(View.VISIBLE);
                     if (contact.getBuy_text().contains("SELL")) {
                         userViewHolder.notification_message.setBackgroundColor(Color.parseColor("#f45854"));
@@ -284,24 +293,9 @@ public class OptionAdapter extends RecyclerView.Adapter{
 
             }
             BannerViewHolder loadingViewHolder = (BannerViewHolder) holder;
-            loadingViewHolder.image_pen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onClick();
-                }
-            });
-            loadingViewHolder.alice_pen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onAliceClick();
-                }
-            });
-            loadingViewHolder.upstock.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onUpstockClick();
-                }
-            });
+            loadingViewHolder.image_pen.setOnClickListener(view -> accountOpenClick.onClick());
+            loadingViewHolder.alice_pen.setOnClickListener(view -> accountOpenClick.onAliceClick());
+            loadingViewHolder.upstock.setOnClickListener(view -> accountOpenClick.onUpstockClick());
             //loadingViewHolder.progressBar.setIndeterminate(true);
         }
 

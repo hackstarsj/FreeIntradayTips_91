@@ -1,17 +1,12 @@
 package com.silverlinesoftwares.intratips.activity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -30,22 +23,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.fragments.AboutFragment;
 import com.silverlinesoftwares.intratips.listeners.DetailsResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.FetchProfileTask;
@@ -72,23 +59,20 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
 
         someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
-                            Intent data = result.getData();
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
 
-                            try {
-                                Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-                                GoogleSignInAccount account = googleSignInAccountTask.getResult(ApiException.class);
-                                assert account != null;
-                                processGoogleLogin(account.getIdToken(), account);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
+                        try {
+                            Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+                            GoogleSignInAccount account = googleSignInAccountTask.getResult(ApiException.class);
+                            assert account != null;
+                            processGoogleLogin(account.getIdToken(), account);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+
                     }
                 });
 
@@ -98,11 +82,10 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
     private void processGoogleLogin(String idToken, GoogleSignInAccount account) {
         AuthCredential authCredential= GoogleAuthProvider.getCredential(idToken,null);
         firebaseAuth.signInWithCredential(authCredential)
-                .addOnCompleteListener(GoogleLoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                .addOnCompleteListener(GoogleLoginActivity.this, task -> {
+                    if(task.isSuccessful()){
+                        FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                        if (firebaseUser != null) {
                             SendUserData(firebaseUser);
                         }
                     }
@@ -143,16 +126,14 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if(mUser!=null) {
             mUser.getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if (task.isSuccessful()) {
-                                String idToken = task.getResult().getToken();
-                                SendtoServerTokenFcm(idToken);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            SendtoServerTokenFcm(idToken);
 
-                            } else {
-                                // Handle error -> task.getException();
-                                Toast.makeText(GoogleLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
-                            }
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(GoogleLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -173,24 +154,16 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
     public void RegisterFirebaseUser(final String token){
         RequestQueue MyRequestQueue = Volley.newRequestQueue(GoogleLoginActivity.this);
         String url = "https://furthergrow.silverlinesoftwares.com/login/firebaseuser";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                processLoginNextStep(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GoogleLoginActivity.this, "Failed to Login! Please Try Again!", Toast.LENGTH_SHORT).show();
-                if(progressDialog!=null){
-                    if(progressDialog.isShowing()){
-                        progressDialog.dismiss();
-                    }
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, this::processLoginNextStep, error -> {
+            Toast.makeText(GoogleLoginActivity.this, "Failed to Login! Please Try Again!", Toast.LENGTH_SHORT).show();
+            if(progressDialog!=null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
                 }
             }
         }) {
             protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
+                Map<String, String> MyData = new HashMap<>();
                 MyData.put("token", token);
                 return MyData;
             }
@@ -217,29 +190,20 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
         progressDialog.show();
 
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(!task.isSuccessful()){
-                    return;
-                }
-                String tok=task.getResult();
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),tok);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if(!task.isSuccessful()){
+                return;
+            }
+            String tok=task.getResult();
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),tok);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),"");
-            }
-        }).addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),"");
-            }
+        }).addOnFailureListener(e -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),"");
+        }).addOnCanceledListener(() -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(GoogleLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(GoogleLoginActivity.this),"");
         });
 
     }
@@ -265,11 +229,7 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
                         progressDialog.dismiss();
                     }
                 }
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showDialog(""+data.getMessage());
-                    }},1000);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> showDialog(""+data.getMessage()),1000);
             }
         }
         else{
@@ -287,12 +247,7 @@ public class GoogleLoginActivity extends AppCompatActivity implements DetailsRes
         AlertDialog.Builder al=new AlertDialog.Builder(GoogleLoginActivity.this);
         al.setMessage(s);
         al.setTitle("Error");
-        al.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        al.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
         al.show();
     }
 

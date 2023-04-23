@@ -37,7 +37,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -47,7 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/traded_qty"
-                android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
                     <TextView
@@ -55,7 +55,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/traded_qty_text"
                         android:text="@string/_100"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -68,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/prev_close"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
@@ -76,7 +74,6 @@
                         android:id="@+id/prev_close_text"
                         android:layout_height="wrap_content"
                         android:text="@string/_300"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 

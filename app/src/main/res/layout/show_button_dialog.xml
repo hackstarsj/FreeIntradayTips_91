@@ -7,9 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -26,10 +24,10 @@
                         android:layout_margin="5dp"
                         android:textColor="#00BCD4"
                         android:background="@drawable/border_blue_2"
-                        android:id="@+id/buy_stock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="lollipop" />
+                        tools:targetApi="lollipop"
+                        style="?android:attr/buttonBarButtonStyle" />
                     <Button
                         android:text="@string/sell"
                         android:textColor="#F44336"
@@ -37,10 +35,10 @@
                         android:layout_weight="1"
                         android:elevation="5dp"
                         android:background="@drawable/border_red"
-                        android:id="@+id/sell_stock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="lollipop" />
+                        tools:targetApi="lollipop"
+                        style="?android:attr/buttonBarButtonStyle" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -54,10 +52,10 @@
                         android:layout_weight="1"
                         android:elevation="5dp"
                         android:background="@drawable/border_green"
-                        android:id="@+id/charts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="lollipop" />
+                        tools:targetApi="lollipop"
+                        style="?android:attr/buttonBarButtonStyle" />
                     <Button
                         android:layout_weight="1"
                         android:text="@string/information"
@@ -65,13 +63,12 @@
                         android:layout_margin="5dp"
                         android:textColor="#E91E63"
                         android:background="@drawable/border_pinkk"
-                        android:id="@+id/details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="lollipop" />
+                        tools:targetApi="lollipop"
+                        style="?android:attr/buttonBarButtonStyle" />
 
                 </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

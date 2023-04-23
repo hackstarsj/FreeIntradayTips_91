@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -18,7 +17,7 @@ import okhttp3.Response;
 public class MutualFundTask  {
 
 
-    ChartListener chartListener;
+    final ChartListener chartListener;
     public MutualFundTask(ChartListener chartListener) {
         this.chartListener=chartListener;
     }
@@ -33,7 +32,8 @@ public class MutualFundTask  {
 
         Request request =
                 new Request.Builder()
-                        .url("https://in.finance.yahoo.com/mutualfunds")
+                        .url("https://www.mutualfundindia.com/")
+                        .addHeader("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36")
                         .build();
         Response response = null;
         try {
@@ -76,9 +76,7 @@ public class MutualFundTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

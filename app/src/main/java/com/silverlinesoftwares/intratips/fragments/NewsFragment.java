@@ -18,7 +18,6 @@ import com.silverlinesoftwares.intratips.adapters.NewsAdapterR;
 import com.silverlinesoftwares.intratips.listeners.NewsListener;
 import com.silverlinesoftwares.intratips.models.NewsModel;
 import com.silverlinesoftwares.intratips.tasks.NewsTask;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +30,8 @@ public class NewsFragment extends Fragment implements NewsListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private List<NewsModel> newsModels;
     private NewsAdapterR newsAdapter;
-    private RecyclerView listView;
     private TimerTask timerTask;
     private Timer timer;
 
@@ -58,8 +53,9 @@ public class NewsFragment extends Fragment implements NewsListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -74,25 +70,22 @@ public class NewsFragment extends Fragment implements NewsListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listView=(RecyclerView) view.findViewById(R.id.list_news);
+        RecyclerView listView = view.findViewById(R.id.list_news);
         progress=view.findViewById(R.id.progress);
         newsModels=new ArrayList<>();
-        newsAdapter=new NewsAdapterR(getContext(),listView,newsModels);
+        newsAdapter=new NewsAdapterR(getContext(), listView,newsModels);
         listView.setLayoutManager(new LinearLayoutManager(getActivity()));
         listView.setHasFixedSize(true);
 
         listView.setAdapter(newsAdapter);
         NewsTask newsTask=new NewsTask(NewsFragment.this,null,0);
-        newsTask.execute(new String[]{"ok"});
+        newsTask.execute("ok");
 
-        newsAdapter.setOnItemClickListener(new NewsAdapterR.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, NewsModel obj, int position) {
-                Intent intent=new Intent(getContext(), NewWebActivity.class);
-                intent.putExtra("url",newsModels.get(position).getLinks());
-                startActivity(intent);
+        newsAdapter.setOnItemClickListener((v, obj, position) -> {
+            Intent intent=new Intent(getContext(), NewWebActivity.class);
+            intent.putExtra("url",newsModels.get(position).getLinks());
+            startActivity(intent);
 
-            }
         });
 
     }

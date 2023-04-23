@@ -1,22 +1,14 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapter;
 import com.silverlinesoftwares.intratips.listeners.GainerLooserListener;
-import com.silverlinesoftwares.intratips.models.EquityModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,7 +21,7 @@ import okhttp3.Response;
 public class GainerLooserTask  {
 
 
-    GainerLooserListener gainerLooserListener;
+    final GainerLooserListener gainerLooserListener;
 
     public GainerLooserTask(GainerLooserListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -66,13 +58,10 @@ public class GainerLooserTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
                         String data=response.body().string();
@@ -101,9 +90,7 @@ public class GainerLooserTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

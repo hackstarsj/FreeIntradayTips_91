@@ -1,6 +1,6 @@
 package com.silverlinesoftwares.intratips.fragments;
 
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.EconomyActivity;
@@ -20,10 +19,6 @@ public class EconomyFragment  extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public EconomyFragment() {
@@ -43,8 +38,9 @@ public class EconomyFragment  extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -55,11 +51,15 @@ public class EconomyFragment  extends Fragment {
         return inflater.inflate(R.layout.fragment_economy, container, false);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle=getArguments();
-        int post= Integer.parseInt(bundle.getString(Constant.search));
+        int post= 0;
+        if (bundle != null) {
+            post = Integer.parseInt(bundle.getString(Constant.search));
+        }
         WebView webView=view.findViewById(R.id.webview);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowFileAccess(true);

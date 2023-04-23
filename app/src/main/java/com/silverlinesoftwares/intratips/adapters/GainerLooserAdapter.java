@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,9 +16,9 @@ import java.util.List;
 
 public class GainerLooserAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<GainerLosserModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<GainerLosserModel> DataList;
 
     public GainerLooserAdapter(Context context, List<GainerLosserModel> equityModels){
         this.DataList=equityModels;
@@ -91,7 +90,7 @@ public class GainerLooserAdapter extends BaseAdapter {
         high.setText(equityModel.getHigh());
         low.setText(equityModel.getLow());
         change.setText(equityModel.getIislPtsChange());
-        percentage_text.setText("% "+equityModel.getPer());
+        percentage_text.setText(String.format("%% %s", equityModel.getPer()));
 
         double vals=0;
         if(equityModel.getLtP()!=null && equityModel.getPreviousClose()!=null) {

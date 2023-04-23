@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.util;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -37,7 +38,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
      *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
     String messs;
@@ -72,16 +72,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             sendNotification(remoteMessage.getData().get("title"),remoteMessage.getData().get("message"));
-
-
-            if (/* Check if data needs to be processed by long running job */ true) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-//                scheduleJob();
-            } else {
-                // Handle message within 10 seconds
-  //              handleNow();
-            }
-
         }
 
         // Check if message contains a notification payload.
@@ -98,20 +88,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
     }
     // [END receive_message]
-
-    /**
-     * Schedule a job using FirebaseJobDispatcher.
-     */
-//    private void scheduleJob() {
-//        // [START dispatch_job]
-//        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-//        Job myJob = dispatcher.newJobBuilder()
-//                .setService(MyJobService.class)
-//                .setTag("my-job-tag")
-//                .build();
-//        dispatcher.schedule(myJob);
-//        // [END dispatch_job]
-//    }
 
     /**
      * Handle time allotted to BroadcastReceivers.
@@ -139,74 +115,78 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         return notificationView;
     }
-    private void sendNotification(String messageBody,String title) {
-        Intent intent = new Intent(this, MainActivity.class);
-        String channelId = "Intraday01";
-        int importance =4;
-        String channelName = "Intraday";
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private void sendNotification(String messageBody, String title) {
+        try {
+            Intent intent = new Intent(this, MainActivity.class);
+            String channelId = "Intraday01";
+            int importance = 4;
+            String channelName = "Intraday";
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                        PendingIntent.FLAG_ONE_SHOT|PendingIntent.FLAG_MUTABLE);
+            }
+            else{
+                    PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                            PendingIntent.FLAG_ONE_SHOT);
+            }
 
-//        String channelId = getString(R.string.app_name);
-        //Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Uri defaultSoundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.serious);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),channelId)
-                // Set Icon
-                .setSmallIcon(R.drawable.web_hi_res_512)
-                .setSound(defaultSoundUri)
-                // Set Ticker Message
-                .setChannelId(channelId)
-                .setNumber(1)
-                .setWhen(System.currentTimeMillis())
-                .setColor(255)
-                .setTicker(getApplicationContext().getString(R.string.app_name))
-                // Dismiss Notification
-                .setAutoCancel(true)
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                // Set PendingIntent into Notification
-                .setOnlyAlertOnce(true)
-                .setContentIntent(pendingIntent);
+            Uri defaultSoundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.serious);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                    // Set Icon
+                    .setSmallIcon(R.drawable.web_hi_res_512)
+                    .setSound(defaultSoundUri)
+                    // Set Ticker Message
+                    .setChannelId(channelId)
+                    .setNumber(1)
+                    .setWhen(System.currentTimeMillis())
+                    .setColor(255)
+                    .setTicker(getApplicationContext().getString(R.string.app_name))
+                    // Dismiss Notification
+                    .setAutoCancel(true)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    // Set PendingIntent into Notification
+                    .setOnlyAlertOnce(true)
+                    .setContentIntent(pendingIntent);
 
-        // build a complex notification, with buttons and such
-        //
-        builder = builder.setContent(getComplexNotificationView(title,messageBody));
+            // build a complex notification, with buttons and such
+            //
+            builder = builder.setContent(getComplexNotificationView(title, messageBody));
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        long currentTimeMillis = System.currentTimeMillis();
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            long currentTimeMillis = System.currentTimeMillis();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(
-                    channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-            mChannel.setSound(null, null);
-            mChannel.setLightColor(Color.parseColor("#4CAF50"));
-            mChannel.setLockscreenVisibility(0);
-            AudioAttributes att = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build();
-            mChannel.setDescription("View Passenger Details");
-            mChannel.enableLights(true);
-            mChannel.enableVibration(true);
-            mChannel.setSound(defaultSoundUri,att);
-            notificationManager.createNotificationChannel(mChannel);
-        }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel mChannel = new NotificationChannel(
+                        channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                mChannel.setSound(null, null);
+                mChannel.setLightColor(Color.parseColor("#4CAF50"));
+                mChannel.setLockscreenVisibility(0);
+                AudioAttributes att = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build();
+                mChannel.setDescription("View Passenger Details");
+                mChannel.enableLights(true);
+                mChannel.enableVibration(true);
+                mChannel.setSound(defaultSoundUri, att);
+                notificationManager.createNotificationChannel(mChannel);
+            }
 
 
 //        Uri uri = Uri.parse("message_notifications_settings_tone", "" + default_message_notifications_settings_tone));
-//        if (uri != null)
-//            builder.setSound(uri);
-//        else {
-//            int defaults = 0;
-//            defaults = defaults | Notification.DEFAULT_SOUND;
-//            builder.setDefaults(defaults);
-//        }
 
-        long[] vibrate = new long[]{2000, 2000, 2000, 2000, 2000};
-        builder .setVibrate(vibrate);
+            long[] vibrate = new long[]{2000, 2000, 2000, 2000, 2000};
+            builder.setVibrate(vibrate);
 
-        notificationManager.notify((int) currentTimeMillis, builder.build());
+            notificationManager.notify((int) currentTimeMillis, builder.build());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

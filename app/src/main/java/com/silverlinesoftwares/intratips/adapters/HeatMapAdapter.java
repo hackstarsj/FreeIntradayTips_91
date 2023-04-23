@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.cardview.widget.CardView;
@@ -18,9 +17,9 @@ import java.util.List;
 
 public class HeatMapAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<SectorStockModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<SectorStockModel> DataList;
     boolean is_sector;
 
     public HeatMapAdapter(Context context, List<SectorStockModel> equityModels){
@@ -73,7 +72,7 @@ public class HeatMapAdapter extends BaseAdapter {
 
         symbol.setText(equityModel.getSymbol());
         pointchange.setText(equityModel.getPointchange());
-        percentage.setText("% "+equityModel.getPerchange());
+        percentage.setText(String.format("%% %s", equityModel.getPerchange()));
         card_stock.setBackgroundColor(Color.parseColor(StaticMethods.getColor(Double.parseDouble(equityModel.getPerchange()))));
 
 

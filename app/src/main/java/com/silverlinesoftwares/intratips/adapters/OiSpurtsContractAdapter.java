@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,11 +15,11 @@ import java.util.List;
 
 public class OiSpurtsContractAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<OiSpurtsContractsModel> DataList;
-    String date_1;
-    String date_2;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<OiSpurtsContractsModel> DataList;
+    final String date_1;
+    final String date_2;
 
     public OiSpurtsContractAdapter(Context context, List<OiSpurtsContractsModel> equityModels,String date_1,String date_2){
         this.DataList=equityModels;

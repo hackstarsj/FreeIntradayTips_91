@@ -27,10 +27,6 @@ public class ManagementFragment extends Fragment implements ManagementListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     RecyclerView list_management;
     ProgressBar progressBar;
 
@@ -51,8 +47,9 @@ public class ManagementFragment extends Fragment implements ManagementListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -67,14 +64,17 @@ public class ManagementFragment extends Fragment implements ManagementListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle=getArguments();
-        String symbol=bundle.getString(Constant.search);
+        String symbol= "";
+        if (bundle != null) {
+            symbol = bundle.getString(Constant.search);
+        }
 
         list_management=view.findViewById(R.id.list_management);
         progressBar=view.findViewById(R.id.progress);
         list_management.setLayoutManager(new LinearLayoutManager(getContext()));
         MangementTask mangementTask=new MangementTask(ManagementFragment.this);
        // StaticMethods.executeAsyncTask(mangementTask);
-        mangementTask.execute(new String[]{symbol});
+        mangementTask.execute(symbol);
     }
 
 

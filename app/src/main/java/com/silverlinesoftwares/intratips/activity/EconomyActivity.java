@@ -2,17 +2,19 @@ package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -42,18 +44,15 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
     ProgressBar progressBar;
     ViewPager2 viewPager;
 
-    public static List<String> datas=new ArrayList<>();
-    String[] titles={"Overview","GDP","Labour","Prices","Money","Trade","Government","Business","Consumer"};
+    public static final List<String> datas=new ArrayList<>();
+    final String[] titles={"Overview","GDP","Labour","Prices","Money","Trade","Government","Business","Consumer"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_economy);
-        MobileAds.initialize(EconomyActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(EconomyActivity.this, initializationStatus -> {
 
-            }
         });
         tabLayout=findViewById(R.id.tab_item);
         viewPager=findViewById(R.id.stock_page);
@@ -64,6 +63,7 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
 
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,EconomyActivity.this);
+        showInterestialAds();
 
     }
 
@@ -82,12 +82,7 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
 
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setUserInputEnabled(false);
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-              tab.setText(viewPagerAdapter.getTitle(position));
-            }
-        }).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewPagerAdapter.getTitle(position))).attach();
         viewPager.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1);
 
     }
@@ -122,7 +117,7 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
                     "    background-color: whitesmoke;" +
                     "    box-shadow: 5px 5px 5px red;" +
                     "} " +
-                   "a { color:black; }</style></head><body><table>"+dd.toString()+"</table></body></html>";
+                   "a { color:black; }</style></head><body><table>"+ dd +"</table></body></html>";
 
            datas.add(all_data);
 
@@ -219,15 +214,38 @@ public class EconomyActivity extends AppCompatActivity implements ChartListener 
         LoadHomePage();
 
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(EconomyActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter_r), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onFailed(String msg) {

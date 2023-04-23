@@ -2,15 +2,11 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapter;
 import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
 import com.silverlinesoftwares.intratips.models.EquityModel;
 
@@ -21,7 +17,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -32,10 +27,10 @@ import okhttp3.Response;
 
 public class IntraHighTask  {
 
-    Context context;
-    EquityAdapterR homeAdapter;
+    final Context context;
+    final EquityAdapterR homeAdapter;
     String symbol;
-    EquityModel equityModel;
+    final EquityModel equityModel;
 
 
     public IntraHighTask(Context context, EquityAdapterR equityAdapter, EquityModel equityModel){
@@ -139,13 +134,10 @@ public class IntraHighTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
                         String data=response.body().string();
@@ -175,9 +167,7 @@ public class IntraHighTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

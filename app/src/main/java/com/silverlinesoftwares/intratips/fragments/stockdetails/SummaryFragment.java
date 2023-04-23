@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.activity.NewWebActivity;
 import com.silverlinesoftwares.intratips.listeners.NewsListener;
@@ -29,8 +34,6 @@ import com.silverlinesoftwares.intratips.models.SummaryModel;
 import com.silverlinesoftwares.intratips.tasks.NewsTask;
 import com.silverlinesoftwares.intratips.tasks.StockDetailTask;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,10 +42,6 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public SummaryFragment() {
@@ -62,8 +61,9 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -124,6 +124,7 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
         progress=view.findViewById(R.id.progress);
         progress_news=view.findViewById(R.id.progress_news);
         new_content=view.findViewById(R.id.new_conntent);
+        showInterestialAds();
 
     }
 
@@ -175,12 +176,12 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
             if(getActivity()!=null) {
                 view = getActivity().getLayoutInflater().inflate(R.layout.news_rows, null);
 
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView category = (TextView) view.findViewById(R.id.description);
-                ImageView image = (ImageView) view.findViewById(R.id.images);
+                TextView title = view.findViewById(R.id.title);
+                TextView category = view.findViewById(R.id.description);
+                ImageView image = view.findViewById(R.id.images);
                 CardView news_card=view.findViewById(R.id.news_card);
-                TextView date = (TextView) view.findViewById(R.id.dates);
-                ImageView thumbnail_video = (ImageView) view.findViewById(R.id.progress);
+                TextView date = view.findViewById(R.id.dates);
+                ImageView thumbnail_video = view.findViewById(R.id.progress);
 
 
                 title.setText(Html.fromHtml(newsModel.getTitle()));
@@ -204,10 +205,6 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
                         image.setImageBitmap(decodedByte);
 
                     } else {
-//                        Picasso.with(getContext())
-//                                .load(newsModel.getImages())
-//                                .placeholder(R.drawable.ic_thumbnail)
-//                                .into(image);
                         try {
                             byte[] decodedString = Base64.decode(newsModel.getImages(), Base64.DEFAULT);
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -220,14 +217,11 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
                     }
                 }
 
-                news_card.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        StaticMethods.showInterestialAds(getActivity());
-                        Intent intent=new Intent(getContext(), NewWebActivity.class);
-                        intent.putExtra("url",newsModel.getLinks());
-                        startActivity(intent);
-                    }
+                news_card.setOnClickListener(v -> {
+                    showInterestialAdsView();
+                    Intent intent=new Intent(getContext(), NewWebActivity.class);
+                    intent.putExtra("url",newsModel.getLinks());
+                    startActivity(intent);
                 });
 
                 new_content.addView(view);
@@ -237,13 +231,13 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
             else if(getContext()!=null){
                     view = getActivity().getLayoutInflater().inflate(R.layout.news_rows, null);
 
-                    TextView title = (TextView) view.findViewById(R.id.title);
-                    TextView category = (TextView) view.findViewById(R.id.description);
-                    ImageView image = (ImageView) view.findViewById(R.id.images);
-                    TextView date = (TextView) view.findViewById(R.id.dates);
+                    TextView title = view.findViewById(R.id.title);
+                    TextView category = view.findViewById(R.id.description);
+                    ImageView image = view.findViewById(R.id.images);
+                    TextView date = view.findViewById(R.id.dates);
                 CardView news_card=view.findViewById(R.id.news_card);
 
-                ImageView thumbnail_video = (ImageView) view.findViewById(R.id.progress);
+                ImageView thumbnail_video = view.findViewById(R.id.progress);
 
 
                     title.setText(Html.fromHtml(newsModel.getTitle()));
@@ -276,21 +270,14 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
                             catch (Exception e){
                                 e.printStackTrace();
                             }
-//                            Picasso.with(getContext())
-//                                    .load(newsModel.getImages())
-//                                    .placeholder(R.drawable.ic_thumbnail)
-//                                    .into(image);
                         }
                     }
 
-                news_card.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        StaticMethods.showInterestialAds(getActivity());
-                        Intent intent=new Intent(getContext(), NewWebActivity.class);
-                        intent.putExtra("url",newsModel.getLinks());
-                        startActivity(intent);
-                    }
+                news_card.setOnClickListener(v -> {
+                    showInterestialAdsView();
+                    Intent intent=new Intent(getContext(), NewWebActivity.class);
+                    intent.putExtra("url",newsModel.getLinks());
+                    startActivity(intent);
                 });
                     new_content.addView(view);
 
@@ -298,6 +285,38 @@ public class SummaryFragment extends Fragment implements StockDetailListener, Ne
             }
         }
 
+    }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            if(getActivity()!=null) {
+                mInterstitialAd.show(getActivity());
+            }
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        if(getContext()!=null) {
+            InterstitialAd.load(getContext(), getString(R.string.inter_r), adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            Log.i("TAG", loadAdError.getMessage());
+                            mInterstitialAd = null;
+                        }
+                    });
+        }
     }
 
 

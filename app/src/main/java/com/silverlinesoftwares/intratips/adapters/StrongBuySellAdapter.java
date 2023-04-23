@@ -17,9 +17,9 @@ import java.util.List;
 
 public class StrongBuySellAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<StrongBuySellModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<StrongBuySellModel> DataList;
 
     public StrongBuySellAdapter(Context context, List<StrongBuySellModel> equityModels){
         this.DataList=equityModels;
@@ -83,7 +83,7 @@ public class StrongBuySellAdapter extends BaseAdapter {
         market_cap.setText(equityModel.getMktCap());
         volume.setText(equityModel.getVol());
         change.setText(equityModel.getChange());
-        percentage_text.setText("% "+equityModel.getChangePer());
+        percentage_text.setText(String.format("%% %s", equityModel.getChangePer()));
 
         if(!equityModel.isLow()){
             indicator.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);

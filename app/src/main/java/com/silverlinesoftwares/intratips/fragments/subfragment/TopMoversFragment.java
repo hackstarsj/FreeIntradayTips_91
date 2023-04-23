@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.silverlinesoftwares.intratips.R;
@@ -26,9 +25,6 @@ public class TopMoversFragment extends Fragment  {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     ListView topMovers;
     List<GainerLosserModel> gainerLosserModels=new ArrayList<>();
 
@@ -53,8 +49,9 @@ public class TopMoversFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -71,16 +68,13 @@ public class TopMoversFragment extends Fragment  {
         topMovers=view.findViewById(R.id.list_movers);
 
 
-        this.gainerLosserModels= (List<GainerLosserModel>) getArguments().getSerializable(Constant.data);
-        GainerLooserAdapter gainerLooserAdapter=new GainerLooserAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
-        topMovers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,gainerLosserModels.get(position).getSymbol()+".NS"));
-            }
-        });
+        if(getArguments()!=null) {
+            this.gainerLosserModels = (List<GainerLosserModel>) getArguments().getSerializable(Constant.data);
+            GainerLooserAdapter gainerLooserAdapter = new GainerLooserAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
+            topMovers.setOnItemClickListener((parent, view1, position, id) -> startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search, gainerLosserModels.get(position).getSymbol() + ".NS")));
 
+        }
 
     }
 

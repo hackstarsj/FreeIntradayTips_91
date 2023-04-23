@@ -8,7 +8,6 @@
     android:paddingRight="6dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
@@ -102,7 +101,6 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/lyt_comments"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"

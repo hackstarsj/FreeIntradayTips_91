@@ -3,7 +3,6 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -14,12 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
-import com.silverlinesoftwares.intratips.models.UserModel;
-import com.silverlinesoftwares.intratips.subfragment.HomeFragment;
 import com.silverlinesoftwares.intratips.models.BannerModel;
+import com.silverlinesoftwares.intratips.subfragment.HomeFragment;
 import com.silverlinesoftwares.intratips.models.EquityModel;
-import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,11 +35,11 @@ import okhttp3.Response;
 
 public class EquityTask  {
 
-    Context context;
-    String  userid;
-    EquityAdapterR equityAdapter;
-    List<Object> equityModels;
-    String token;
+    final Context context;
+    final String  userid;
+    final EquityAdapterR equityAdapter;
+    final List<Object> equityModels;
+    final String token;
 
 
     public EquityTask(Context context, EquityAdapterR equityAdapter, List<Object> equityModels,String userid,String token) {
@@ -114,16 +110,15 @@ public class EquityTask  {
                     Type type = new TypeToken<List<EquityModel>>(){}.getType();
                     List<EquityModel> contactList = gson.fromJson(finance, type);
                     equityModels.clear();
-                   // equityModels.add(new BannerModel("1"));
-                    //equityModels.add(new BannerModel("0"));
+                    equityModels.add(new BannerModel("0"));
                     equityModels.addAll(contactList);
-                    //equityModels.add(new BannerModel("1"));
+                    equityModels.add(new BannerModel("1"));
                     equityAdapter.notifyDataSetChanged();
                     Log.d("Ok","ok");
                     for (EquityModel equityModel:contactList){
                         if(!equityModel.getSymbol().isEmpty()) {
                             IntraHighTask intraHighTask = new IntraHighTask(context, equityAdapter, equityModel);
-                            intraHighTask.execute(new String[]{});
+                            intraHighTask.execute();
                         }
                     }
                 }
@@ -150,9 +145,7 @@ public class EquityTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

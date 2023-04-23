@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,13 +14,10 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,127 +31,62 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/market_cap_summary"
                                 android:text="@string/market_cap"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/market_cap_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                                android:textSize="11sp"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_large">
-
-
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="15dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/stock_pe_summary"
                                 android:text="@string/stock_pe"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/stock_pe_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
 
 
         </LinearLayout>
@@ -166,20 +94,14 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -188,69 +110,36 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/book_value_summary"
                                 android:text="@string/book_value"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/book_value_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -259,76 +148,41 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/roce_summary"
                                 android:text="@string/roce"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/roce_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-
 
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    android:layout_weight="1"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -336,62 +190,26 @@
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
 
-
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/face_value_summary"
                                 android:text="@string/face_value"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/face_value_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
@@ -399,7 +217,7 @@
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -408,55 +226,27 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/roe_summary"
                                 android:text="@string/roe"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/roe_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
 
 
         </LinearLayout>
@@ -464,12 +254,6 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
                     android:layout_width="match_parent"
@@ -477,7 +261,7 @@
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -486,69 +270,35 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/dividend_yield_summary"
                                 android:text="@string/diviend_yield"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/dividend_yield_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
                         </LinearLayout>
-                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -557,55 +307,27 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/volume_summary"
                                 android:text="@string/volume"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/volume_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
 
 
         </LinearLayout>
@@ -613,20 +335,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
+
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -634,70 +351,34 @@
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
 
-
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/average_volume_summary"
                                 android:text="@string/average_volume"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/average_volume_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -706,55 +387,27 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/vwap_summary"
                                 android:text="@string/vwap"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/vwap_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
 
         </LinearLayout>
 
@@ -762,20 +415,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
+
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -784,69 +432,37 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/week_52_high_summary"
                                 android:text="@string/_52_week_high"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
 
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/week_52_high_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -855,75 +471,41 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/week_52_low_summary"
                                 android:text="@string/_52_week_low"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/week_52_low_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
+
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -932,69 +514,34 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/upper_circuit_summary"
                                 android:text="@string/upper_circuit"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/upper_circuit_summary_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:padding="3dp"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android" >
                 <androidx.cardview.widget.CardView
                     android:layout_margin="3dp"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="2dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1003,55 +550,27 @@
                         android:padding="@dimen/spacing_large">
 
 
-                        <View
-                            android:layout_width="@dimen/spacing_middle"
-                            android:layout_height="0dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:id="@+id/lower_circuit_summary"
                                 android:text="@string/lower_circuit"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                                 android:textColor="#000" />
 
 
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/lower_circuit_value"
-                                android:layout_weight="1"
                                 android:text="@string/hypene"
                                 android:singleLine="true"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/blue_900" />
 
-                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-            </RelativeLayout>
 
         </LinearLayout>
         <View
@@ -1093,4 +612,3 @@
             android:layout_height="wrap_content"
             tools:targetApi="lollipop" />
     </FrameLayout>
-</RelativeLayout>

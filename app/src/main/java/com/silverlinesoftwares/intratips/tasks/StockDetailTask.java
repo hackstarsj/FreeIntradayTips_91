@@ -1,25 +1,20 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.listeners.StockDetailListener;
 import com.silverlinesoftwares.intratips.models.EquityModel;
 import com.silverlinesoftwares.intratips.models.SummaryModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -34,7 +29,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,9 +36,9 @@ import okhttp3.Response;
 public class StockDetailTask {
 
 
-    private String symbol;
-    private StockDetailListener   chartListener;
-    private EquityModel equityModel=new EquityModel();
+    private final String symbol;
+    private final StockDetailListener   chartListener;
+    private final EquityModel equityModel=new EquityModel();
 
     public StockDetailTask(String symbol, StockDetailListener chartListener) {
         this.symbol=symbol;
@@ -56,9 +50,7 @@ public class StockDetailTask {
         Executor executor = Executors.newSingleThreadExecutor();
 
         Handler handler = new Handler(Looper.getMainLooper());
-        executor.execute(() -> {
-            doInBackground(strings,handler);
-        });
+        executor.execute(() -> doInBackground(strings,handler));
     }
 
 
@@ -136,13 +128,12 @@ public class StockDetailTask {
             if (response.body() != null) {
                 //return response.body().string();
                 List<String> header=response.headers("Set-Cookie");
-                String dd="";
+                StringBuilder dd= new StringBuilder();
                 for (int i=0;i<header.size();i++){
-                    dd+=""+header.get(i)+";";
+                    dd.append("").append(header.get(i)).append(";");
                 }
 
-                String data=LoadSummaryData5(symbol,dd);
-                return data;
+                return LoadSummaryData5(symbol, dd.toString());
             }
             else{
                 return null;
@@ -375,8 +366,6 @@ public class StockDetailTask {
 
         }
 
-            handler.post(()->{
-                chartListener.onSummayLoaded(summaryModel);
-            });
+            handler.post(()-> chartListener.onSummayLoaded(summaryModel));
     }
 }

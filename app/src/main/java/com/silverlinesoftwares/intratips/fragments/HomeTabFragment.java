@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.silverlinesoftwares.intratips.subfragment.ForexFragment;
 import com.silverlinesoftwares.intratips.subfragment.HomeFragment;
 import com.silverlinesoftwares.intratips.subfragment.McxFragment;
 import com.silverlinesoftwares.intratips.subfragment.OptionFragment;
-import com.silverlinesoftwares.intratips.util.BuyButtonClick;
 
 public class HomeTabFragment extends Fragment {
 
@@ -40,7 +38,7 @@ public class HomeTabFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getParentFragmentManager(),getLifecycle());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(),getLifecycle());
         viewPagerAdapter.addFragment(new HomeFragment());
         viewPagerAdapter.addFragment(new OptionFragment());
         viewPagerAdapter.addFragment(new McxFragment());
@@ -55,21 +53,14 @@ public class HomeTabFragment extends Fragment {
 
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager2 mViewPager = (ViewPager2) view.findViewById(R.id.page);
+        ViewPager2 mViewPager = view.findViewById(R.id.page);
         mViewPager.setUserInputEnabled(true);
         mViewPager.setAdapter(viewPagerAdapter);
 
 
-        TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tab);
+        TabLayout tabLayout = view.findViewById(R.id.tab);
 
-       // mViewPager.registerOnPageChangeCallback(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-       // tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-        new TabLayoutMediator(tabLayout, mViewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(viewPagerAdapter.getTitle(position));
-            }
-        }).attach();
+        new TabLayoutMediator(tabLayout, mViewPager, (tab, position) -> tab.setText(viewPagerAdapter.getTitle(position))).attach();
 
         mViewPager.setOffscreenPageLimit(5);
 

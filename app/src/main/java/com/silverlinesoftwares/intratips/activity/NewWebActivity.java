@@ -1,8 +1,11 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +15,16 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 
 public class NewWebActivity extends AppCompatActivity {
@@ -28,6 +33,7 @@ public class NewWebActivity extends AppCompatActivity {
     WebView webView;
     ProgressBar progressBar;
     String urls=null;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +48,8 @@ public class NewWebActivity extends AppCompatActivity {
         else{
             urls=getIntent().getStringExtra("url");
         }
-        progressBar=(ProgressBar)findViewById(R.id.progress);
-        webView=(WebView)findViewById(R.id.webview);
+        progressBar= findViewById(R.id.progress);
+        webView= findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
@@ -57,22 +63,20 @@ public class NewWebActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient(){
             public void onProgressChanged(WebView view, int progress) {
 
-                //  progressDialog.setProgress(progress);
-                //textView.setText(progress + " %");
             }
 
         });
         webView.loadUrl(urls);
-
+        showInterestialAds();
     }
 
 
     private int getScale(){
         Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
-        Double val = new Double(width)/new Double(PIC_WIDTH);
+        double val = (double) width / PIC_WIDTH;
         val = val * 100d;
-        return val.intValue();
+        return (int) val;
     }
 
     private void setupWebViewClient(final String url) {
@@ -107,13 +111,37 @@ public class NewWebActivity extends AppCompatActivity {
 
     private void Showds() {
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(NewWebActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter1), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
+
 }

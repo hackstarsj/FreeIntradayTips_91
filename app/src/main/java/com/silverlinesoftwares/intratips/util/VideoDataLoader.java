@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.util;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -27,15 +26,12 @@ public class VideoDataLoader  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String  data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 
     protected String doInBackground(String[] objects) {
-        String vvv=BuilData();
-        return vvv;
+        return BuilData();
     }
 
     protected void onPostExecute(String s) {

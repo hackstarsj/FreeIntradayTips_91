@@ -1,8 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.models.BulkModel;
 import com.silverlinesoftwares.intratips.models.MostDeliverModel;
 
 import java.util.List;
 
 public class MostDeliveryAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<MostDeliverModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<MostDeliverModel> DataList;
 
     public MostDeliveryAdapter(Context context, List<MostDeliverModel> equityModels){
         this.DataList=equityModels;
@@ -72,7 +69,7 @@ public class MostDeliveryAdapter extends BaseAdapter {
         reliable_qty=(TextView)view.getTag(R.id.reliable_qty);
 
 
-        perentage_delivey.setText(equityModel.getPercentage_delivery()+" %");
+        perentage_delivey.setText(String.format("%s %%", equityModel.getPercentage_delivery()));
         symbol.setText(equityModel.getSymbol());
         traded_qty.setText(equityModel.getTraded_qty());
         reliable_qty.setText(equityModel.getReliable_qty());

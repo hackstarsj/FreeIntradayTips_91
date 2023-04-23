@@ -7,14 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -37,30 +40,27 @@ public class HighLowActivit extends AppCompatActivity implements GainerLooserLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_low);
-        MobileAds.initialize(HighLowActivit.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(HighLowActivit.this, initializationStatus -> {
 
-            }
         });
         progressBar=findViewById(R.id.progress);
         listView=findViewById(R.id.list_pre_market);
         if(getIntent().getStringExtra("data").equalsIgnoreCase("1")) {
             is_high=true;
             HighLowTask preMarketTask = new HighLowTask(HighLowActivit.this);
-            preMarketTask.execute(new String[]{"1"});
+            preMarketTask.execute("1");
 
         }
         else{
             is_high=false;
             HighLowTask preMarketTask = new HighLowTask(HighLowActivit.this);
-            preMarketTask.execute(new String[]{"0"});
+            preMarketTask.execute("0");
 
         }
 
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,HighLowActivit.this);
-
+        showInterestialAds();
 
     }
 
@@ -78,17 +78,39 @@ public class HighLowActivit extends AppCompatActivity implements GainerLooserLis
         }catch (Exception e){
             e.printStackTrace();
         }
-
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(HighLowActivit.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter_r), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onFailed(String msg) {

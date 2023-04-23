@@ -1,11 +1,9 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.ActiveStockListener;
-import com.silverlinesoftwares.intratips.listeners.GainerLooserListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +21,7 @@ import okhttp3.Response;
 public class ActiveStockTask {
 
 
-    ActiveStockListener gainerLooserListener;
+    final ActiveStockListener gainerLooserListener;
 
     public ActiveStockTask(ActiveStockListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -39,7 +37,7 @@ public class ActiveStockTask {
 
     }
 
-    protected JSONObject doInBackground(String... strings) {
+    protected JSONObject doInBackground() {
             JSONObject getVolume=getVolume();
             JSONObject getValues=getValues();
             JSONObject jsonObject=new JSONObject();
@@ -62,7 +60,6 @@ public class ActiveStockTask {
                 .build(); // connect timeout
         Date date=new Date();
         long timeMilli = date.getTime();
-        timeMilli=timeMilli-(1000*60);
 
         String url="https://www1.nseindia.com/live_market/dynaContent/live_analysis/most_active/allTopValue1.json";
 
@@ -76,10 +73,7 @@ public class ActiveStockTask {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -88,8 +82,7 @@ public class ActiveStockTask {
                     String data=response.body().string();
                     try {
 
-                        JSONObject jsonObject=new JSONObject(data);
-                        return jsonObject;
+                        return new JSONObject(data);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -126,10 +119,7 @@ public class ActiveStockTask {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e){
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
         if (response != null && response.isSuccessful()) {
@@ -138,8 +128,7 @@ public class ActiveStockTask {
                     String data=response.body().string();
                     try {
 
-                        JSONObject jsonObject=new JSONObject(data);
-                        return jsonObject;
+                        return new JSONObject(data);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -159,10 +148,8 @@ public class ActiveStockTask {
 
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
-            JSONObject data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            JSONObject data=doInBackground();
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

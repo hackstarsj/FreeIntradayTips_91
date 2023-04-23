@@ -3,6 +3,8 @@ package com.silverlinesoftwares.intratips;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,23 +25,22 @@ public class WalkThroughActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private Button btnNext;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private static final int MAX_STEP = 5;
-    private String about_title_array[] = {
+    private final String[] about_title_array = {
             "Daily Equity Tips",
             "Stock Detail",
             "Daily News",
             "Stock Result",
             "Reports"
     };
-    private String about_description_array[] = {
+    private final String[] about_description_array = {
             "Get Daily Updated Stock Learning Tips",
             "Analyse Your Stock Everyday",
             "Daily Stock Market,Startup News",
             "Daily Result",
             "Daily Reports"
     };
-    private int about_images_array[] = {
+    private final int[] about_images_array = {
             R.drawable.one,
             R.drawable.two,
             R.drawable.thre,
@@ -51,13 +52,13 @@ public class WalkThroughActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk_through);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        btnNext = findViewById(R.id.btn_next);
 
         // adding bottom dots
         bottomProgressDots(0);
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -71,9 +72,9 @@ public class WalkThroughActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (viewPager.getCurrentItem() == about_title_array.length - 1) {
-                    btnNext.setText("Get Started");
+                    btnNext.setText(getString(R.string.get_started));
                 } else {
-                    btnNext.setText("Next");
+                    btnNext.setText(getString(R.string.next));
                 }
             }
 
@@ -83,25 +84,22 @@ public class WalkThroughActivity extends AppCompatActivity {
         });
 
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = viewPager.getCurrentItem() + 1;
-                if (current < MAX_STEP) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                    StaticMethods.setFirstStart(WalkThroughActivity.this);
-                    if(StaticMethods.isPrivacyRun(WalkThroughActivity.this)){
-                        startActivity(new Intent(WalkThroughActivity.this, PrivacyActivity.class));
-                        finish();
-                    }
-                    else {
-                        startActivity(new Intent(WalkThroughActivity.this, MainActivity.class));
-                        finish();
-                    }
-                    //finish();
+        btnNext.setOnClickListener(v -> {
+            int current = viewPager.getCurrentItem() + 1;
+            if (current < MAX_STEP) {
+                // move to next screen
+                viewPager.setCurrentItem(current);
+            } else {
+                StaticMethods.setFirstStart(WalkThroughActivity.this);
+                if(StaticMethods.isPrivacyRun(WalkThroughActivity.this)){
+                    startActivity(new Intent(WalkThroughActivity.this, PrivacyActivity.class));
+                    finish();
                 }
+                else {
+                    startActivity(new Intent(WalkThroughActivity.this, MainActivity.class));
+                    finish();
+                }
+                //finish();
             }
         });
 
@@ -111,7 +109,7 @@ public class WalkThroughActivity extends AppCompatActivity {
     }
 
     private void bottomProgressDots(int current_index) {
-        LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
+        LinearLayout dotsLayout = findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
 
         dotsLayout.removeAllViews();
@@ -126,15 +124,13 @@ public class WalkThroughActivity extends AppCompatActivity {
             dotsLayout.addView(dots[i]);
         }
 
-        if (dots.length > 0) {
-            dots[current_index].setImageResource(R.drawable.shape_circle);
-            dots[current_index].setColorFilter(getResources().getColor(R.color.light_green_600), PorterDuff.Mode.SRC_IN);
-        }
+        dots[current_index].setImageResource(R.drawable.shape_circle);
+        dots[current_index].setColorFilter(getResources().getColor(R.color.light_green_600), PorterDuff.Mode.SRC_IN);
     }
 
 
     //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+    final ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageSelected(final int position) {
@@ -153,14 +149,14 @@ public class WalkThroughActivity extends AppCompatActivity {
     };
 
     public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
 
         public MyViewPagerAdapter() {
         }
 
+        @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
             ((TextView) view.findViewById(R.id.title)).setText(about_title_array[position]);
@@ -177,13 +173,13 @@ public class WalkThroughActivity extends AppCompatActivity {
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object obj) {
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object obj) {
             return view == obj;
         }
 
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
             View view = (View) object;
             container.removeView(view);
         }

@@ -3,6 +3,7 @@ package com.silverlinesoftwares.intratips.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.R;
@@ -39,11 +42,8 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_market_open);
-        MobileAds.initialize(PreMarketOpen.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(PreMarketOpen.this, initializationStatus -> {
 
-            }
         });
         String[] selecs={"Nifty","FO Stocks","NIFTY Bank","SME","Other"};
         ArrayAdapter arrayAdapter=new ArrayAdapter(PreMarketOpen.this,android.R.layout.simple_spinner_item,selecs);
@@ -57,7 +57,7 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //requestWithSomeHttpHeaders();
                 PreMarketTask preMarketTask=new PreMarketTask(PreMarketOpen.this);
-                preMarketTask.execute(new String[]{""+position});
+                preMarketTask.execute(""+position);
             }
 
             @Override
@@ -68,7 +68,7 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
 
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,PreMarketOpen.this);
-
+        showInterestialAds();
 
     }
 
@@ -88,15 +88,38 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
         }
 
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(PreMarketOpen.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter1), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onFailed(String msg) {
@@ -104,41 +127,5 @@ public class PreMarketOpen extends AppCompatActivity implements GainerLooserList
         progressBar.setVisibility(View.GONE);
     }
 
-//    public void requestWithSomeHttpHeaders() {
-//        RequestQueue queue = Volley.newRequestQueue(PreMarketOpen.this);
-//        String url = "https://www1.nseindia.com/live_market/dynaContent/live_analysis/pre_open/nifty.json";
-//        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>()
-//                {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // response
-//                        onSucess(response);
-//                        //Log.d("Response", response);
-//                    }
-//                },
-//                new Response.ErrorListener()
-//                {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // TODO Auto-generated method stub
-//                        onFailed("Server Error");
-//                        // Log.d("ERROR","error => "+error.toString());
-//                    }
-//                }
-//        ) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String>  params = new HashMap<String, String>();
-//                 //params.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36");
-//                 params.put("User-Agent","Mozilla/5.0 (compatible; Rigor/1.0.0; http://rigor.com)");
-//                 params.put("Accept","*/*");
-//
-//                return params;
-//            }
-//        };
-//        queue.add(getRequest);
-//
-//    }
 }
 

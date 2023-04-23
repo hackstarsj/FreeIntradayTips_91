@@ -27,7 +27,6 @@ import com.silverlinesoftwares.intratips.models.InsiderTransactionModel;
 import com.silverlinesoftwares.intratips.models.MajorHolderModel;
 import com.silverlinesoftwares.intratips.tasks.ShareHolderTask;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
     private Context mContext;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext=context;
     }
@@ -54,9 +53,6 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
         super.onDetach();
         mContext=null;
     }
-
-    private String mParam1;
-    private String mParam2;
 
 
     public ShareHoldersFragment() {
@@ -76,8 +72,8 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -92,7 +88,10 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle=getArguments();
-        String symbol=bundle.getString(Constant.search);
+        String symbol= "";
+        if (bundle != null) {
+            symbol = bundle.getString(Constant.search);
+        }
 
         progressBar=view.findViewById(R.id.progress);
         list_major_holder=view.findViewById(R.id.list_major_holders);
@@ -103,48 +102,38 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
         final CardView insider_roster_card=view.findViewById(R.id.insider_roster_card);
         final CardView insider_transaction_card=view.findViewById(R.id.insider_transactions_card);
 
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
+        pullToRefresh.setOnRefreshListener(() -> {
+            try {
                 FragmentTransaction ft = null;
-                if (getParentFragmentManager() != null) {
-                    ft = getParentFragmentManager().beginTransaction();
-                    ft.detach(ShareHoldersFragment.this).attach(ShareHoldersFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
+                ft = getParentFragmentManager().beginTransaction();
+                ft.detach(ShareHoldersFragment.this).attach(ShareHoldersFragment.this).commit();
+                pullToRefresh.setRefreshing(false);
+            }
+            catch (Exception e){
+                e.printStackTrace();
             }
         });
-        major_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insider_roster_card.setBackgroundColor(Color.parseColor("#000000"));
-                insider_transaction_card.setBackgroundColor(Color.parseColor("#000000"));
-                major_card.setBackgroundColor(Color.parseColor("#80d8ff"));
-                showScreen(list_major_holder);
-            }
+        major_card.setOnClickListener(v -> {
+            insider_roster_card.setBackgroundColor(Color.parseColor("#000000"));
+            insider_transaction_card.setBackgroundColor(Color.parseColor("#000000"));
+            major_card.setBackgroundColor(Color.parseColor("#80d8ff"));
+            showScreen(list_major_holder);
         });
 
-        insider_roster_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                major_card.setBackgroundColor(Color.parseColor("#000000"));
-                insider_transaction_card.setBackgroundColor(Color.parseColor("#000000"));
-                insider_roster_card.setBackgroundColor(Color.parseColor("#80d8ff"));
-                showScreen(list_insider_roster);
-            }
+        insider_roster_card.setOnClickListener(v -> {
+            major_card.setBackgroundColor(Color.parseColor("#000000"));
+            insider_transaction_card.setBackgroundColor(Color.parseColor("#000000"));
+            insider_roster_card.setBackgroundColor(Color.parseColor("#80d8ff"));
+            showScreen(list_insider_roster);
         });
 
-        insider_transaction_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                major_card.setBackgroundColor(Color.parseColor("#000000"));
-                insider_roster_card.setBackgroundColor(Color.parseColor("#000000"));
-                insider_transaction_card.setBackgroundColor(Color.parseColor("#80d8ff"));
-                showScreen(list_insider_transaction);
-            }
+        insider_transaction_card.setOnClickListener(v -> {
+            major_card.setBackgroundColor(Color.parseColor("#000000"));
+            insider_roster_card.setBackgroundColor(Color.parseColor("#000000"));
+            insider_transaction_card.setBackgroundColor(Color.parseColor("#80d8ff"));
+            showScreen(list_insider_transaction);
         });
 
 
@@ -155,7 +144,7 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
 
 
         ShareHolderTask shareHolderTask=new ShareHolderTask(ShareHoldersFragment.this);
-        shareHolderTask.execute(new String[]{symbol});
+        shareHolderTask.execute(symbol);
 
     }
 
@@ -186,7 +175,7 @@ public class ShareHoldersFragment extends Fragment implements ShareHolderListene
     @Override
     public void onInsiderTransaction(List<InsiderTransactionModel> list) {
         progressBar.setVisibility(View.GONE);
-        InsiderTransactionAdapterR incomeStatementAdapterR1=new InsiderTransactionAdapterR(getContext(),list_insider_roster,list);
+        InsiderTransactionAdapterR incomeStatementAdapterR1=new InsiderTransactionAdapterR(list);
         list_insider_transaction.setAdapter(incomeStatementAdapterR1);
 
     }

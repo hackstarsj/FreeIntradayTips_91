@@ -42,7 +42,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -53,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/high"
                 android:textSize="13sp"
-                android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
                     <TextView
@@ -62,7 +62,6 @@
                         android:id="@+id/high_data"
                         android:text="@string/_100"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -76,7 +75,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/low"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
@@ -85,7 +83,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/_100"
                         android:id="@+id/low_data"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -102,7 +99,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/_52_high"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
 
@@ -112,7 +108,6 @@
                         android:id="@+id/high_52_data"
                         android:text="@string/_200_00"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -126,7 +121,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_52_low"
-                    android:layout_weight="1"
                     android:textSize="13sp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
@@ -136,7 +130,6 @@
                         android:id="@+id/low_52"
                         android:layout_height="wrap_content"
                         android:text="@string/_300"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 

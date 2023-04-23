@@ -1,62 +1,30 @@
 package com.silverlinesoftwares.intratips.subfragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
 import com.silverlinesoftwares.intratips.adapters.OptionAdapter;
 import com.silverlinesoftwares.intratips.listeners.AccountOpenClick;
-import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
-import com.silverlinesoftwares.intratips.models.EquityModel;
-import com.silverlinesoftwares.intratips.models.UserModel;
-import com.silverlinesoftwares.intratips.tasks.EquityTask;
-import com.silverlinesoftwares.intratips.tasks.IntraHighTask;
 import com.silverlinesoftwares.intratips.tasks.OptionDataTask;
-import com.silverlinesoftwares.intratips.tasks.OptionTask;
-import com.silverlinesoftwares.intratips.util.BuyButtonClick;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -68,14 +36,12 @@ import tech.gusavila92.websocketclient.WebSocketClient;
 public class OptionFragment extends Fragment implements AccountOpenClick {
 
     public static ProgressBar progress;
-    private OptionAdapter equityAdapter=null;
     private TimerTask timerTask;
     private Timer t;
     boolean isFirstRun=true;
     boolean starts=true;
     private WebSocketClient webSocketClient;
     private WebView webview;
-    private ArrayList<Object> currentequityModels;
 
     public OptionFragment() {
         // Required empty public constructor
@@ -86,21 +52,6 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     @Override
@@ -123,86 +74,25 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
         listView.setLayoutManager(linearLayoutManager);
 
 
-        currentequityModels=new ArrayList<>();
-        equityAdapter=new OptionAdapter(listView,currentequityModels,getActivity(),getActivity(), OptionFragment.this);
+        ArrayList<Object> currentequityModels = new ArrayList<>();
+        OptionAdapter equityAdapter = new OptionAdapter(listView, currentequityModels, getActivity(), getActivity(), OptionFragment.this);
         listView.setAdapter(equityAdapter);
-        UserModel userModel=StaticMethods.getUserDetails(getContext());
-        if(userModel!=null) {
-            if(userModel.getIs_super()!=null) {
-                if (userModel.getIs_super().equalsIgnoreCase("1")) {
-                    pro_plus_btn.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    OptionDataTask equityTask = new OptionDataTask(getContext(), equityAdapter, currentequityModels, userModel, StaticMethods.getLoginToken(getContext()), listView, pro_plus_btn);
-                    equityTask.execute();
+        pro_plus_btn.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+        OptionDataTask equityTask = new OptionDataTask(getContext(), equityAdapter, currentequityModels, listView, pro_plus_btn);
+        equityTask.execute();
 
-                } else {
-                    pro_plus_btn.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                    pro_plus_btn.setText("Buy PRO PLUS to Unlock Option");
-                }
+
+        pro_plus_btn.setOnClickListener(view1 -> {
+            if(getContext()!=null) {
+                Intent intent = new Intent().setAction("bcNewMessageDownload");
+                intent.putExtra("id", "data");
+                getContext().sendBroadcast(intent);
             }
-            else{
-                pro_plus_btn.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-                pro_plus_btn.setText("Buy PRO PLUS to Unlock Option");
-            }
-        }
-        else{
-            pro_plus_btn.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
-
-        }
-
-
-        pro_plus_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getContext()!=null) {
-                    Intent intent = new Intent().setAction("bcNewMessageDownload");
-                    intent.putExtra("id", "data");
-                    getContext().sendBroadcast(intent);
-                }
-                //buyButtonClick.onBuyButtonClick();
-            }
+            //buyButtonClick.onBuyButtonClick();
         });
 
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                FragmentTransaction ft = null;
-                if (getParentFragmentManager() != null) {
-                    ft = getParentFragmentManager().beginTransaction();
-                    ft.detach(OptionFragment.this).attach(OptionFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
 
     }
 
@@ -219,20 +109,20 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
         if(isBuy){
             double pr=price_amt+profit_amt;
             double sr=price_amt-stop_loss_amt;
-            target.setText(""+ df2.format(pr));
-            stop_loss.setText(""+df2.format(sr));
+            target.setText(String.format("%s", df2.format(pr)));
+            stop_loss.setText(String.format("%s", df2.format(sr)));
         }
         else{
             double pr=price_amt-profit_amt;
             double sr=price_amt+profit_amt;
-            target.setText(""+df2.format(pr));
-            stop_loss.setText(""+df2.format(sr));
+            target.setText(String.format("%s", df2.format(pr)));
+            stop_loss.setText(String.format("%s", df2.format(sr)));
         }
 
         if(qty!=null){
             if(!qty.getText().toString().isEmpty()){
-                profit.setText(""+df2.format(profit_amt*Double.parseDouble(qty.getText().toString())));
-                loss.setText(""+df2.format(stop_loss_amt*Double.parseDouble(qty.getText().toString())));
+                profit.setText(String.format("%s", df2.format(profit_amt * Double.parseDouble(qty.getText().toString()))));
+                loss.setText(String.format("%s", df2.format(stop_loss_amt * Double.parseDouble(qty.getText().toString()))));
             }
         }
 
@@ -243,19 +133,19 @@ public class OptionFragment extends Fragment implements AccountOpenClick {
         if(priceText!=null){
             if(qty!=null){
                 if(!priceText.getText().toString().isEmpty() && !qty.getText().toString().isEmpty()){
-                    total_price.setText("TOTAL PRICE : "+df2.format(Double.parseDouble(priceText.getText().toString())*Double.parseDouble(qty.getText().toString())));
+                    total_price.setText(String.format("TOTAL PRICE : %s", df2.format(Double.parseDouble(priceText.getText().toString()) * Double.parseDouble(qty.getText().toString()))));
 
                 }
                 else{
-                    total_price.setText("TOTAL PRICE : 0");
+                    total_price.setText(getString(R.string.total_price_zero));
                 }
             }
             else{
-                total_price.setText("TOTAL PRICE : 0");
+                total_price.setText(getString(R.string.total_price_zero));
             }
         }
         else{
-            total_price.setText("TOTAL PRICE : 0");
+            total_price.setText(getString(R.string.total_price_zero));
         }
 
     }

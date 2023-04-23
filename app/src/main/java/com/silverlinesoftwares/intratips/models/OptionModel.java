@@ -38,7 +38,7 @@ public class OptionModel {
     }
 
     public void setBuy_text(String buy_text) {
-        buy_text = buy_text;
+        this.buy_text = buy_text;
     }
 
     public OptionModel() {

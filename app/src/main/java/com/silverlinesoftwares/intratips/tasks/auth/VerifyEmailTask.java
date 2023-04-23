@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks.auth;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -22,7 +21,7 @@ import okhttp3.Response;
 
 public class VerifyEmailTask  {
 
-    private ApiResponseListener apiResponseListener;
+    private final ApiResponseListener apiResponseListener;
     public VerifyEmailTask(ApiResponseListener apiResponseListener){
         this.apiResponseListener=apiResponseListener;
 
@@ -86,9 +85,7 @@ public class VerifyEmailTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

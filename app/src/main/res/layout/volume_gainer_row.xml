@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/spacing_large">
+            android:padding="@dimen/spacing_large"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -43,7 +44,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false">
                     <LinearLayout
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -54,7 +56,6 @@
                             android:id="@+id/text_high_low"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="@string/turnover"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:textColor="#000" />
@@ -63,7 +64,6 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/turn_over_data"
                             android:text="@string/_100"
-                            android:layout_weight="1"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:textColor="@color/grey_40" />
                     </LinearLayout>
@@ -76,7 +76,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/volume"
-                            android:layout_weight="1"
                             android:id="@+id/prev_low_high_text"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:textColor="#000" />
@@ -85,7 +84,6 @@
                             android:layout_height="wrap_content"
                             android:text="@string/_100"
                             android:id="@+id/volume_data"
-                            android:layout_weight="1"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:textColor="@color/grey_40" />
 
@@ -164,7 +162,6 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/one_week"
                     android:layout_weight="1"
                     android:textAlignment="center"
                     android:text="ONE WEEK"
@@ -178,8 +175,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/two_week"
-                        android:text="TWO WEEKS"
+                    android:text="TWO WEEKS"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="#fff" />
                 </LinearLayout>

@@ -26,8 +26,6 @@ public class LowerBandFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     List<PriceBandHitterModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
     ///private String mParam3;
 
 
@@ -48,8 +46,8 @@ public class LowerBandFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
            // mParam3=getArguments().getString(DATA);
         }
     }
@@ -64,12 +62,20 @@ public class LowerBandFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListView topMovers = view.findViewById(R.id.list_looser);
+        try {
+            ListView topMovers = view.findViewById(R.id.list_looser);
 
-
-        this.gainerLosserModels= (List<PriceBandHitterModel>) getArguments().getSerializable(Constant.data);
-        PriceBandHitterAdapter gainerLooserAdapter=new PriceBandHitterAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
+            if (getArguments() != null) {
+                if (getArguments().getSerializable(Constant.data) != null) {
+                    this.gainerLosserModels = (List<PriceBandHitterModel>) getArguments().getSerializable(Constant.data);
+                    PriceBandHitterAdapter gainerLooserAdapter = new PriceBandHitterAdapter(getContext(), gainerLosserModels);
+                    topMovers.setAdapter(gainerLooserAdapter);
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }

@@ -5,26 +5,21 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,9 +32,6 @@ import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
 import com.silverlinesoftwares.intratips.models.BannerModel;
 import com.silverlinesoftwares.intratips.models.EquityModel;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -49,17 +41,17 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final int AD_TYPE = 1;
     private boolean isLoading;
-    private Activity activity;
-    private List<Object> contacts;
-    private int visibleThreshold = 5;
+    private final Activity activity;
+    private final List<Object> contacts;
+    private final int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
     private final int VIEW_TYPE_ITEM = 0;
-    public Activity context;
+    public final Activity context;
     private final int VIEW_TYPE_LOADING = 1;
 
     //private OnLoadMoreListener onLoadMoreListener;
-    BuySellClickListener buySellClickListener;
-    AccountOpenClick accountOpenClick;
+    final BuySellClickListener buySellClickListener;
+    final AccountOpenClick accountOpenClick;
 
     @SuppressLint("NotifyDataSetChanged")
     public void changePrice(String regularMarketPrice, int i) {
@@ -69,20 +61,17 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyDataSetChanged();
         }
     }
-//    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-//        this.onLoadMoreListener = mOnLoadMoreListener;
-//    }
 
-    private class BannerViewHolder extends RecyclerView.ViewHolder {
-        public RelativeLayout image_pen;
-        public RelativeLayout alice_pen;
-        public RelativeLayout upstock;
+    private static class BannerViewHolder extends RecyclerView.ViewHolder {
+        public final RelativeLayout image_pen;
+        public final RelativeLayout alice_pen;
+        public final RelativeLayout upstock;
 
         public BannerViewHolder(View view) {
             super(view);
-            image_pen = (RelativeLayout) view.findViewById(R.id.image_pen);
-            alice_pen = (RelativeLayout) view.findViewById(R.id.alice_pen);
-            upstock = (RelativeLayout) view.findViewById(R.id.upstock_pen);
+            image_pen = view.findViewById(R.id.image_pen);
+            alice_pen = view.findViewById(R.id.alice_pen);
+            upstock = view.findViewById(R.id.upstock_pen);
         }
     }
 
@@ -97,85 +86,93 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                if (linearLayoutManager != null) {
+                    totalItemCount = linearLayoutManager.getItemCount();
+                }
+                if (linearLayoutManager != null) {
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                }
             }
         });
     }
 
     // "Normal item" ViewHolder
-    private class EquityAdapterRow extends RecyclerView.ViewHolder {
+    private static class EquityAdapterRow extends RecyclerView.ViewHolder {
 
-        public RelativeLayout rel_line;
-        public Button buy_btn;
-        public Button sell_btn;
-        public Button charts;
-        public Button fundamental;
-        public Button technical;
-        public LinearLayout line_buy_sell;
-        public TextView equity_title;
-        public TextView equity_datetime;
-        public TextView equity_time;
-        public TextView equity_price;
-        public TextView text_target_1;
-        public TextView text_target_2;
-        public TextView text_target_3;
-        public TextView equity_buy;
-        public TextView text_buy_1;
-        public TextView text_buy_2;
-        public TextView text_buy_3;
-        public TextView text_achieved_1;
-        public TextView text_achieved_2;
-        public TextView text_achieved_3;
-        public ImageView ticker;
-        public TextView equity_loss;
-        public TextView equity_loss_text;
-        public TextView stoploss;
-        public TextView notification_message;
-        public TextView buy_text,opens;
-        public LinearLayout buy_line,linesss;
+        public final RelativeLayout rel_line;
+        public final Button buy_btn;
+        public final Button sell_btn;
+        public final Button charts;
+        public final Button fundamental;
+        public final Button technical;
+        public final LinearLayout line_buy_sell;
+        public final TextView equity_title;
+        public final TextView equity_datetime;
+        public final TextView equity_time;
+        public final TextView equity_price;
+        public final TextView text_target_1;
+        public final TextView text_target_2;
+        public final TextView text_target_3;
+        public final TextView equity_buy;
+        public final TextView text_buy_1;
+        public final TextView text_buy_2;
+        public final TextView text_buy_3;
+        public final TextView text_achieved_1;
+        public final TextView text_achieved_2;
+        public final TextView text_achieved_3;
+        public final ImageView ticker;
+        public final TextView equity_loss;
+        public final TextView equity_loss_text;
+        public final TextView stoploss;
+        public final TextView notification_message;
+        public final TextView buy_text;
+        public final TextView opens;
+        public final LinearLayout buy_line;
+        public final LinearLayout linesss;
 
-        public TextView high,low,pres;
+        public final TextView high;
+        public final TextView low;
+        public final TextView pres;
 
         public EquityAdapterRow(View view) {
             super(view);
-            equity_title=(TextView) view.findViewById(R.id.equity_title);
-            equity_datetime=(TextView) view.findViewById(R.id.equity_datetime);
-            equity_time=(TextView) view.findViewById(R.id.equity_time);
-            equity_price=(TextView) view.findViewById(R.id.equity_price);
-            text_target_1=(TextView) view.findViewById(R.id.text_target_1);
-            text_target_2=(TextView) view.findViewById(R.id.text_target_2);
-            text_target_3=(TextView) view.findViewById(R.id.text_target_3);
-            equity_buy=(TextView) view.findViewById(R.id.equity_buy);
-            text_buy_1=(TextView) view.findViewById(R.id.text_buy_1);
-            notification_message=(TextView) view.findViewById(R.id.notification_text);
+            equity_title= view.findViewById(R.id.equity_title);
+            equity_datetime= view.findViewById(R.id.equity_datetime);
+            equity_time= view.findViewById(R.id.equity_time);
+            equity_price= view.findViewById(R.id.equity_price);
+            text_target_1= view.findViewById(R.id.text_target_1);
+            text_target_2= view.findViewById(R.id.text_target_2);
+            text_target_3= view.findViewById(R.id.text_target_3);
+            equity_buy= view.findViewById(R.id.equity_buy);
+            text_buy_1= view.findViewById(R.id.text_buy_1);
+            notification_message= view.findViewById(R.id.notification_text);
 
-            line_buy_sell=(LinearLayout)view.findViewById(R.id.line_buy_sell);
-            rel_line=(RelativeLayout)view.findViewById(R.id.rel_line);
-            buy_btn=(Button) view.findViewById(R.id.buy);
-            sell_btn=(Button) view.findViewById(R.id.sell);
-            charts=(Button) view.findViewById(R.id.chart);
-            fundamental=(Button) view.findViewById(R.id.fundamental);
-            technical=(Button) view.findViewById(R.id.technical);
+            line_buy_sell= view.findViewById(R.id.line_buy_sell);
+            rel_line= view.findViewById(R.id.rel_line);
+            buy_btn= view.findViewById(R.id.buy);
+            sell_btn= view.findViewById(R.id.sell);
+            charts= view.findViewById(R.id.chart);
+            fundamental= view.findViewById(R.id.fundamental);
+            technical= view.findViewById(R.id.technical);
 
-            text_buy_2=(TextView) view.findViewById(R.id.text_buy_2);
-            text_buy_3=(TextView) view.findViewById(R.id.text_buy_3);
-            text_achieved_1=(TextView) view.findViewById(R.id.text_achieved_1);
-            text_achieved_2=(TextView) view.findViewById(R.id.text_achieved_2);
-            text_achieved_3=(TextView) view.findViewById(R.id.text_achieved_3);
-            equity_loss=(TextView) view.findViewById(R.id.equity_loss);
-            equity_loss_text=(TextView) view.findViewById(R.id.equity_loss_text);
-            pres=(TextView) view.findViewById(R.id.pr_close);
-            high=(TextView) view.findViewById(R.id.high);
-            low=(TextView) view.findViewById(R.id.low);
-            stoploss=(TextView) view.findViewById(R.id.stop_loss);
-            buy_text=(TextView) view.findViewById(R.id.buy_text);
-            buy_line=(LinearLayout) view.findViewById(R.id.line_buy);
-            linesss=(LinearLayout) view.findViewById(R.id.linesss);
-            opens=(TextView)view.findViewById(R.id.opens);
-            ticker=(ImageView) view.findViewById(R.id.ticker);
+            text_buy_2= view.findViewById(R.id.text_buy_2);
+            text_buy_3= view.findViewById(R.id.text_buy_3);
+            text_achieved_1= view.findViewById(R.id.text_achieved_1);
+            text_achieved_2= view.findViewById(R.id.text_achieved_2);
+            text_achieved_3= view.findViewById(R.id.text_achieved_3);
+            equity_loss= view.findViewById(R.id.equity_loss);
+            equity_loss_text= view.findViewById(R.id.equity_loss_text);
+            pres= view.findViewById(R.id.pr_close);
+            high= view.findViewById(R.id.high);
+            low= view.findViewById(R.id.low);
+            stoploss= view.findViewById(R.id.stop_loss);
+            buy_text= view.findViewById(R.id.buy_text);
+            buy_line= view.findViewById(R.id.line_buy);
+            linesss= view.findViewById(R.id.linesss);
+            opens= view.findViewById(R.id.opens);
+            ticker= view.findViewById(R.id.ticker);
 
         }
     }
@@ -195,8 +192,9 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(activity).inflate(R.layout.equity_row, parent, false);
             return new EquityAdapterRow(view);
@@ -204,11 +202,14 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View view = LayoutInflater.from(activity).inflate(R.layout.bottom_layout_open_demat, parent, false);
             return new BannerViewHolder(view);
         }
-        return null;
+        else{
+            View view = LayoutInflater.from(activity).inflate(R.layout.bottom_layout_open_demat, parent, false);
+            return new BannerViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof EquityAdapterRow) {
             final EquityModel contact = (EquityModel) contacts.get(position);
             EquityAdapterRow userViewHolder = (EquityAdapterRow) holder;
@@ -221,20 +222,20 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
             userViewHolder.text_target_1.setText(contact.getTarget1());
             userViewHolder.text_target_2.setText(contact.getTarget2());
             userViewHolder.text_target_3.setText(contact.getTarget3());
-            userViewHolder.equity_buy.setText(""+contact.getBuy_price());
-            userViewHolder.text_buy_1.setText(""+formatter.format(Double.parseDouble(contact.getBuy1())));
-            userViewHolder.text_buy_2.setText(""+formatter.format(Double.parseDouble(contact.getBuy2())));
-            userViewHolder.text_buy_3.setText(""+formatter.format(Double.parseDouble(contact.getBuy3())));
+            userViewHolder.equity_buy.setText(String.format("%s", contact.getBuy_price()));
+            userViewHolder.text_buy_1.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy1()))));
+            userViewHolder.text_buy_2.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy2()))));
+            userViewHolder.text_buy_3.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getBuy3()))));
             userViewHolder.text_achieved_1.setText(contact.getAchieved1());
             userViewHolder.text_achieved_2.setText(contact.getAchieved2());
             userViewHolder.text_achieved_3.setText(contact.getAchieved3());
-            userViewHolder.equity_loss.setText(""+formatter.format(Double.parseDouble(contact.getStop_loss())));
+            userViewHolder.equity_loss.setText(String.format("%s", formatter.format(Double.parseDouble(contact.getStop_loss()))));
             userViewHolder.stoploss.setText(contact.getStop_loss_text());
             userViewHolder.equity_loss_text.setText(contact.getStop_loss_end());
 
             if(contact.getNotification_message()!=null) {
                 if (!contact.getNotification_message().isEmpty()) {
-                    userViewHolder.notification_message.setText("" + contact.getNotification_message());
+                    userViewHolder.notification_message.setText(String.format("%s", contact.getNotification_message()));
                     userViewHolder.notification_message.setVisibility(View.VISIBLE);
                     if (contact.getBuy_text().contains("SELL")) {
 
@@ -277,26 +278,11 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 userViewHolder.buy_text.setText("");
             }
 
-            userViewHolder.buy_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buySellClickListener.onBuy(contact.getSymbol(),contact.getPrice());
-                }
-            });
+            userViewHolder.buy_btn.setOnClickListener(v -> buySellClickListener.onBuy(contact.getSymbol(),contact.getPrice()));
 
-            userViewHolder.sell_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buySellClickListener.onSell(contact.getSymbol(),contact.getPrice());
-                }
-            });
+            userViewHolder.sell_btn.setOnClickListener(v -> buySellClickListener.onSell(contact.getSymbol(),contact.getPrice()));
 
-            userViewHolder.technical.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buySellClickListener.onTechnical(contact.getSymbol());
-                }
-            });
+            userViewHolder.technical.setOnClickListener(v -> buySellClickListener.onTechnical(contact.getSymbol()));
 
             userViewHolder.low.setText(contact.getLow());
             userViewHolder.low.setText(contact.getLow());
@@ -361,34 +347,17 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if(contact.isIs_Open()){
                 userViewHolder.line_buy_sell.setVisibility(View.VISIBLE);
             }
-            else{
-///            line_buy_sell.setVisibility(View.GONE);
-            }
+            ///            line_buy_sell.setVisibility(View.GONE);
 
-            userViewHolder.charts.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, ChartWebActivity.class).putExtra("url","https://in.tradingview.com/chart/?symbol=NSE%3A"+contact.getSymbol().replace(".NS","").replace(".BS","")));
-                }
-            });
 
-            userViewHolder.fundamental.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, StockDetailsActivity.class).putExtra(Constant.search,contact.getSymbol()));
-                }
-            });
+            userViewHolder.charts.setOnClickListener(v -> context.startActivity(new Intent(context, ChartWebActivity.class).putExtra("url","https://in.tradingview.com/chart/?symbol=NSE%3A"+contact.getSymbol().replace(".NS","").replace(".BS",""))));
 
-            userViewHolder.rel_line.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("NotifyDataSetChanged")
-                @Override
-                public void onClick(View v) {
-                    if(context!=null) {
-                        StaticMethods.showInterestialAds(context);
-                    }
-                    contact.setIs_Open(!contact.isIs_Open());
-                    notifyDataSetChanged();
-                }
+            userViewHolder.fundamental.setOnClickListener(v -> context.startActivity(new Intent(context, StockDetailsActivity.class).putExtra(Constant.search,contact.getSymbol())));
+
+            userViewHolder.rel_line.setOnClickListener(v -> {
+
+                contact.setIs_Open(!contact.isIs_Open());
+                notifyDataSetChanged();
             });
 
             if(contact.getOldprice()!=null){
@@ -430,24 +399,9 @@ public class EquityAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
             BannerViewHolder loadingViewHolder = (BannerViewHolder) holder;
-            loadingViewHolder.image_pen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onClick();
-                }
-            });
-            loadingViewHolder.alice_pen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onAliceClick();
-                }
-            });
-            loadingViewHolder.upstock.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accountOpenClick.onUpstockClick();
-                }
-            });
+            loadingViewHolder.image_pen.setOnClickListener(view -> accountOpenClick.onClick());
+            loadingViewHolder.alice_pen.setOnClickListener(view -> accountOpenClick.onAliceClick());
+            loadingViewHolder.upstock.setOnClickListener(view -> accountOpenClick.onUpstockClick());
             //loadingViewHolder.progressBar.setIndeterminate(true);
         }
 

@@ -16,18 +16,12 @@ import java.util.List;
 
 public class VolumeGainerAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<VolumeGainerModel> DataList;
+    final LayoutInflater inflater;
+    final List<VolumeGainerModel> DataList;
 
     public VolumeGainerAdapter(Context context, List<VolumeGainerModel> equityModels){
         this.DataList=equityModels;
         inflater=LayoutInflater.from(context);
-        this.context=context;
-    }
-
-    public List<VolumeGainerModel> getDataList() {
-        return DataList;
     }
 
     @Override
@@ -93,7 +87,7 @@ public class VolumeGainerAdapter extends BaseAdapter {
         ltp.setText(equityModel.getLtp());
         turn_over_data.setText(equityModel.getValue());
         volume_data.setText(equityModel.getTurn_lkh());
-        change_percentage_data.setText("% "+equityModel.getNetpr());
+        change_percentage_data.setText(String.format("%% %s", equityModel.getNetpr()));
         avg_data_1.setText(equityModel.getWeek1a());
         change_data_1.setText(equityModel.getWeek1vc());
         avg_data_2.setText(equityModel.getWeek2a());

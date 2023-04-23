@@ -26,9 +26,7 @@ public class OiUnderlyingFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     List<OiSpurtsUnderlyingModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
-  //  private String mParam3;
+    //  private String mParam3;
 
 
     public OiUnderlyingFragment() {
@@ -48,8 +46,8 @@ public class OiUnderlyingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
             //mParam3=getArguments().getString(DATA);
         }
     }
@@ -65,13 +63,16 @@ public class OiUnderlyingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView topMovers = view.findViewById(R.id.list_looser);
-        String date_1=getArguments().getString(Constant.date_1);
-        String date_2=getArguments().getString(Constant.date_2);
+        if(getArguments()!=null) {
+            String date_1 = getArguments().getString(Constant.date_1);
+            String date_2 = getArguments().getString(Constant.date_2);
 
 
-        this.gainerLosserModels= (List<OiSpurtsUnderlyingModel>) getArguments().getSerializable(Constant.data);
-        OiSpurtsUnderlyAdapter gainerLooserAdapter=new OiSpurtsUnderlyAdapter(getContext(),gainerLosserModels,date_1,date_2);
-        topMovers.setAdapter(gainerLooserAdapter);
+            this.gainerLosserModels = (List<OiSpurtsUnderlyingModel>) getArguments().getSerializable(Constant.data);
+            OiSpurtsUnderlyAdapter gainerLooserAdapter = new OiSpurtsUnderlyAdapter(getContext(), gainerLosserModels, date_1, date_2);
+            topMovers.setAdapter(gainerLooserAdapter);
+
+        }
 
     }
 }

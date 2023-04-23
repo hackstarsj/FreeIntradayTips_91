@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.silverlinesoftwares.intratips.R;
@@ -30,9 +29,6 @@ public class TopLoserFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private List<GainerLosserModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
-    private String mParam3;
 
 
     public TopLoserFragment() {
@@ -52,9 +48,9 @@ public class TopLoserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-            mParam3=getArguments().getString(DATA);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam3 = getArguments().getString(DATA);
         }
     }
 
@@ -71,17 +67,14 @@ public class TopLoserFragment extends Fragment {
         ListView topMovers = view.findViewById(R.id.list_looser);
 
 
-        this.gainerLosserModels= (List<GainerLosserModel>) getArguments().getSerializable(Constant.data);
-        Collections.reverse(this.gainerLosserModels);
-        GainerLooserAdapter gainerLooserAdapter=new GainerLooserAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
+        if(getArguments()!=null) {
+            this.gainerLosserModels = (List<GainerLosserModel>) getArguments().getSerializable(Constant.data);
+            Collections.reverse(this.gainerLosserModels);
+            GainerLooserAdapter gainerLooserAdapter = new GainerLooserAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
 
-        topMovers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,gainerLosserModels.get(position).getSymbol()+".NS"));
-            }
-        });
+            topMovers.setOnItemClickListener((parent, view1, position, id) -> startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search, gainerLosserModels.get(position).getSymbol() + ".NS")));
+        }
 
     }
 }

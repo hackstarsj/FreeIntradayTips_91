@@ -17,20 +17,6 @@ public class AdavanceScreenDataModel {
         screenerSubItems.add(new ScreenerSubItem("PE Between 10 to 20","https://www.topstockresearch.com/KeyFundamentals/StocksWithPEBetween10to20.html","1"));
         allItems.add(new ScreenerItem("Key Financial Data",screenerSubItems));
 
-//        List<ScreenerSubItem> screenerSubItems1=new ArrayList<>();
-//        screenerSubItems1.add(new ScreenerSubItem("Short Term Double Bottom","https://www.topstockresearch.com/DoubleTopBottomReports/DoubleBottomShortTermChartPattern.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Medium Term Double Bottom","https://www.topstockresearch.com/DoubleTopBottomReports/DoubleBottomMediumTermChartPattern.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Long Term Double Bottom","https://www.topstockresearch.com/DoubleTopBottomReports/DoubleBottomLongTermChartPattern.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Trend Line Support - Short Term","https://www.topstockresearch.com/TrendLine/TrendlineSupportShortTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Trend Line Support - Medium Term","https://www.topstockresearch.com/TrendLine/TrendlineSupportMediumTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Trend Line Support - Long Term","https://www.topstockresearch.com/TrendLine/TrendlineSupportLongTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Reverse Head & Shoulder","https://www.topstockresearch.com/HeadAndShoulder/ReverseHeadAndShoulderShortTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Triple Bottom","https://www.topstockresearch.com/TripleTopNBottomReports/TripleBottomShortTermChartPattern.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Short Term Rectangle Channel","https://www.topstockresearch.com/RectangleChannel/RectangleChannelChartPatternShortTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Medium Term Rectangle Channel","https://www.topstockresearch.com/RectangleChannel/RectangleChannelChartPatternMediumTerm.html","2"));
-//        screenerSubItems1.add(new ScreenerSubItem("Long Term Rectangle Channel","https://www.topstockresearch.com/RectangleChannel/RectangleChannelChartPatternLongTerm.html","2"));
-//        allItems.add(new ScreenerItem("Bullish Chart Pattern Screener",screenerSubItems1));
-
         List<ScreenerSubItem> screenerSubItems2=new ArrayList<>();
         screenerSubItems2.add(new ScreenerSubItem("Bullish Engulfing","https://www.topstockresearch.com/CandleStickPatterns/ReportOnIndianStockFormingBullishEngulfingPattern.html","3a"));
         screenerSubItems2.add(new ScreenerSubItem("Bullish Harami","https://www.topstockresearch.com/CandleStickPatterns/ReportOnIndianStockFormingBullishHaramiPattern.html","3a"));
@@ -65,9 +51,6 @@ public class AdavanceScreenDataModel {
 
 
         List<ScreenerSubItem> screenerSubItems6=new ArrayList<>();
-  //      screenerSubItems6.add(new ScreenerSubItem("Trending Up ","https://www.topstockresearch.com/StocksTrendingUpReport/StocksTrendingUpReport.html","71"));
-       // screenerSubItems6.add(new ScreenerSubItem("Trending Down","https://www.topstockresearch.com/StocksTrendingDownReport/StocksTrendingDownReport.html","72"));
-      //  screenerSubItems6.add(new ScreenerSubItem("Non-Trending","https://www.topstockresearch.com/NonTrendingStocks/NonTrendingStocksByMovingAverageCurrentlyAtLowerLevel.html","73"));
         screenerSubItems6.add(new ScreenerSubItem("Daily Closing Higher","https://www.topstockresearch.com/StockDailyTrending/StockDailyClosingHigher.html","4c"));
 //        screenerSubItems6.add(new ScreenerSubItem("Higher Highs/Higher Lows","https://www.topstockresearch.com/HigherHighHigherLows/HigherHighsHigherLowsST.html","4c"));
         allItems.add(new ScreenerItem("Trending Stocks",screenerSubItems6));
@@ -88,15 +71,6 @@ public class AdavanceScreenDataModel {
         screenerSubItems8.add(new ScreenerSubItem("Volatile On Monthly Period","https://www.topstockresearch.com/MostVolatieShare/MostVolatileShareInLastSixMonthsPeriod.html","4c"));
         screenerSubItems8.add(new ScreenerSubItem("Low Beta Stocks","https://www.topstockresearch.com/BetaStocks/LowBetaStocksLongTerm.html","8d"));
         allItems.add(new ScreenerItem("Volatile/Beta Shares",screenerSubItems8));
-
-
-//        List<ScreenerSubItem> screenerSubItems9=new ArrayList<>();
-//        screenerSubItems9.add(new ScreenerSubItem("Double Top","https://www.topstockresearch.com/DoubleTopBottomReports/DoubleTopPatternsReports.html","10"));
-//        screenerSubItems9.add(new ScreenerSubItem("Support Line","https://www.topstockresearch.com/TrendLine/TrendlineSupportBreakoutShortTerm.html","10"));
-//        screenerSubItems9.add(new ScreenerSubItem("Head & Shoulder","https://www.topstockresearch.com/HeadAndShoulder/HeadAndShoulderShortTerm.html","10"));
-//        screenerSubItems9.add(new ScreenerSubItem("Triple Top","https://www.topstockresearch.com/TripleTopNBottomReports/TripleTopStockScreening.html","10"));
-//        screenerSubItems9.add(new ScreenerSubItem("Descending Triangle","https://www.topstockresearch.com/TrianglePatterns/DescendingTriangleShortTerm.html","10"));
-//        allItems.add(new ScreenerItem("Bearish Chart Pattern ",screenerSubItems9));
 
 
         List<ScreenerSubItem> screenerSubItems10=new ArrayList<>();
@@ -140,12 +114,6 @@ public class AdavanceScreenDataModel {
         screenerSubItems14.add(new ScreenerSubItem("Operting Profit","https://www.topstockresearch.com/QoQN2P/OperatingProfitQN2P.html","15"));
         allItems.add(new ScreenerItem("Qtrly Financial Data Turning ",screenerSubItems14));
 
-
-//        List<ScreenerSubItem> screenerSubItems15=new ArrayList<>();
-//        screenerSubItems15.add(new ScreenerSubItem("","","16"));
-//        screenerSubItems15.add(new ScreenerSubItem("","","16"));
-//        screenerSubItems15.add(new ScreenerSubItem("","","16"));
-//        allItems.add(new ScreenerItem("Qtrly Financial Data Turning ",screenerSubItems15));
 
         List<ScreenerSubItem> screenerSubItems16=new ArrayList<>();
         screenerSubItems16.add(new ScreenerSubItem("Profit Before Tax","https://www.topstockresearch.com/Y0YN2P/ProfitBeforeTax1YN2P.html","17"));

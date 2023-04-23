@@ -27,11 +27,11 @@ public class LocationAdapter extends ArrayAdapter<String> implements Filterable 
 
     List<SearchModel> resultList=new ArrayList<>();
 
-    Context mContext;
-    LayoutInflater inflater;
-    int mResource;
+    final Context mContext;
+    final LayoutInflater inflater;
+    final int mResource;
 
-    LocationModel mPlaceAPI = new LocationModel();
+    final LocationModel mPlaceAPI = new LocationModel();
 
     public LocationAdapter(Context context, int resource) {
         super(context, resource);
@@ -66,14 +66,14 @@ public class LocationAdapter extends ArrayAdapter<String> implements Filterable 
     @NonNull
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
+
+        return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
-                    List<SearchModel> map=mPlaceAPI.autocomplete(constraint.toString());
-                   // resultList = map.get("address");
-                    resultList=map;
+                    // resultList = map.get("address");
+                    resultList= mPlaceAPI.autocomplete(constraint.toString());
                     filterResults.values = resultList;
                     filterResults.count = resultList.size();
 //                    return filterResults;
@@ -92,8 +92,6 @@ public class LocationAdapter extends ArrayAdapter<String> implements Filterable 
                 }
             }
         };
-
-        return filter;
     }
 
 

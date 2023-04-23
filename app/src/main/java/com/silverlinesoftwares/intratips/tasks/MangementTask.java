@@ -1,17 +1,11 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.silverlinesoftwares.intratips.listeners.IncomeStateListener;
 import com.silverlinesoftwares.intratips.listeners.ManagementListener;
-import com.silverlinesoftwares.intratips.models.IncomeStatementModel;
 import com.silverlinesoftwares.intratips.models.MajorHolderModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -31,7 +25,7 @@ import okhttp3.Response;
 public class MangementTask  {
 
 
-    ManagementListener gainerLooserListener;
+    final ManagementListener gainerLooserListener;
 
     public MangementTask(ManagementListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -42,12 +36,7 @@ public class MangementTask  {
 
 
                 List<MajorHolderModel> majorHolderModels=BuildData(string);
-                if(majorHolderModels==null){
-                    gainerLooserListener.onFailed("Server Error!");
-                }
-                else {
-                    gainerLooserListener.onSucess(majorHolderModels);
-                }
+            gainerLooserListener.onSucess(majorHolderModels);
 
             // gainerLooserListener.onSucess(string);
         }
@@ -106,17 +95,13 @@ public class MangementTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
-                        String data=response.body().string();
-                        return data;
+                        return response.body().string();
                     } else {
                         return null;
                     }
@@ -134,9 +119,7 @@ public class MangementTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

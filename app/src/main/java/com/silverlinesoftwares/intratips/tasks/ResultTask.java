@@ -1,20 +1,12 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.silverlinesoftwares.intratips.listeners.ManagementListener;
 import com.silverlinesoftwares.intratips.listeners.ResultListener;
-import com.silverlinesoftwares.intratips.models.MajorHolderModel;
 import com.silverlinesoftwares.intratips.models.ResultModel;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -32,7 +24,7 @@ import okhttp3.Response;
 public class ResultTask  {
 
 
-    ResultListener gainerLooserListener;
+    final ResultListener gainerLooserListener;
 
     public ResultTask(ResultListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -42,18 +34,11 @@ public class ResultTask  {
         if(string!=null){
 
 
-                List<ResultModel> majorHolderModels=new ArrayList<>();
-
             Type listType = new TypeToken<List<ResultModel>>() {}.getType();
 
             List<ResultModel> yourList = new Gson().fromJson(string, listType);
-            majorHolderModels.addAll(yourList);
-                if(majorHolderModels==null){
-                    gainerLooserListener.onFailed("Server Error!");
-                }
-                else {
-                    gainerLooserListener.onSucess(majorHolderModels);
-                }
+            List<ResultModel> majorHolderModels = new ArrayList<>(yourList);
+            gainerLooserListener.onSucess(majorHolderModels);
 
             // gainerLooserListener.onSucess(string);
         }
@@ -86,17 +71,13 @@ public class ResultTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
-                        String data=response.body().string();
-                        return data;
+                        return response.body().string();
                     } else {
                         return null;
                     }
@@ -114,9 +95,7 @@ public class ResultTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ShortSellData extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<ShortSellModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<ShortSellModel> DataList;
 
     public ShortSellData(Context context, List<ShortSellModel> equityModels){
         this.DataList=equityModels;
@@ -66,7 +66,7 @@ public class ShortSellData extends BaseAdapter {
 
         date_data.setText(equityModel.getDates());
         symbol.setText(equityModel.getSymbol());
-        price_data.setText("Qty : "+equityModel.getQuantity());
+        price_data.setText(String.format("Qty : %s", equityModel.getQuantity()));
 
         return view;
     }

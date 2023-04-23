@@ -15,10 +15,15 @@ public class ResultActivtiy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_activtiy);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, new ResultFragment());
-        fragmentTransaction.commit();
+        try {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(android.R.id.content, new ResultFragment());
+            fragmentTransaction.commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

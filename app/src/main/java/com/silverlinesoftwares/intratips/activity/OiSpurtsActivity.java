@@ -2,17 +2,19 @@ package com.silverlinesoftwares.intratips.activity;
 
 import android.os.Bundle;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -48,13 +50,10 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price_band);
-        MobileAds.initialize(OiSpurtsActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(OiSpurtsActivity.this, initializationStatus -> {
 
-            }
         });
-        tabLayout = (TabLayout) findViewById(R.id.tab_menu);
+        tabLayout = findViewById(R.id.tab_menu);
         progress=findViewById(R.id.progress);
         viewPager=findViewById(R.id.mover_looser_page);
         OiSpurtsTask gainerLooserTask=new OiSpurtsTask(OiSpurtsActivity.this);
@@ -62,7 +61,7 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
 
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,OiSpurtsActivity.this);
-
+        showInterestialAds();
     }
 
 
@@ -118,12 +117,7 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
             viewPagerAdapter.addTitle("Contract");
             viewPagerAdapter.addTitle("Underlying");
             viewPager.setAdapter(viewPagerAdapter);
-            new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-                @Override
-                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                    tab.setText(viewPagerAdapter.getTitle(position));
-                }
-            }).attach();
+            new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewPagerAdapter.getTitle(position))).attach();
 
 
 
@@ -135,15 +129,39 @@ public class OiSpurtsActivity extends AppCompatActivity implements PriceBandList
 
 
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(OiSpurtsActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter1), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
+
 
     @Override
     public void onFailed(String msg) {

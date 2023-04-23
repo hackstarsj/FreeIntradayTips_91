@@ -19,7 +19,7 @@
         android:id="@+id/sub_item_btn"
         android:padding="10dp"
         android:drawableStart="@drawable/ic_view_module_black_24dp"
-        android:text="@string/ok"
+        android:text="@string/value_in_crores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:targetApi="lollipop" />

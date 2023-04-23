@@ -18,7 +18,6 @@ import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.ResetPasswordTask;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 public class ResetPasswordActivity extends AppCompatActivity implements ApiResponseListener {
 
@@ -37,32 +36,32 @@ public class ResetPasswordActivity extends AppCompatActivity implements ApiRespo
 
 
         progressBar=findViewById(R.id.progress_bar);
-        send_btn=findViewById(R.id.send_btn);;
+        send_btn=findViewById(R.id.send_btn);
 
-        send_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(codes.getText().toString().isEmpty()){
-                    codes.setError("Please Enter Email");
-                    codes.requestFocus();
-                }
-                else{
-                    View view = ResetPasswordActivity.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                    }
-                    send_btn.setAlpha(0f);
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    email=codes.getText().toString();
-                    ResetPasswordTask signupTask=new ResetPasswordTask(ResetPasswordActivity.this);
-                    signupTask.execute(email);
-                }
-
+        send_btn.setOnClickListener(v -> {
+            if(codes.getText()==null){
+                return;
             }
+            if(codes.getText().toString().isEmpty()){
+                codes.setError("Please Enter Email");
+                codes.requestFocus();
+            }
+            else{
+                View view = ResetPasswordActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+                send_btn.setAlpha(0f);
+                progressBar.setVisibility(View.VISIBLE);
+
+                email=codes.getText().toString();
+                ResetPasswordTask signupTask=new ResetPasswordTask(ResetPasswordActivity.this);
+                signupTask.execute(email);
+            }
+
         });
 
     }
@@ -73,13 +72,10 @@ public class ResetPasswordActivity extends AppCompatActivity implements ApiRespo
         send_btn.setAlpha(1f);
         Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
         if(data.getStatus_code().equalsIgnoreCase("200")){
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(ResetPasswordActivity.this,ResetPasswordNextActivity.class).putExtra("email",email));
-                    finish();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                startActivity(new Intent(ResetPasswordActivity.this,ResetPasswordNextActivity.class).putExtra("email",email));
+                finish();
 
-                }
             }, 1000);
 
         }

@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -18,7 +17,7 @@ import okhttp3.Response;
 public class ShortSelltask {
 
 
-    ChartListener chartListener;
+    final ChartListener chartListener;
     public ShortSelltask(ChartListener chartListener) {
         this.chartListener=chartListener;
     }
@@ -77,9 +76,7 @@ public class ShortSelltask {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String  data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

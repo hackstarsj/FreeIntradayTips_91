@@ -1,13 +1,11 @@
 package com.silverlinesoftwares.intratips.tasks.auth;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
-import com.silverlinesoftwares.intratips.listeners.ResendCodeListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 
 import java.io.IOException;
@@ -23,7 +21,7 @@ import okhttp3.Response;
 
 public class ResetPasswordTask  {
 
-    private ApiResponseListener apiResponseListener;
+    private final ApiResponseListener apiResponseListener;
     public ResetPasswordTask(ApiResponseListener apiResponseListener){
         this.apiResponseListener=apiResponseListener;
 
@@ -86,9 +84,7 @@ public class ResetPasswordTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

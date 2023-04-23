@@ -110,8 +110,7 @@ public class Tools {
 
     public static String getEmailFromName(String name) {
         if (name != null && !name.equals("")) {
-            String email = name.replaceAll(" ", ".").toLowerCase().concat("@mail.com");
-            return email;
+            return name.replaceAll(" ", ".").toLowerCase().concat("@mail.com");
         }
         return name;
     }
@@ -131,12 +130,7 @@ public class Tools {
     }
 
     public static void nestedScrollTo(final NestedScrollView nested, final View targetView) {
-        nested.post(new Runnable() {
-            @Override
-            public void run() {
-                nested.scrollTo(500, targetView.getBottom());
-            }
-        });
+        nested.post(() -> nested.scrollTo(500, targetView.getBottom()));
     }
 
     public static int dip2px(Context context, float dpValue) {
@@ -175,8 +169,12 @@ public class Tools {
 
     public static void changeNavigateionIconColor(Toolbar toolbar, @ColorInt int color) {
         Drawable drawable = toolbar.getNavigationIcon();
-        drawable.mutate();
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        if (drawable != null) {
+            drawable.mutate();
+        }
+        if (drawable != null) {
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     public static void changeMenuIconColor(Menu menu, @ColorInt int color) {
@@ -191,9 +189,14 @@ public class Tools {
     public static void changeOverflowMenuIconColor(Toolbar toolbar, @ColorInt int color) {
         try {
             Drawable drawable = toolbar.getOverflowIcon();
-            drawable.mutate();
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            if (drawable != null) {
+                drawable.mutate();
+            }
+            if (drawable != null) {
+                drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

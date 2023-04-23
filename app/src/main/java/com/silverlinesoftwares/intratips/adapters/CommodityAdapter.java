@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,9 +16,9 @@ import java.util.List;
 
 public class CommodityAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<CommodityModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<CommodityModel> DataList;
 
     public CommodityAdapter(Context context, List<CommodityModel> equityModels){
         this.DataList=equityModels;
@@ -83,7 +82,7 @@ public class CommodityAdapter extends BaseAdapter {
         open_interest.setText(equityModel.getOpen_interest());
         volume.setText(equityModel.getVolume());
         change.setText(equityModel.getChange());
-        percentage_text.setText("% "+equityModel.getChange_percentage());
+        percentage_text.setText(equityModel.getChange_percentage());
 
 
         if(!equityModel.getChange_percentage().contains("-")){

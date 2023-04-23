@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -25,7 +24,7 @@ import okhttp3.Response;
 public class ResultOptionTask  {
 
 
-    ResultListener gainerLooserListener;
+    final ResultListener gainerLooserListener;
 
     public ResultOptionTask(ResultListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -35,18 +34,11 @@ public class ResultOptionTask  {
         if(string!=null){
 
 
-                List<ResultModel> majorHolderModels=new ArrayList<>();
-
             Type listType = new TypeToken<List<ResultModel>>() {}.getType();
 
             List<ResultModel> yourList = new Gson().fromJson(string, listType);
-            majorHolderModels.addAll(yourList);
-                if(majorHolderModels==null){
-                    gainerLooserListener.onFailed("Server Error!");
-                }
-                else {
-                    gainerLooserListener.onSucess(majorHolderModels);
-                }
+            List<ResultModel> majorHolderModels = new ArrayList<>(yourList);
+            gainerLooserListener.onSucess(majorHolderModels);
 
             // gainerLooserListener.onSucess(string);
         }
@@ -79,17 +71,13 @@ public class ResultOptionTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
-                        String data=response.body().string();
-                        return data;
+                        return response.body().string();
                     } else {
                         return null;
                     }
@@ -107,9 +95,7 @@ public class ResultOptionTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

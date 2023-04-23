@@ -5,17 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Looper;
@@ -49,11 +42,8 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_image_teal);
-        MobileAds.initialize(LoginActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(LoginActivity.this, initializationStatus -> {
 
-            }
         });
         parent_view = findViewById(android.R.id.content);
         floatingActionButton=findViewById(R.id.fab);
@@ -62,45 +52,41 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
         signup=findViewById(R.id.signup);
         progress_bar=findViewById(R.id.progress_bar);
         final TextInputEditText password=findViewById(R.id.password);
-        forgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,ResetPasswordActivity.class));
-            }
-        });
+        forgot.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,ResetPasswordActivity.class)));
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+        signup.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,SignUpActivity.class)));
+        floatingActionButton.setOnClickListener(v -> {
+            if(email==null){
+                return;
             }
-        });
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(email.getText().toString().isEmpty()){
-                    email.setError("Please Enter Email");
-                    email.requestFocus();
-                }
-                else if(password.getText().toString().isEmpty()){
-                    password.setError("Please Enter Password");
-                    password.requestFocus();
-                }
-                else{
-                    View view = LoginActivity.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
+            if(email.getText()==null){
+                return;
+            }
+            if(password.getText()==null){
+                return;
+            }
+            if(email.getText().toString().isEmpty()){
+                email.setError("Please Enter Email");
+                email.requestFocus();
+            }
+            else if(password.getText().toString().isEmpty()){
+                password.setError("Please Enter Password");
+                password.requestFocus();
+            }
+            else{
+                View view = LoginActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
-                    emails=email.getText().toString();
-                    floatingActionButton.setAlpha(0f);
-                    progress_bar.setVisibility(View.VISIBLE);
-
-                    LoginTask loginTask=new LoginTask(LoginActivity.this);
-                    loginTask.execute(new String[]{email.getText().toString(),password.getText().toString()});
                 }
+                emails=email.getText().toString();
+                floatingActionButton.setAlpha(0f);
+                progress_bar.setVisibility(View.VISIBLE);
+
+                LoginTask loginTask=new LoginTask(LoginActivity.this);
+                loginTask.execute(email.getText().toString(),password.getText().toString());
             }
         });
 
@@ -117,11 +103,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
             ShowNextStep();
         }
         else if(data.getStatus_code().equalsIgnoreCase("402")){
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(LoginActivity.this, SignUpActivityNext.class).putExtra("email", emails));
-                }},1000);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> startActivity(new Intent(LoginActivity.this, SignUpActivityNext.class).putExtra("email", emails)),1000);
         }
     }
 
@@ -133,29 +115,20 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
         progressDialog.show();
 
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(!task.isSuccessful()){
-                    return;
-                }
-                String tok=task.getResult();
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),tok);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if(!task.isSuccessful()){
+                return;
+            }
+            String tok=task.getResult();
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),tok);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
-            }
-        }).addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
-            }
+        }).addOnFailureListener(e -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
+        }).addOnCanceledListener(() -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(LoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(LoginActivity.this),"");
         });
 
     }
@@ -165,13 +138,11 @@ public class LoginActivity extends AppCompatActivity implements ApiResponseListe
             Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
 
             StaticMethods.saveUserDetails(LoginActivity.this, data.getUser());
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
 
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }},1000);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            },1000);
         }
         else{
             Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();

@@ -1,8 +1,6 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import com.silverlinesoftwares.intratips.activity.StockDetailsActivity;
 import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
 import com.silverlinesoftwares.intratips.models.EquityModel;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -30,10 +27,10 @@ import java.util.Locale;
 
 public class EquityAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Activity context;
-    List<EquityModel> DataList;
-    BuySellClickListener buySellClickListener;
+    final LayoutInflater inflater;
+    final Activity context;
+    final List<EquityModel> DataList;
+    final BuySellClickListener buySellClickListener;
 
     public EquityAdapter(Activity context, List<EquityModel> equityModels,BuySellClickListener buySellClickListener){
         this.DataList=equityModels;
@@ -163,8 +160,8 @@ public class EquityAdapter extends BaseAdapter {
         buy_text=(TextView) view.getTag(R.id.buy_text);
         buy_line=(LinearLayout) view.getTag(R.id.line_buy);
         linesss=(LinearLayout) view.getTag(R.id.linesss);
-        opens=(TextView)view.findViewById(R.id.opens);
-        ticker=(ImageView) view.findViewById(R.id.ticker);
+        opens= view.findViewById(R.id.opens);
+        ticker= view.findViewById(R.id.ticker);
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
 
         equity_title.setText(equityModel.getName());
@@ -174,14 +171,14 @@ public class EquityAdapter extends BaseAdapter {
         text_target_1.setText(equityModel.getTarget1());
         text_target_2.setText(equityModel.getTarget2());
         text_target_3.setText(equityModel.getTarget3());
-        equity_buy.setText(""+equityModel.getBuy_price());
-        text_buy_1.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy1())));
-        text_buy_2.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy2())));
-        text_buy_3.setText(""+formatter.format(Double.parseDouble(equityModel.getBuy3())));
+        equity_buy.setText(String.format("%s", equityModel.getBuy_price()));
+        text_buy_1.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy1()))));
+        text_buy_2.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy2()))));
+        text_buy_3.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getBuy3()))));
         text_achieved_1.setText(equityModel.getAchieved1());
         text_achieved_2.setText(equityModel.getAchieved2());
         text_achieved_3.setText(equityModel.getAchieved3());
-        equity_loss.setText(""+formatter.format(Double.parseDouble(equityModel.getStop_loss())));
+        equity_loss.setText(String.format("%s", formatter.format(Double.parseDouble(equityModel.getStop_loss()))));
         stoploss.setText(equityModel.getStop_loss_text());
         equity_loss_text.setText(equityModel.getStop_loss_end());
         if(equityModel.getStop_loss_end().equalsIgnoreCase("LOSS")){
@@ -209,26 +206,11 @@ public class EquityAdapter extends BaseAdapter {
             buy_text.setText("");
         }
 
-        buy_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buySellClickListener.onBuy(equityModel.getSymbol(),equityModel.getPrice());
-            }
-        });
+        buy_btn.setOnClickListener(v -> buySellClickListener.onBuy(equityModel.getSymbol(),equityModel.getPrice()));
 
-        sell_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buySellClickListener.onSell(equityModel.getSymbol(),equityModel.getPrice());
-            }
-        });
+        sell_btn.setOnClickListener(v -> buySellClickListener.onSell(equityModel.getSymbol(),equityModel.getPrice()));
 
-        technical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buySellClickListener.onTechnical(equityModel.getSymbol());
-            }
-        });
+        technical.setOnClickListener(v -> buySellClickListener.onTechnical(equityModel.getSymbol()));
 
         low.setText(equityModel.getLow());
         low.setText(equityModel.getLow());
@@ -293,38 +275,15 @@ public class EquityAdapter extends BaseAdapter {
         if(equityModel.isIs_Open()){
             line_buy_sell.setVisibility(View.VISIBLE);
         }
-        else{
-///            line_buy_sell.setVisibility(View.GONE);
-        }
 
-        charts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               context.startActivity(new Intent(context, ChartWebActivity.class).putExtra("url","https://in.tradingview.com/chart/?symbol=NSE%3A"+equityModel.getSymbol().replace(".NS","").replace(".BS","")));
-            }
-        });
 
-        fundamental.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, StockDetailsActivity.class).putExtra(Constant.search,equityModel.getSymbol()));
-            }
-        });
+        charts.setOnClickListener(v -> context.startActivity(new Intent(context, ChartWebActivity.class).putExtra("url","https://in.tradingview.com/chart/?symbol=NSE%3A"+equityModel.getSymbol().replace(".NS","").replace(".BS",""))));
 
-        rel_line.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(context!=null) {
-                    StaticMethods.showInterestialAds(context);
-                }
-                if(equityModel.isIs_Open()){
-                    equityModel.setIs_Open(false);
-                }
-                else{
-                    equityModel.setIs_Open(true);
-                }
-                notifyDataSetChanged();
-            }
+        fundamental.setOnClickListener(v -> context.startActivity(new Intent(context, StockDetailsActivity.class).putExtra(Constant.search,equityModel.getSymbol())));
+
+        rel_line.setOnClickListener(v -> {
+            equityModel.setIs_Open(!equityModel.isIs_Open());
+            notifyDataSetChanged();
         });
 
         if(equityModel.getOldprice()!=null){

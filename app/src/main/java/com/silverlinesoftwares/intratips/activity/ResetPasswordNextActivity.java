@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Looper;
@@ -24,7 +21,6 @@ import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.ResetPasswordNextTask;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 public class ResetPasswordNextActivity extends AppCompatActivity implements ApiResponseListener {
 
@@ -37,11 +33,8 @@ public class ResetPasswordNextActivity extends AppCompatActivity implements ApiR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password_next);
-        MobileAds.initialize(ResetPasswordNextActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(ResetPasswordNextActivity.this, initializationStatus -> {
 
-            }
         });
         parent_view = findViewById(android.R.id.content);
 
@@ -51,35 +44,38 @@ public class ResetPasswordNextActivity extends AppCompatActivity implements ApiR
 
 
         progressBar=findViewById(R.id.progress_bar);
-        send_btn=findViewById(R.id.verify_btn);;
+        send_btn=findViewById(R.id.verify_btn);
 
-        send_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(codes.getText().toString().isEmpty()){
-                    codes.setError("Please Enter Verification Code");
-                    codes.requestFocus();
-                }
-                else if(password.getText().toString().isEmpty()){
-                    password.setError("Please Enter Password");
-                    password.requestFocus();
-                }
-                else{
-                    View view = ResetPasswordNextActivity.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                    }
-                    send_btn.setAlpha(0f);
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    ResetPasswordNextTask signupTask=new ResetPasswordNextTask(ResetPasswordNextActivity.this);
-                    signupTask.execute(email,codes.getText().toString(),password.getText().toString());
-                }
-
+        send_btn.setOnClickListener(v -> {
+            if(codes.getText()==null){
+                return;
             }
+            if(password.getText()==null){
+                return;
+            }
+            if(codes.getText().toString().isEmpty()){
+                codes.setError("Please Enter Verification Code");
+                codes.requestFocus();
+            }
+            else if(password.getText().toString().isEmpty()){
+                password.setError("Please Enter Password");
+                password.requestFocus();
+            }
+            else{
+                View view = ResetPasswordNextActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+                send_btn.setAlpha(0f);
+                progressBar.setVisibility(View.VISIBLE);
+
+                ResetPasswordNextTask signupTask=new ResetPasswordNextTask(ResetPasswordNextActivity.this);
+                signupTask.execute(email,codes.getText().toString(),password.getText().toString());
+            }
+
         });
 
     }
@@ -90,13 +86,10 @@ public class ResetPasswordNextActivity extends AppCompatActivity implements ApiR
         send_btn.setAlpha(1f);
         Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
         if(data.getStatus_code().equalsIgnoreCase("200")){
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(ResetPasswordNextActivity.this,LoginActivity.class));
-                    finish();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                startActivity(new Intent(ResetPasswordNextActivity.this,LoginActivity.class));
+                finish();
 
-                }
             }, 1000);
 
         }

@@ -4,13 +4,11 @@
     android:elevation="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:targetApi="lollipop">
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/border_bottom_black" >
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"
@@ -58,5 +56,4 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
 </androidx.cardview.widget.CardView>

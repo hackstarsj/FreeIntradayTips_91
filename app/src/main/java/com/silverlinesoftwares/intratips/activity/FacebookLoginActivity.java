@@ -1,23 +1,18 @@
 package com.silverlinesoftwares.intratips.activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
@@ -26,23 +21,15 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.fragments.AboutFragment;
-import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.listeners.DetailsResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.FetchProfileTask;
@@ -89,13 +76,10 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
 
     private void handleFacebookLogin(LoginResult loginResult) {
         AuthCredential authCredential= FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
-        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-                    SendUserData(firebaseUser);
-                }
+        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                SendUserData(firebaseUser);
             }
         });
     }
@@ -106,16 +90,14 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if(mUser!=null) {
             mUser.getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if (task.isSuccessful()) {
-                                String idToken = task.getResult().getToken();
-                                SendtoServerTokenFcm(idToken);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            SendtoServerTokenFcm(idToken);
 
-                            } else {
-                                // Handle error -> task.getException();
-                                Toast.makeText(FacebookLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
-                            }
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(FacebookLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -127,16 +109,14 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
         FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
         if(firebaseUser!=null){
             firebaseUser.getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if (task.isSuccessful()) {
-                                String idToken = task.getResult().getToken();
-                                SendtoServerTokenFcm(idToken);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            SendtoServerTokenFcm(idToken);
 
-                            } else {
-                                // Handle error -> task.getException();
-                                Toast.makeText(FacebookLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
-                            }
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(FacebookLoginActivity.this, "Failed to Register Try Again!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -161,24 +141,16 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
     public void RegisterFirebaseUser(final String token){
         RequestQueue MyRequestQueue = Volley.newRequestQueue(FacebookLoginActivity.this);
         String url = "https://furthergrow.silverlinesoftwares.com/login/firebaseuser";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                processLoginNextStep(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FacebookLoginActivity.this, "Failed to Login! Please Try Again!", Toast.LENGTH_SHORT).show();
-                if(progressDialog!=null){
-                    if(progressDialog.isShowing()){
-                        progressDialog.dismiss();
-                    }
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, this::processLoginNextStep, error -> {
+            Toast.makeText(FacebookLoginActivity.this, "Failed to Login! Please Try Again!", Toast.LENGTH_SHORT).show();
+            if(progressDialog!=null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
                 }
             }
         }) {
             protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
+                Map<String, String> MyData = new HashMap<>();
                 MyData.put("token", token);
                 return MyData;
             }
@@ -208,11 +180,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
                         progressDialog.dismiss();
                     }
                 }
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showDialog(""+data.getMessage());
-                    }},1000);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> showDialog(""+data.getMessage()),1000);
             }
         }
         else{
@@ -229,12 +197,7 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
         AlertDialog.Builder al=new AlertDialog.Builder(FacebookLoginActivity.this);
         al.setMessage(s);
         al.setTitle("Error");
-        al.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        al.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
         al.show();
     }
 
@@ -262,29 +225,20 @@ public class FacebookLoginActivity extends AppCompatActivity implements DetailsR
         progressDialog.show();
 
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(!task.isSuccessful()){
-                    return;
-                }
-                String tok=task.getResult();
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),tok);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if(!task.isSuccessful()){
+                return;
+            }
+            String tok=task.getResult();
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),tok);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),"");
-            }
-        }).addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
-                fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),"");
-            }
+        }).addOnFailureListener(e -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),"");
+        }).addOnCanceledListener(() -> {
+            FetchProfileTask fetchProfileTask=new FetchProfileTask(FacebookLoginActivity.this);
+            fetchProfileTask.execute(StaticMethods.getLoginToken(FacebookLoginActivity.this),"");
         });
 
     }

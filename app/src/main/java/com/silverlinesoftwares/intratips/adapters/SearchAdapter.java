@@ -17,11 +17,11 @@ import java.util.List;
 
 public class SearchAdapter extends ArrayAdapter<String> {
 
-        List<SearchModel> resultList=new ArrayList<>();
+        final List<SearchModel> resultList=new ArrayList<>();
 
-        Context mContext;
-        LayoutInflater inflater;
-        int mResource;
+        final Context mContext;
+        final LayoutInflater inflater;
+        final int mResource;
 
         LocationModel mPlaceAPI = new LocationModel();
 

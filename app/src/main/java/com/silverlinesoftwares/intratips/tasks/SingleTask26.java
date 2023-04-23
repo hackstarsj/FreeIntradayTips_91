@@ -2,7 +2,6 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
@@ -30,12 +29,12 @@ import okhttp3.Response;
 
 public class SingleTask26{
 
-    Context context;
-    String url;
-    ProgressBar progressBar;
-    TableLayout tl;
+    final Context context;
+    final String url;
+    final ProgressBar progressBar;
+    final TableLayout tl;
     int columns_size=0;
-    List<String > list=new ArrayList<>();
+    final List<String > list=new ArrayList<>();
     public SingleTask26(Context context,String  url,TableLayout layout,ProgressBar progressBar){
         this.context=context;
         this.url=url;
@@ -56,7 +55,7 @@ public class SingleTask26{
     }
 
     private void BuildHeader(String s) {
-        final String regex = "<thead><tr><th null>(.*?)<\\/tr><\\/thead>";
+        final String regex = "<thead><tr><th null>(.*?)</tr></thead>";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(s);
 
@@ -74,7 +73,7 @@ public class SingleTask26{
     private void BuildHeader2(String group) {
         TableRow tr_head = new TableRow(context);
 
-        final String regex = "<th null>(.*?)<\\/th>";
+        final String regex = "<th null>(.*?)</th>";
 
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(group);
@@ -108,7 +107,7 @@ public class SingleTask26{
     }
 
     private void BuildFirstStep(String s) {
-        final String regex = "<tr(.*?)>(.*?)<\\/tr>";
+        final String regex = "<tr(.*?)>(.*?)</tr>";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(s);
 
@@ -124,7 +123,7 @@ public class SingleTask26{
     }
 
     private void BuildSecondStep(String group) {
-        final String regex = "<td(.*?)>(.*?)<\\/td>";
+        final String regex = "<td(.*?)>(.*?)</td>";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(group);
 
@@ -233,9 +232,7 @@ public class SingleTask26{
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String  data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

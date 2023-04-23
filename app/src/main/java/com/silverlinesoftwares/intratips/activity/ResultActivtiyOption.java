@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.fragments.ResultFragment;
 import com.silverlinesoftwares.intratips.fragments.ResultOptionFragment;
 
 public class ResultActivtiyOption extends AppCompatActivity {
@@ -16,10 +15,15 @@ public class ResultActivtiyOption extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_activtiy);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(android.R.id.content, new ResultOptionFragment());
-        fragmentTransaction.commit();
+        try {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(android.R.id.content, new ResultOptionFragment());
+            fragmentTransaction.commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

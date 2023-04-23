@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/pullToRefresh"
     xmlns:android="http://schemas.android.com/apk/res/android" >
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
@@ -25,7 +24,6 @@
             <TextView
                 android:textSize="14sp"
                 android:gravity="center"
-                android:id="@+id/major_holders"
                 android:layout_margin="1.5dp"
                 android:textColor="#000"
                 android:text="@string/major_holders"
@@ -45,7 +43,6 @@
             <TextView
                 android:textSize="14sp"
                 android:gravity="center"
-                android:id="@+id/insider_roster"
                 android:layout_margin="1.5dp"
                 android:textColor="#000"
                 android:text="@string/insider_roster"
@@ -66,7 +63,6 @@
                 android:textSize="14sp"
                 android:gravity="center"
                 android:layout_margin="1.5dp"
-                android:id="@+id/insider_transaction"
                 android:layout_weight="1"
                 android:textColor="#000"
                 android:text="@string/insider_transactions"

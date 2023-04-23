@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,9 +15,9 @@ import java.util.List;
 
 public class OptionChainAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<OptionChainModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<OptionChainModel> DataList;
 
     public OptionChainAdapter(Context context, List<OptionChainModel> equityModels){
         this.DataList=equityModels;
@@ -99,16 +98,16 @@ public class OptionChainAdapter extends BaseAdapter {
         net_chnage_1=(TextView)view.getTag(R.id.percent_1);
         net_chnage_2=(TextView)view.getTag(R.id.percent_2);
 
-        oi_1.setText(""+equityModel.getOi_1());
-        oi_2.setText(""+equityModel.getOi_2());
-        chnage_in_oi_1.setText(""+equityModel.getChng_in_oi_1());
-        chnage_in_oi_2.setText(""+equityModel.getChng_in_oi_2());
-        volume_1.setText(""+equityModel.getVolume_1());
-        volume_2.setText(""+equityModel.getVolume_2());
-        iv_1.setText(""+equityModel.getIv_1());
-        iv_2.setText(""+equityModel.getIv_2());
-        ltp_1.setText(""+equityModel.getLtp_1());
-        ltp_2.setText(""+equityModel.getLtp_2());
+        oi_1.setText(String.format("%s", equityModel.getOi_1()));
+        oi_2.setText(String.format("%s", equityModel.getOi_2()));
+        chnage_in_oi_1.setText(String.format("%s", equityModel.getChng_in_oi_1()));
+        chnage_in_oi_2.setText(String.format("%s", equityModel.getChng_in_oi_2()));
+        volume_1.setText(String.format("%s", equityModel.getVolume_1()));
+        volume_2.setText(String.format("%s", equityModel.getVolume_2()));
+        iv_1.setText(String.format("%s", equityModel.getIv_1()));
+        iv_2.setText(String.format("%s", equityModel.getIv_2()));
+        ltp_1.setText(String.format("%s", equityModel.getLtp_1()));
+        ltp_2.setText(String.format("%s", equityModel.getLtp_2()));
 
         if(equityModel.getNet_chng_1().equalsIgnoreCase("-")){
             net_chnage_1.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -129,8 +128,8 @@ public class OptionChainAdapter extends BaseAdapter {
         else{
             net_chnage_2.setBackgroundColor(Color.parseColor("#4caf50"));
         }
-        net_chnage_1.setText(equityModel.getNet_chng_1()+" %");
-        net_chnage_2.setText(equityModel.getNet_chng_2()+" %");
+        net_chnage_1.setText(String.format("%s %%", equityModel.getNet_chng_1()));
+        net_chnage_2.setText(String.format("%s %%", equityModel.getNet_chng_2()));
         strike_price.setText(equityModel.getStrike_price());
         return view;
     }

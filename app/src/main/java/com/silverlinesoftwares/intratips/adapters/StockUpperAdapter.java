@@ -18,8 +18,7 @@ import java.util.List;
 
 public class StockUpperAdapter extends RecyclerView.Adapter
 {
-    private Context mContext;
-    private List<StockUpperModel> itemList;
+    private final List<StockUpperModel> itemList;
 
 
     @Override
@@ -31,25 +30,27 @@ public class StockUpperAdapter extends RecyclerView.Adapter
 
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
+    public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView symbol, price,change,change_per;
-        public ImageView indicator;
+        public final TextView symbol;
+        public final TextView price;
+        public final TextView change;
+        public final TextView change_per;
+        public final ImageView indicator;
 
 
         public MyViewHolder(View view) {
             super(view);
-            symbol = (TextView) view.findViewById(R.id.symbol);
-            price = (TextView) view.findViewById(R.id.ltp);
-            change = (TextView) view.findViewById(R.id.change);
-            change_per = (TextView) view.findViewById(R.id.percentage_text);
-            indicator=(ImageView)view.findViewById(R.id.indicator);
+            symbol = view.findViewById(R.id.symbol);
+            price = view.findViewById(R.id.ltp);
+            change = view.findViewById(R.id.change);
+            change_per = view.findViewById(R.id.percentage_text);
+            indicator= view.findViewById(R.id.indicator);
         }
     }
 
     public StockUpperAdapter(RecyclerView recyclerView,Context mContext,List<StockUpperModel> itemList)
     {
-        this.mContext = mContext;
         this.itemList= itemList;
     }
 
@@ -66,7 +67,7 @@ public class StockUpperAdapter extends RecyclerView.Adapter
             final MyViewHolder holder1=(MyViewHolder)holder;
             holder1.symbol.setText(blogPost.getSymbol());
             holder1.price.setText(blogPost.getLtP());
-            holder1.change_per.setText("%" +blogPost.getPer());
+            holder1.change_per.setText(String.format("%%%s", blogPost.getPer()));
             holder1.change.setText(blogPost.getPtsC());
 
 

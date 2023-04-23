@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.listeners;
 
-import com.silverlinesoftwares.intratips.models.IncomeStatementModel;
 import com.silverlinesoftwares.intratips.models.InsiderRosterModel;
 import com.silverlinesoftwares.intratips.models.InsiderTransactionModel;
 import com.silverlinesoftwares.intratips.models.MajorHolderModel;

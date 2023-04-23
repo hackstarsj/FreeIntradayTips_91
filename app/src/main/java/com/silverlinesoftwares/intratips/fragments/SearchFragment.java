@@ -1,7 +1,6 @@
 package com.silverlinesoftwares.intratips.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,10 +33,6 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -57,8 +51,9 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -83,51 +78,44 @@ public class SearchFragment extends Fragment {
         listView.setAdapter(locationAdapter);
         final AutoCompleteTextView searchText = view.findViewById(R.id.search);
         searchText.setAdapter(new LocationAdapter(getContext(), R.layout.searchrow));
-        searchText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Pos" ,"pos" +position);
-                final SearchModel searchModel=new SearchModel();
-                //searchModels.get(position);
-                TextView title=(TextView)view.findViewById(R.id.txt_name);
-                final TextView symbol=(TextView)view.findViewById(R.id.txt_symbol);
-                TextView exchange=(TextView)view.findViewById(R.id.txt_exchange);
+        searchText.setOnItemClickListener((parent, view12, position, id) -> {
+            Log.d("Pos" ,"pos" +position);
+            final SearchModel searchModel=new SearchModel();
+            //searchModels.get(position);
+            TextView title= view12.findViewById(R.id.txt_name);
+            final TextView symbol= view12.findViewById(R.id.txt_symbol);
+            TextView exchange= view12.findViewById(R.id.txt_exchange);
 
-                searchModel.setExch(exchange.getText().toString());
-                searchModel.setName(title.getText().toString());
-                searchModel.setSymbol(symbol.getText().toString());
-                if(getContext()!=null) {
-                    DataBaseController.saveSearch(getContext(), searchModel);
-                }
-                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
-
+            searchModel.setExch(exchange.getText().toString());
+            searchModel.setName(title.getText().toString());
+            searchModel.setSymbol(symbol.getText().toString());
+            if(getContext()!=null) {
+                DataBaseController.saveSearch(getContext(), searchModel);
             }
-
+            startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
 
         });
 
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
+        pullToRefresh.setOnRefreshListener(() -> {
+            try {
                 FragmentTransaction ft = null;
                 ft = getParentFragmentManager().beginTransaction();
                 ft.detach(SearchFragment.this).attach(SearchFragment.this).commit();
                 pullToRefresh.setRefreshing(false);
             }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView title=(TextView)view.findViewById(R.id.txt_name);
-                final TextView symbol=(TextView)view.findViewById(R.id.txt_symbol);
-                TextView exchange=(TextView)view.findViewById(R.id.txt_exchange);
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            TextView title= view1.findViewById(R.id.txt_name);
+            final TextView symbol= view1.findViewById(R.id.txt_symbol);
+            TextView exchange= view1.findViewById(R.id.txt_exchange);
 
-                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
-            }
+            startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,symbol.getText().toString()));
         });
 
 

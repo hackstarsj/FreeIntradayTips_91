@@ -1,22 +1,12 @@
 package com.silverlinesoftwares.intratips.tasks.auth;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.listeners.ApiResponseListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -31,7 +21,7 @@ import okhttp3.Response;
 
 public class LoginTask  {
 
-    private ApiResponseListener apiResponseListener;
+    private final ApiResponseListener apiResponseListener;
     public LoginTask(ApiResponseListener apiResponseListener){
         this.apiResponseListener=apiResponseListener;
 
@@ -95,9 +85,7 @@ public class LoginTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

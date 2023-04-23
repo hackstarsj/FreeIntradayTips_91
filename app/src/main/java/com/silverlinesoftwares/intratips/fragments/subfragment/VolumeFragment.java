@@ -22,34 +22,22 @@ public class VolumeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String DATA = "data_list";
 
     // TODO: Rename and change types of parameters
     List<ActiveStockModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
- //   private String mParam3;
+    //   private String mParam3;
 
 
     public VolumeFragment() {
         // Required empty public constructor
     }
 
-    public static VolumeFragment newInstance(String param1, String param2) {
-        VolumeFragment fragment = new VolumeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
            // mParam3=getArguments().getString(DATA);
         }
     }
@@ -66,10 +54,12 @@ public class VolumeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ListView topMovers = view.findViewById(R.id.list_looser);
 
+        if(getArguments()!=null) {
 
-        this.gainerLosserModels= (List<ActiveStockModel>) getArguments().getSerializable(Constant.data);
-        ActiveStockAdapter gainerLooserAdapter=new ActiveStockAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
+            this.gainerLosserModels = (List<ActiveStockModel>) getArguments().getSerializable(Constant.data);
+            ActiveStockAdapter gainerLooserAdapter = new ActiveStockAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
+        }
 
     }
 }

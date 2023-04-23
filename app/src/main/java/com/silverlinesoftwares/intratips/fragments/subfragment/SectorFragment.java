@@ -26,8 +26,6 @@ public class SectorFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     List<SectorStockModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
     private String mParam3;
 
 
@@ -48,8 +46,8 @@ public class SectorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
           //  mParam3=getArguments().getString(DATA);
         }
     }
@@ -67,16 +65,11 @@ public class SectorFragment extends Fragment {
         GridView topMovers = view.findViewById(R.id.list_looser);
 
 
-        this.gainerLosserModels= (List<SectorStockModel>) getArguments().getSerializable(Constant.data);
-        HeatMapAdapter gainerLooserAdapter=new HeatMapAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
-
-//        topMovers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                startActivity(new Intent(getContext(), StockDetailsActivity.class).putExtra(Constant.search,gainerLosserModels.get(position).getSymbol()+".NS"));
-//            }
-//        });
+        if(getArguments()!=null) {
+            this.gainerLosserModels = (List<SectorStockModel>) getArguments().getSerializable(Constant.data);
+            HeatMapAdapter gainerLooserAdapter = new HeatMapAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
+        }
 
     }
 }

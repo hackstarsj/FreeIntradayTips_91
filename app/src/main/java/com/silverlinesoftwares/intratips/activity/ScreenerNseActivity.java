@@ -1,5 +1,6 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,16 +15,16 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 
 public class ScreenerNseActivity extends AppCompatActivity {
@@ -32,21 +33,19 @@ public class ScreenerNseActivity extends AppCompatActivity {
     WebView webView;
     ProgressBar progressBar;
     String urls=null;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_web);
-        MobileAds.initialize(ScreenerNseActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(ScreenerNseActivity.this, initializationStatus -> {
 
-            }
         });
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
         }
-        progressBar=(ProgressBar)findViewById(R.id.progress);
-        webView=(WebView)findViewById(R.id.webview);
+        progressBar= findViewById(R.id.progress);
+        webView= findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
@@ -56,18 +55,15 @@ public class ScreenerNseActivity extends AppCompatActivity {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setPadding(0, 0, 0, 0);
         webView.setInitialScale(getScale());
-        setupWebViewClient("https://furthergrow.silverlinesoftwares.com/screener/market.php");
+        setupWebViewClient();
         webView.setWebChromeClient(new WebChromeClient(){
             public void onProgressChanged(WebView view, int progress) {
 
-                //  progressDialog.setProgress(progress);
-                //textView.setText(progress + " %");
             }
 
         });
         webView.loadUrl("https://furthergrow.silverlinesoftwares.com/screener/market.php");
-
-
+        showInterestialAds();
 
     }
 
@@ -75,12 +71,12 @@ public class ScreenerNseActivity extends AppCompatActivity {
     private int getScale(){
         Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
-        Double val = new Double(width)/new Double(PIC_WIDTH);
+        double val = (double) width / PIC_WIDTH;
         val = val * 100d;
-        return val.intValue();
+        return (int) val;
     }
 
-    private void setupWebViewClient(final String url) {
+    private void setupWebViewClient() {
         webView.setWebViewClient(new WebViewClient() {
             private int running = 0; // Could be public if you want a timer to check.
 
@@ -112,13 +108,37 @@ public class ScreenerNseActivity extends AppCompatActivity {
 
     private void Showds() {
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(ScreenerNseActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter1), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
+
 }

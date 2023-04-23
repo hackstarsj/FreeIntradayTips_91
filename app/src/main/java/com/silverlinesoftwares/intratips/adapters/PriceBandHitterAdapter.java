@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,9 +16,9 @@ import java.util.List;
 
 public class PriceBandHitterAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<PriceBandHitterModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<PriceBandHitterModel> DataList;
 
     public PriceBandHitterAdapter(Context context, List<PriceBandHitterModel> equityModels){
         this.DataList=equityModels;
@@ -103,10 +102,10 @@ public class PriceBandHitterAdapter extends BaseAdapter {
         high_52_data.setText(equityModel.getHighPrice52());
         low_52.setText(equityModel.getLowPrice52());
         change.setText(equityModel.getChng());
-        change_percentage.setText("% "+equityModel.getPerChng());
+        change_percentage.setText(String.format("%% %s", equityModel.getPerChng()));
         volume_data.setText(equityModel.getTradedQuantity());
         value_data.setText(equityModel.getTurnoverInLakhs());
-        price_band_data.setText("% "+equityModel.getPriceBandPer());
+        price_band_data.setText(String.format("%% %s", equityModel.getPriceBandPer()));
 
 
         if(!equityModel.getPerChng().contains("-"))

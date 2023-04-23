@@ -1,7 +1,5 @@
 package com.silverlinesoftwares.intratips.models;
 
-import java.util.List;
-
 public class EquityModel {
 
     private String id;
@@ -419,7 +417,7 @@ public class EquityModel {
     }
 
     public void setBuy_text(String buy_text) {
-        buy_text = buy_text;
+        this.buy_text = buy_text;
     }
 
     public EquityModel() {

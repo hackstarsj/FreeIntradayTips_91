@@ -25,8 +25,8 @@ import com.silverlinesoftwares.intratips.adapters.ResultAdapter;
 import com.silverlinesoftwares.intratips.listeners.ResultListener;
 import com.silverlinesoftwares.intratips.models.ResultModel;
 import com.silverlinesoftwares.intratips.tasks.ResultTask;
+import com.silverlinesoftwares.intratips.util.StaticMethods;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -37,15 +37,12 @@ public class ResultFragment extends Fragment  implements ResultListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private ListView listView;
     private Context mContext;
     private View headeview;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext=context;
     }
@@ -73,8 +70,9 @@ public class ResultFragment extends Fragment  implements ResultListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -88,7 +86,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
     ProgressBar progressBar;
     TextView  only_profit_text;
     TextView only_loss_text,accuracy;
-    TextView target_1_text,target_2_text,target_3_text,target_total,investment_amt,return_amt,target_1_profit,target_2_profit,target_3_profit,target_all_profit;
+    TextView target_1_text,target_2_text,target_3_text,target_total,target_1_profit,target_2_profit,target_3_profit,target_all_profit;
     @SuppressLint("InflateParams")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -104,25 +102,22 @@ public class ResultFragment extends Fragment  implements ResultListener {
         target_2_text=headeview.findViewById(R.id.target_2_txt);
         target_3_text=headeview.findViewById(R.id.target_3_txt);
         target_total=headeview.findViewById(R.id.target_all_txt);
-        investment_amt=headeview.findViewById(R.id.investment_amt);
-        return_amt=headeview.findViewById(R.id.return_amt);
         target_1_profit=headeview.findViewById(R.id.target_1_profit);
         target_2_profit=headeview.findViewById(R.id.target_2_profit);
         target_3_profit=headeview.findViewById(R.id.target_3_profit);
         target_all_profit=headeview.findViewById(R.id.target_all_profit);
 
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
+        pullToRefresh.setOnRefreshListener(() -> {
+            try {
                 FragmentTransaction ft = null;
-                if (getParentFragmentManager() != null) {
-                    ft = getParentFragmentManager().beginTransaction();
-                    ft.detach(ResultFragment.this).attach(ResultFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
+                ft = getParentFragmentManager().beginTransaction();
+                ft.detach(ResultFragment.this).attach(ResultFragment.this).commit();
+                pullToRefresh.setRefreshing(false);
+            }
+            catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -172,6 +167,7 @@ public class ResultFragment extends Fragment  implements ResultListener {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public void BuildProfit(List<ResultModel> resultModels){
 
         double final_profit=0.0;
@@ -258,9 +254,9 @@ public class ResultFragment extends Fragment  implements ResultListener {
         double accu1=(final_profit*100)/accu;
         double roundOff = Math.round(accu1 * 100.0) / 100.0;
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
-        only_profit_text.setText(""+formatter.format(final_profit));
-        only_loss_text.setText(""+formatter.format(final_loss));
-        accuracy.setText(""+roundOff+" %");
+        only_profit_text.setText(String.format("%s", formatter.format(final_profit)));
+        only_loss_text.setText(String.format("%s", formatter.format(final_loss)));
+        accuracy.setText(String.format("%s %%", roundOff));
 
         int target_1_per=(target_1_count*100)/target_total_count;
 
@@ -268,21 +264,19 @@ public class ResultFragment extends Fragment  implements ResultListener {
 
         int target_3_per=(target_3_count*100)/target_total_count;
 
-        target_1_text.setText(""+target_1_count+" ( "+target_1_per+" %)");
-        target_2_text.setText(""+target_2_count+" ( "+target_2_per+" %)");
-        target_3_text.setText(""+target_3_count+" ( "+target_3_per+" %)");
-        target_total.setText(""+target_total_count);
+        target_1_text.setText(String.format("%d ( %d %%)", target_1_count, target_1_per));
+        target_2_text.setText(String.format("%d ( %d %%)", target_2_count, target_2_per));
+        target_3_text.setText(String.format("%d ( %d %%)", target_3_count, target_3_per));
+        target_total.setText(String.format("%d", target_total_count));
 
-
-        investment_amt.setText(""+formatter.format(total_investment));
+//
         double return_per=(final_profit/total_investment)*100;
         double roundOffPer = Math.round(return_per * 100.0) / 100.0;
-        return_amt.setText(""+roundOffPer+" %");
 
-        this.target_1_profit.setText(""+formatter.format(target_1_profit));
-        this.target_2_profit.setText(""+formatter.format(target_2_profit));
-        this.target_3_profit.setText(""+formatter.format(target_3_profit));
-        this.target_all_profit.setText(""+formatter.format(target_1_profit+target_2_profit+target_3_profit));
+        this.target_1_profit.setText(String.format("%s", formatter.format(target_1_profit)));
+        this.target_2_profit.setText(String.format("%s", formatter.format(target_2_profit)));
+        this.target_3_profit.setText(String.format("%s", formatter.format(target_3_profit)));
+        this.target_all_profit.setText(String.format("%s", formatter.format(target_1_profit + target_2_profit + target_3_profit)));
 
 
     }

@@ -1,12 +1,10 @@
 package com.silverlinesoftwares.intratips.tasks.auth;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.silverlinesoftwares.intratips.listeners.DetailsResponseListener;
 import com.silverlinesoftwares.intratips.listeners.ResendCodeListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 
@@ -23,7 +21,7 @@ import okhttp3.Response;
 
 public class ResendLoginCodeTask {
 
-    private ResendCodeListener apiResponseListener;
+    private final ResendCodeListener apiResponseListener;
     public ResendLoginCodeTask(ResendCodeListener apiResponseListener){
         this.apiResponseListener=apiResponseListener;
 
@@ -86,9 +84,7 @@ public class ResendLoginCodeTask {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

@@ -20,26 +20,25 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder>
 {
-    private Context mContext;
-    private List<VideoMoel> itemList;
+    private final List<VideoMoel> itemList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
+    public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView title,video_id;
-        ImageView thumb;
+        public final TextView title;
+        public final TextView video_id;
+        final ImageView thumb;
 
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            video_id = (TextView) view.findViewById(R.id.v_id);
-            thumb = (ImageView) view.findViewById(R.id.thumb);
+            title = view.findViewById(R.id.title);
+            video_id = view.findViewById(R.id.v_id);
+            thumb = view.findViewById(R.id.thumb);
         }
     }
 
     public VideoAdapter(Context mContext, List<VideoMoel> itemList)
     {
-        this.mContext = mContext;
         this.itemList= itemList;
         setHasStableIds(true);
     }

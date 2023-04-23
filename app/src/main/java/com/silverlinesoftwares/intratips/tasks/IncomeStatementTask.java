@@ -1,10 +1,8 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.silverlinesoftwares.intratips.listeners.GainerLooserListener;
 import com.silverlinesoftwares.intratips.listeners.IncomeStateListener;
 import com.silverlinesoftwares.intratips.models.IncomeStatementModel;
 
@@ -27,7 +25,7 @@ import okhttp3.Response;
 public class IncomeStatementTask  {
 
 
-    IncomeStateListener gainerLooserListener;
+    final IncomeStateListener gainerLooserListener;
 
     public IncomeStatementTask(IncomeStateListener gainerLooserListener){
         this.gainerLooserListener=gainerLooserListener;
@@ -88,17 +86,13 @@ public class IncomeStatementTask  {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
             }
-            catch (RuntimeException e){
-                e.printStackTrace();
-            }
-            if (response != null && response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
                 try {
                     if (response.body() != null) {
-                        String data=response.body().string();
-                        return data;
+                        return response.body().string();
                     } else {
                         return null;
                     }
@@ -688,7 +682,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel22 = incomeStatementModels.get(22);
-                    ;
                     incomeStatementModel22.setTitle("Effect Of Accounting Changes");
                     JSONObject researchDevelopment15 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("effectOfAccountingCharges");
                     if (researchDevelopment15.has("longFmt")) {
@@ -702,7 +695,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel23 = incomeStatementModels.get(23);
-                    ;
                     incomeStatementModel23.setTitle("Other Items");
                     JSONObject researchDevelopment16 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("otherItems");
                     if (researchDevelopment16.has("longFmt")) {
@@ -716,7 +708,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel24 = incomeStatementModels.get(24);
-                    ;
                     incomeStatementModel24.setTitle("Net Income");
                     incomeStatementModel24.setData_2("");
                     incomeStatementModel24.setIs_bold(true);
@@ -725,7 +716,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel25 = incomeStatementModels.get(25);
-                    ;
                     incomeStatementModel25.setTitle("Net Income");
                     JSONObject researchDevelopment18 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("netIncome");
                     if (researchDevelopment18.has("longFmt")) {
@@ -944,7 +934,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel17 = incomeStatementModels.get(17);
-                    ;
                     incomeStatementModel17.setTitle("Minority Interest");
                     JSONObject researchDevelopment11 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("minorityInterest");
                     if (researchDevelopment11.has("longFmt")) {
@@ -958,7 +947,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel18 = incomeStatementModels.get(18);
-                    ;
                     incomeStatementModel18.setTitle("Net Income From Continuing Ops");
                     JSONObject researchDevelopment12 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("netIncomeFromContinuingOps");
                     if (researchDevelopment12.has("longFmt")) {
@@ -972,7 +960,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel19 = incomeStatementModels.get(19);
-                    ;
                     incomeStatementModel19.setTitle("Non-recurring Events");
                     incomeStatementModel19.setData_3("");
                     incomeStatementModel19.setIs_bold(true);
@@ -980,7 +967,6 @@ public class IncomeStatementTask  {
                     incomeStatementModels.set(19, incomeStatementModel19);
 
                     IncomeStatementModel incomeStatementModel20 = incomeStatementModels.get(20);
-                    ;
                     incomeStatementModel20.setTitle("Discontinued Operations");
                     JSONObject researchDevelopment13 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("discontinuedOperations");
                     if (researchDevelopment13.has("longFmt")) {
@@ -994,7 +980,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel21 = incomeStatementModels.get(21);
-                    ;
                     incomeStatementModel21.setTitle("Extraordinary Items");
                     JSONObject researchDevelopment14 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("extraordinaryItems");
                     if (researchDevelopment14.has("longFmt")) {
@@ -1008,7 +993,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel22 = incomeStatementModels.get(22);
-                    ;
                     incomeStatementModel22.setTitle("Effect Of Accounting Changes");
                     JSONObject researchDevelopment15 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("effectOfAccountingCharges");
                     if (researchDevelopment15.has("longFmt")) {
@@ -1035,7 +1019,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel24 = incomeStatementModels.get(24);
-                    ;
                     incomeStatementModel24.setTitle("Net Income");
                     incomeStatementModel24.setData_3("");
                     incomeStatementModel24.setIs_bold(true);
@@ -1044,7 +1027,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel25 = incomeStatementModels.get(25);
-                    ;
                     incomeStatementModel25.setTitle("Net Income");
                     JSONObject researchDevelopment18 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("netIncome");
                     if (researchDevelopment18.has("longFmt")) {
@@ -1058,7 +1040,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel26 = incomeStatementModels.get(26);
-                    ;
                     incomeStatementModel26.setTitle("Net Income Applicable To Common Shares");
                     JSONObject researchDevelopment19 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("netIncomeApplicableToCommonShares");
                     if (researchDevelopment19.has("longFmt")) {
@@ -1198,7 +1179,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel12 = incomeStatementModels.get(12);
-                    ;
                     incomeStatementModel12.setTitle("Total Other Income/Expenses Net");
                     JSONObject researchDevelopment6 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("totalOtherIncomeExpenseNet");
                     if (researchDevelopment6.has("longFmt")) {
@@ -1212,7 +1192,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel13 = incomeStatementModels.get(13);
-                    ;
                     incomeStatementModel13.setTitle("Earnings Before Interest and Taxes");
                     JSONObject researchDevelopment7 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("ebit");
                     if (researchDevelopment7.has("longFmt")) {
@@ -1226,7 +1205,6 @@ public class IncomeStatementTask  {
 
 
                     IncomeStatementModel incomeStatementModel14 = incomeStatementModels.get(14);
-                    ;
                     incomeStatementModel14.setTitle("Interest Expense");
                     JSONObject researchDevelopment8 = incomeStatementHistoryQuarterly_data.getJSONObject(i).getJSONObject("interestExpense");
                     if (researchDevelopment8.has("longFmt")) {
@@ -1402,9 +1380,7 @@ public class IncomeStatementTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

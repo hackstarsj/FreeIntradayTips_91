@@ -1,26 +1,15 @@
 package com.silverlinesoftwares.intratips.util;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.gson.Gson;
 import com.silverlinesoftwares.intratips.models.StrongBuySellModel;
 import com.silverlinesoftwares.intratips.models.UserModel;
@@ -30,7 +19,6 @@ import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -145,12 +133,7 @@ public class StaticMethods {
     public static boolean isPrivacyRun(Context context) {
         SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
         if(sharedPreferences.contains("is_second")){
-            if(sharedPreferences.getString("is_second",null).equalsIgnoreCase("no")){
-                return false;
-            }
-            else{
-                return true;
-            }
+            return !sharedPreferences.getString("is_second", null).equalsIgnoreCase("no");
         }
         else{
             return true;
@@ -158,14 +141,10 @@ public class StaticMethods {
     }
 
     static class Utils {
-        public static SortedMap<Currency, Locale> currencyLocaleMap;
+        public static final SortedMap<Currency, Locale> currencyLocaleMap;
 
         static {
-            currencyLocaleMap = new TreeMap<Currency, Locale>(new Comparator<Currency>() {
-                public int compare(Currency c1, Currency c2) {
-                    return c1.getCurrencyCode().compareTo(c2.getCurrencyCode());
-                }
-            });
+            currencyLocaleMap = new TreeMap<>((c1, c2) -> c1.getCurrencyCode().compareTo(c2.getCurrencyCode()));
             for (Locale locale : Locale.getAvailableLocales()) {
                 try {
                     Currency currency = Currency.getInstance(locale);
@@ -278,8 +257,7 @@ public class StaticMethods {
         if(sharedPreferences.contains("user_details")){
             Gson gson = new Gson();
             String json = sharedPreferences.getString("user_details", "");
-            UserModel obj = gson.fromJson(json, UserModel.class);
-            return obj;
+            return gson.fromJson(json, UserModel.class);
         }
         else{
             return null;
@@ -312,12 +290,7 @@ public class StaticMethods {
     public static boolean isFirstRun(Context context){
         SharedPreferences sharedPreferences=context.getSharedPreferences("MyPref",0);
         if(sharedPreferences.contains("is_first")){
-            if(sharedPreferences.getString("is_first",null).equalsIgnoreCase("no")){
-                return false;
-            }
-            else{
-                return true;
-            }
+            return !sharedPreferences.getString("is_first", null).equalsIgnoreCase("no");
         }
         else{
             return true;
@@ -373,12 +346,7 @@ public class StaticMethods {
             String json = sharedPreferences.getString("user_details", "");
             UserModel obj = gson.fromJson(json, UserModel.class);
             if(obj!=null) {
-                if (obj.getIs_pro().equalsIgnoreCase("1")) {
-                    return false;
-                }
-                else{
-                    return true;
-                }
+                return !obj.getIs_pro().equalsIgnoreCase("1");
             }
             else{
                 return true;
@@ -398,94 +366,6 @@ public class StaticMethods {
             return false;
         }
     }
-
-
-    private static InterstitialAd mInterstitialAd;
-
-    public static void showInterestialAds(Activity context){
-//         if(showAds(context))
-//         {
-//             try {
-//                 if (mInterstitialAd == null) {
-//                     LoadAds(context);
-//                 } else {
-//                         mInterstitialAd.show(context);
-//                         Handler handler=new Handler(Looper.getMainLooper());
-//                        handler.postDelayed(()->{
-//                            LoadAds(context);
-//                        },5000);
-//                 }
-//             }
-//             catch (Exception e){
-//                 e.printStackTrace();
-//             }
-//         }
-//         clicks=clicks+1;
-    }
-
-    public static void showRewardAds(Activity context, OnUserEarnedRewardListener onUserEarnedRewardListener){
-//        if(showAds(context))
-//        {
-//            try {
-//                if (rewardedInterstitialAd == null) {
-//                    LoadAdsReward(context);
-//                } else {
-//                    rewardedInterstitialAd.show(context,onUserEarnedRewardListener);
-//                    Log.d("REWARD","REWARD");
-//                    Handler handler=new Handler(Looper.getMainLooper());
-//                    handler.postDelayed(()->{
-//                        LoadAdsReward(context);
-//                    },5000);
-//                }
-//            }
-//            catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }
-    }
-
-    public static int failedreward=0;
-    private static void LoadAdsReward(Activity context) {
-//        RewardedInterstitialAd.load(context, "ca-app-pub-8515817249593489/9036584202",
-//                new AdRequest.Builder().build(),  new RewardedInterstitialAdLoadCallback() {
-//                    @Override
-//                    public void onAdLoaded(RewardedInterstitialAd ad) {
-//                        failedreward=0;
-//                        rewardedInterstitialAd = ad;
-//                    }
-//                    @Override
-//                    public void onAdFailedToLoad(LoadAdError loadAdError) {
-//                        rewardedInterstitialAd=null;
-//                        if(failedreward<=10) {
-//                            failedreward=failedreward+1;
-//                            LoadAdsReward(context);
-//                        }
-//                    }
-//                });
-    }
-
-    private static void LoadAds(Activity context) {
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        InterstitialAd.load(context,"ca-app-pub-8515817249593489/9989773924", adRequest, new InterstitialAdLoadCallback() {
-//            @Override
-//            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-//                super.onAdLoaded(interstitialAd);
-//                failedInt=0;
-//                mInterstitialAd = interstitialAd;
-//            }
-//
-//            @Override
-//            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-//                super.onAdFailedToLoad(loadAdError);
-//                mInterstitialAd=null;
-//                if(failedInt<=10) {
-//                    failedInt=failedInt+1;
-//                    LoadAds(context);
-//                }
-//            }
-//        });
-    }
-
 
 
     public static void showBannerAds(View adContainer2,Context context){

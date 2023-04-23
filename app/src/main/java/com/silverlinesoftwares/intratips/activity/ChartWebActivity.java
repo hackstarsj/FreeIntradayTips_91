@@ -1,32 +1,22 @@
 package com.silverlinesoftwares.intratips.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.silverlinesoftwares.intratips.MainActivity;
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
-
-import java.io.InputStream;
 
 
 public class ChartWebActivity extends AppCompatActivity {
@@ -35,15 +25,13 @@ public class ChartWebActivity extends AppCompatActivity {
     WebView webView;
     ProgressBar progressBar;
     String urls=null;
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_web);
-        MobileAds.initialize(ChartWebActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(ChartWebActivity.this, initializationStatus -> {
 
-            }
         });
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
@@ -55,8 +43,8 @@ public class ChartWebActivity extends AppCompatActivity {
         else{
             urls=getIntent().getStringExtra("url");
         }
-        progressBar=(ProgressBar)findViewById(R.id.progress);
-        webView=(WebView)findViewById(R.id.webview);
+        progressBar= findViewById(R.id.progress);
+        webView= findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         //webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.getSettings().setAllowFileAccess(false);
@@ -74,7 +62,6 @@ public class ChartWebActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.GONE);
                 // Inject CSS when page is done loading
-                injectCSS();
                 super.onPageFinished(view, url);
             }
         });
@@ -82,42 +69,13 @@ public class ChartWebActivity extends AppCompatActivity {
 
     }
 
-    private void injectCSS() {
-//        try {
-//            InputStream inputStream = getAssets().open("style_chart.css");
-//            byte[] buffer = new byte[inputStream.available()];
-//            inputStream.read(buffer);
-//            inputStream.close();
-//            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-//            webView.loadUrl("javascript:(function() {" +
-//                    "var parent = document.getElementsByTagName('head').item(0);" +
-//                    "var style = document.createElement('style');" +
-//                    "style.type = 'text/css';" +
-//                    // Tell the browser to BASE64-decode the string into your script !!!
-//                    "style.innerHTML = window.atob('" + encoded + "');" +
-//                    "parent.appendChild(style)" +
-//                    "})()");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Handler handler=new Handler(Looper.getMainLooper());
-//        handler.postDelayed(()->{
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    StaticMethods.showInterestialAds(ChartWebActivity.this);
-//                }
-//            });
-//        },5000);
-    }
-
 
     private int getScale(){
         Display display = ((WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
-        Double val = new Double(width)/new Double(PIC_WIDTH);
+        double val = (double) width / PIC_WIDTH;
         val = val * 100d;
-        return val.intValue();
+        return (int) val;
     }
 
 }

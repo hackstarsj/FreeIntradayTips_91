@@ -34,13 +34,10 @@ public class IndicesFragment extends Fragment implements ChartListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Context mContext;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     ProgressBar progressBar;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext=context;
     }
@@ -68,8 +65,9 @@ public class IndicesFragment extends Fragment implements ChartListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -87,18 +85,16 @@ public class IndicesFragment extends Fragment implements ChartListener {
         super.onViewCreated(view, savedInstanceState);
         progressBar=view.findViewById(R.id.progress);
         listView=view.findViewById(R.id.list_volume_gainer);
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
+        pullToRefresh.setOnRefreshListener(() -> {
+            try {
                 FragmentTransaction ft = null;
-                if (getParentFragmentManager() != null) {
-                    ft = getParentFragmentManager().beginTransaction();
-                    ft.detach(IndicesFragment.this).attach(IndicesFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
+                ft = getParentFragmentManager().beginTransaction();
+                ft.detach(IndicesFragment.this).attach(IndicesFragment.this).commit();
+                pullToRefresh.setRefreshing(false);
+            }catch (Exception e){
+                e.printStackTrace();
             }
         });
 

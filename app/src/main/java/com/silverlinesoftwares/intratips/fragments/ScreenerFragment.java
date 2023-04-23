@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.silverlinesoftwares.intratips.R;
@@ -23,17 +21,12 @@ import com.silverlinesoftwares.intratips.models.AdavanceScreenDataModel;
 import com.silverlinesoftwares.intratips.models.ScreenerItem;
 import com.silverlinesoftwares.intratips.models.VideoMoel;
 import com.silverlinesoftwares.intratips.util.MyAsyncListener;
-import com.silverlinesoftwares.intratips.util.RecyclerTouchListener;
-import com.silverlinesoftwares.intratips.util.VideoActivity;
-import com.silverlinesoftwares.intratips.util.VideoDataLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.silverlinesoftwares.intratips.util.StaticMethods.clicks;
 
 
 public class ScreenerFragment extends Fragment implements MyAsyncListener {
@@ -79,24 +72,6 @@ public class ScreenerFragment extends Fragment implements MyAsyncListener {
 //
         progress=view.findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
-//        VideoDataLoader videoDataLoader=new VideoDataLoader(ScreenerFragment.this);
-//        videoDataLoader.execute();
-//        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-//            @Override
-//            public void onClick(View view, int position) {
-//
-//                TextView tt=view.findViewById(R.id.v_id);
-//                if(tt!=null){
-//                    startActivity(new Intent(getContext(), VideoActivity.class).putExtra("video_id",tt.getText().toString()));
-//                }
-//            }
-//
-//            @Override
-//            public void onLongClick(View view, int position) {
-//
-//            }
-//        }));
-
 
 
     }

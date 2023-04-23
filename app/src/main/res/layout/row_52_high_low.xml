@@ -37,7 +37,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -48,7 +49,6 @@
                         android:id="@+id/text_high_low"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="@string/new_52w_h"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
@@ -57,7 +57,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/new_52_h_data"
                         android:text="@string/_100"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -70,7 +69,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prev_low"
-                        android:layout_weight="1"
                         android:id="@+id/prev_low_high_text"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
@@ -79,7 +77,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/_100"
                         android:id="@+id/prev_high_data"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -95,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prev_close"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -104,7 +100,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/prev_close_data"
                         android:text="@string/_200_00"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 

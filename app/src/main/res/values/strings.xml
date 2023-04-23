@@ -3,9 +3,7 @@
     <string name="fb_login_protocol_scheme">fb414494206500952</string>
 
     <string name="app_name">Free Intraday Tips</string>
-    <string name="intraday">Intraday</string>
     <string name="screener">Screener</string>
-    <string name="option_screener">Screener 2</string>
     <string name="top_movers">Top Movers</string>
     <string name="top_loser">Top Loser</string>
     <string name="home">Home</string>
@@ -18,16 +16,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hitmap">Heatmap</string>
     <string name="about">About</string>
-    <string name="forum">Forum</string>
     <string name="m_amp_l"><![CDATA[M & L]]></string>
     <string name="sector">Sector</string>
     <string name="stock">Stock</string>
     <string name="sss"><![CDATA[Free Intraday Learning Tips gives Free STOCK MARKET learning & Education Ideas. Before TRADING OR INVESTING consult your financial advisor. Make your own Strategy don\'t depend others and don\'t follow anyone blindly. in stock market no one is 100%-sure if anyone told you they told you lie. if anyone are 100%-sure then why they are not become a Millonare so stop depending others including Me also.]]></string>
     <string name="data_dis"><![CDATA[Free Intraday Learning Tips are not SEBI Registered Analyst. all tips are only for Learning & Education purpose. Non Advisory, Discretions​. No Claim Rights Reserved. Free Intraday Learning Tips are not Responsible for any PROFIT & LOSS. Before follow our Tips Please Consult YOUR FINANCIAL ADVISOR. \n \n The information provided in APP is only for educational and informational purposes not for trading or investing purposes and may be delayed. APP  provide technical analysis tools for educational purpose only. please do your own analysis before you make any investment decisions .we don’t take any responsibility for the accuracy of data analysis or conclusion.before taking any decision please consult your financial advisor because we are not taking any  responsibility of profit and loss trading is extremely risky and the potential of loss is very high.]]></string>
     <string name="sss1">All Membership Fees are Non-Refundable once Paid, The Amount is Charged only For Ads Free Version of this App. Open Demat Account Through US and Get Two Months Free Premium Plan</string>
-    <string name="app_ads_id">ca-app-pub-8515817249593489~2989251305</string>
     <!--    <string name="ad_unit_id">ca-app-pub-8515817249593489/4380905352</string>-->
-    <string name="ad_unit_id">ca-app-pub-3940256099942544/2247696110</string>
     <string name="banner">ca-app-pub-8515817249593489/2685998979</string>
     <string name="strong_buy">STRONG BUY</string>
     <string name="strong_sell">STRONG SELL</string>
@@ -36,7 +31,6 @@
     <string name="accept">Accept</string>
     <string name="indicator">Indicator</string>
     <string name="rotate_screen">Rotate Screen</string>
-    <string name="google_pay">Google Pay</string>
     <string name="edit">Edit</string>
     <string name="notification_title">Notification Title</string>
     <string name="stock_name">HindPetro</string>
@@ -59,7 +53,6 @@
     <string name="chart">CHART</string>
     <string name="fund">FUND.</string>
     <string name="tech">TECH.</string>
-    <string name="_444">444</string>
     <string name="hypene">-</string>
     <string name="traded_qty">Traded Qty</string>
     <string name="_100">100</string>
@@ -103,14 +96,6 @@
     <string name="open_interest">OPEN INTEREST</string>
     <string name="_1_639_eth">1.639 ETH</string>
     <string name="_11">11</string>
-    <string name="thank_you">Thank You!</string>
-    <string name="your_transaction_was_successful">Your transaction was successful</string>
-    <string name="date">DATE</string>
-    <string name="_20_june_2017">20, June 2017</string>
-    <string name="time2">Time</string>
-    <string name="to">TO</string>
-    <string name="mary_jackson">Mary Jackson</string>
-    <string name="mary_jackson_mail_com">mary.jackson@mail.com</string>
     <string name="julianna_carter">Julianna Carter</string>
     <string name="photographer">Photographer</string>
     <string name="button">Button</string>
@@ -124,11 +109,8 @@
     <string name="quaterly">Quaterly</string>
     <string name="learn">Learn</string>
     <string name="stock_news">Stock News</string>
-    <string name="ipo">IPO</string>
     <string name="startup_news">Startup News</string>
-    <string name="etf">ETF</string>
     <string name="international">International</string>
-    <string name="bonds">BONDS</string>
     <string name="top_news">Top News</string>
     <string name="sips">SIPS</string>
     <string name="global_market">Global Market</string>
@@ -158,7 +140,7 @@
     <string name="short_selling">Short Selling</string>
     <string name="economy">Economy</string>
     <string name="forecast">Forecast</string>
-    <string name="result_equity">Result Equity</string>
+    <string name="result_equity">RESULT EQUITY</string>
     <string name="result_option">Result Option</string>
     <string name="movers">Movers</string>
     <string name="calls">CALLS</string>
@@ -183,11 +165,6 @@
     <string name="deliverable_qty">Deliverable Qty.</string>
     <string name="change">CHANGE</string>
     <string name="change_percentage">CHANGE %</string>
-    <string name="price_intraday">PRICE (Intraday)</string>
-    <string name="_50_day_avg">50 Day Avg.</string>
-    <string name="_200_day_avg">200 Day Avg.</string>
-    <string name="_3_mo_return">3 Mo Return</string>
-    <string name="ytd_return">YTD Return</string>
     <string name="image">Image</string>
     <string name="progress">Progress</string>
     <string name="news_title">Hellow \n gdgdsgd</string>
@@ -196,7 +173,7 @@
     <string name="_122">122</string>
     <string name="_13_july">13 July</string>
     <string name="oi_chng">OI Chng.</string>
-    <string name="chng_in_ltp">% Chng in LTP</string>
+    <string name="chng_in_ltp" formatted="false">%% Chang in LTP</string>
     <string name="expiry">EXPIRY</string>
     <string name="strike_price">Strike Price</string>
     <string name="type">Type</string>
@@ -217,7 +194,7 @@
     <string name="_30_jul_2018_at_9_08_pm">30-Jul-2018 at 9:08 pm</string>
     <string name="cmp">CMP</string>
     <string name="loss">LOSS</string>
-    <string name="_291_01_292_00">291.01-292.00</string>
+    <string name="_291_01_292_00">291.01–292.00</string>
     <string name="_2">2</string>
     <string name="achieved">ACHIEVED</string>
     <string name="done">DONE</string>
@@ -230,21 +207,18 @@
     <string name="total_loss">TOTAL LOSS</string>
     <string name="_0_00">0.00</string>
     <string name="accuracy">ACCURACY</string>
-    <string name="total_investment">TOTAL INVESTMENT</string>
     <string name="target_1">TARGET 1</string>
     <string name="target_2">TARGET 2</string>
     <string name="target_3">TARGET 3</string>
     <string name="equal">=</string>
     <string name="new_52w_h">New 52W/H</string>
-    <string name="prev_low">Prev. Low</string>
-    <string name="_30_09_2019">30/09/2019</string>
     <string name="revenue">Revenue</string>
-    <string name="date_2019_01_01_18_00">Date : 2019-01-01 18:00</string>
+    <string name="date_2019_01_01_18_00">Date : 2019–01–01 18:00</string>
     <string name="qty_10">Qty : 10</string>
     <string name="symbol">SYMBOL</string>
     <string name="sell_range">SELL RANGE</string>
     <string name="avg_price">AVG PRICE.</string>
-    <string name="_201_202">201-202</string>
+    <string name="_201_202">201–202</string>
     <string name="_201">201</string>
     <string name="targets">TARGETS</string>
     <string name="amount">Amount</string>
@@ -260,8 +234,40 @@
     <string name="market_capital">MARKET CAPITAL</string>
     <string name="trending">Trending</string>
     <string name="turnover">Turnover</string>
-    <string name="_3d_chart">3D Chart</string>
     <string name="open_zerodha_account">OPEN ZERODHA ACCOUNT</string>
     <string name="close">CLOSE</string>
-    <string name="return1">Return</string>
+    <string name="category">CATEGORY</string>
+    <string name="aum_rs_cr">AUM (RS. CR)</string>
+    <string name="w1">1W%</string>
+    <string name="m1">1M%</string>
+    <string name="m3">3M%</string>
+    <string name="m6">6M%</string>
+    <string name="y3">3Y%</string>
+    <string name="y5">5Y%</string>
+    <string name="y1">1Y%</string>
+    <string name="coin">COINS</string>
+    <string name="volume_24_hrs">VOLUME IN 24 HR</string>
+    <string name="inter1">ca-app-pub-8515817249593489/9989773924</string>
+    <string name="inter_r">ca-app-pub-8515817249593489/9036584202</string>
+    <string name="coin_symbol">COIN SYMBOL</string>
+    <string name="_30_09_2019">30/09/2019</string>
+    <string name="free">FREE</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="pro">PRO</string>
+    <string name="paid">PAID</string>
+    <string name="buy_server_2">BUY SERVER 2</string>
+    <string name="buy_server_1">BUY SERVER 1</string>
+    <string name="alread_purchased_plus">Already Purchase PRO PLUS Plan</string>
+    <string name="total_price_zero">TOTAL PRICE : 0</string>
+    <string name="new_fifity">New 52W/H</string>
+    <string name="prev_high">\" Prev. High \"</string>
+    <string name="new_fifty_two_l">New 52W/L</string>
+    <string name="prev_low">Prev. Low</string>
+    <string name="selll">SELL</string>
+    <string name="get_started">Get Started</string>
+    <string name="exit">EXIT</string>
+    <string name="logo">Logo</string>
+    <string name="profile">Profile</string>
+    <string name="refresh">REFRESH</string>
+    .
 </resources>

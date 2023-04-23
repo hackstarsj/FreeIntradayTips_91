@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -14,9 +15,11 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.FilTask;
@@ -37,11 +40,8 @@ public class FilAndDilActivity extends AppCompatActivity implements ChartListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fil);
-        MobileAds.initialize(FilAndDilActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(FilAndDilActivity.this, initializationStatus -> {
 
-            }
         });
         progress=findViewById(R.id.progress);
         listView=findViewById(R.id.list_volume_gainer);
@@ -51,7 +51,7 @@ public class FilAndDilActivity extends AppCompatActivity implements ChartListene
         View adContainer2 = findViewById(R.id.adView2);
         StaticMethods.showBannerAds(adContainer2,FilAndDilActivity.this);
 
-
+        showInterestialAds();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FilAndDilActivity extends AppCompatActivity implements ChartListene
                     "</style>" +
                     "</head>" +
                     "<body>" +
-                    elements.toString()
+                    elements
                     +"</body></html>";
         }
         listView.setWebViewClient(new WebViewClient());
@@ -88,15 +88,37 @@ public class FilAndDilActivity extends AppCompatActivity implements ChartListene
 
         listView.loadData(all_data,"text/html","UTF-8");
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(FilAndDilActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
     }
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter_r), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onFailed(String msg) {

@@ -3,12 +3,11 @@ package com.silverlinesoftwares.intratips.util;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import androidx.multidex.MultiDex;
 
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 
 public class MyApplication extends Application {
@@ -22,10 +21,7 @@ public class MyApplication extends Application {
 
         MobileAds.initialize(
                 this,
-                new OnInitializationCompleteListener() {
-                    @Override
-                    public void onInitializationComplete(InitializationStatus initializationStatus) {}
-                });
+                initializationStatus -> {});
 
         appOpenManager = new AppOpenAdManager(this);
     }

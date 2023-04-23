@@ -26,8 +26,6 @@ public class ValuesFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     List<ActiveStockModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
     //private String mParam3;
 
 
@@ -48,8 +46,8 @@ public class ValuesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
             //mParam3=getArguments().getString(DATA);
         }
     }
@@ -67,9 +65,11 @@ public class ValuesFragment extends Fragment {
         ListView topMovers = view.findViewById(R.id.list_looser);
 
 
-        this.gainerLosserModels= (List<ActiveStockModel>) getArguments().getSerializable(Constant.data);
-        ActiveStockAdapter gainerLooserAdapter=new ActiveStockAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
+        if(getArguments()!=null) {
+            this.gainerLosserModels = (List<ActiveStockModel>) getArguments().getSerializable(Constant.data);
+            ActiveStockAdapter gainerLooserAdapter = new ActiveStockAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
+        }
 
     }
 }

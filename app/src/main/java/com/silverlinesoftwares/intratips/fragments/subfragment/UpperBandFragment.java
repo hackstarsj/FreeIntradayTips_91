@@ -26,9 +26,7 @@ public class UpperBandFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     List<PriceBandHitterModel> gainerLosserModels=new ArrayList<>();
-    private String mParam1;
-    private String mParam2;
-   // private String mParam3;
+    // private String mParam3;
 
 
     public UpperBandFragment() {
@@ -48,8 +46,8 @@ public class UpperBandFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
             //mParam3=getArguments().getString(DATA);
         }
     }
@@ -67,9 +65,11 @@ public class UpperBandFragment extends Fragment {
         ListView topMovers = view.findViewById(R.id.list_looser);
 
 
-        this.gainerLosserModels= (List<PriceBandHitterModel>) getArguments().getSerializable(Constant.data);
-        PriceBandHitterAdapter gainerLooserAdapter=new PriceBandHitterAdapter(getContext(),gainerLosserModels);
-        topMovers.setAdapter(gainerLooserAdapter);
+        if(getArguments()!=null) {
+            this.gainerLosserModels = (List<PriceBandHitterModel>) getArguments().getSerializable(Constant.data);
+            PriceBandHitterAdapter gainerLooserAdapter = new PriceBandHitterAdapter(getContext(), gainerLosserModels);
+            topMovers.setAdapter(gainerLooserAdapter);
+        }
 
     }
 }

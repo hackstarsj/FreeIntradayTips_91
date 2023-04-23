@@ -3,7 +3,6 @@ package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -17,9 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.silverlinesoftwares.intratips.adapters.OptionAdapter;
-import com.silverlinesoftwares.intratips.models.BannerModel;
 import com.silverlinesoftwares.intratips.models.OptionModel;
-import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.subfragment.HomeFragment;
 
 import org.json.JSONException;
@@ -40,20 +37,16 @@ import okhttp3.Response;
 
 public class ForexDataTask  {
 
-    Context context;
-    OptionAdapter equityAdapter;
-    UserModel userModel;
-    List<Object> equityModels;
-    String token;
-    RecyclerView listview;
-    Button button;
+    final Context context;
+    final OptionAdapter equityAdapter;
+    final List<Object> equityModels;
+    final RecyclerView listview;
+    final Button button;
 
-    public ForexDataTask(Context context, OptionAdapter equityAdapter, List<Object> equityModels, UserModel userModel, String token, RecyclerView recyclerView, Button button) {
+    public ForexDataTask(Context context, OptionAdapter equityAdapter, List<Object> equityModels,RecyclerView recyclerView, Button button) {
         this.context = context;
         this.equityAdapter = equityAdapter;
-        this.token=token;
         this.equityModels = equityModels;
-        this.userModel=userModel;
         this.listview=recyclerView;
         this.button=button;
     }
@@ -68,8 +61,6 @@ public class ForexDataTask  {
 
         RequestBody requestBody=new FormBody.Builder()
                // .add("token",Constant.getToken(context))
-                .add("user_id",userModel.getId())
-                .add("login_token",token)
                 .build();
 
         Request request =
@@ -119,15 +110,13 @@ public class ForexDataTask  {
                     Type type = new TypeToken<List<OptionModel>>(){}.getType();
                     List<OptionModel> contactList = gson.fromJson(finance, type);
                     equityModels.clear();
-                    //equityModels.add(new BannerModel("1"));
-                    //equityModels.add(new BannerModel("0"));
                     equityModels.addAll(contactList);
                   //  equityModels.add(new BannerModel("1"));
                     equityAdapter.notifyDataSetChanged();
                     Log.d("Ok","ok");
                 }
                 else {
-                    button.setText(""+jsonObject.getString("message"));
+                    button.setText(String.format("%s", jsonObject.getString("message")));
                     button.setVisibility(View.VISIBLE);
                     Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                 }
@@ -149,9 +138,7 @@ public class ForexDataTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 }

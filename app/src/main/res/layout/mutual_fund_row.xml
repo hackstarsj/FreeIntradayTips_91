@@ -37,7 +37,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -46,13 +47,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/change"
+                android:text="@string/category"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/change_data"
+                        android:id="@+id/category_data"
                         android:text="@string/_100"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -65,14 +66,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/change_percentage"
+                    android:text="@string/aum_rs_cr"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/_100"
-                        android:id="@+id/change_percentage_data"
+                        android:id="@+id/aum_rs"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -87,7 +88,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/price_intraday"
+                    android:text="@string/w1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
 
@@ -95,7 +96,7 @@
                         android:layout_width="match_parent"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
-                        android:id="@+id/price_data"
+                        android:id="@+id/w1"
                         android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -110,7 +111,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -120,13 +122,13 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/_50_day_avg"
+                        android:text="@string/m1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/avg_50_data"
+                        android:id="@+id/m1"
                         android:text="@string/_100"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -140,14 +142,14 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/_200_day_avg"
+                        android:text="@string/m3"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/_100"
-                        android:id="@+id/avg_20_data"
+                        android:id="@+id/m3"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -163,7 +165,7 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/_3_mo_return"
+                        android:text="@string/m6"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -171,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
-                        android:id="@+id/avg_30_data"
+                        android:id="@+id/m6"
                         android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
@@ -186,7 +188,7 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/ytd_return"
+                        android:text="@string/y1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -194,7 +196,53 @@
                         android:layout_width="match_parent"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ytd_data"
+                        android:id="@+id/y1"
+                        android:text="@string/_200_00"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/grey_40" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/y3"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/y3"
+                        android:text="@string/_200_00"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/grey_40" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/y5"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/y5"
                         android:text="@string/_200_00"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -18,13 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.ChartTask;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
 
     private WebView htmlWebView;
     private List<String> Itemsstrings;
-    private ArrayAdapter LisarrayAdapter;
+    private ArrayAdapter<String> LisarrayAdapter;
     private boolean started=false;
 
     TextView one_day,five_day,one_month,three_month,six_month,one_year,two_year,five_year,all_data,nine_month,ten_year;
@@ -58,18 +61,16 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
     private String sym;
     long start_time=0,end_time=0;
 
-    Map<String,String> maps=new HashMap<>();
+    final Map<String,String> maps=new HashMap<>();
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
-        MobileAds.initialize(ChartActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(ChartActivity.this, initializationStatus -> {
 
-            }
         });
         htmlWebView = findViewById(R.id.webview);
         progress=findViewById(R.id.progress);
@@ -124,7 +125,9 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         String dates=dateFormat.format(date);
         try {
             Date date1=dateFormat.parse(dates);
-            newdate=date1.getTime()/1000;
+            if (date1 != null) {
+                newdate=date1.getTime()/1000;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             newdate=(new java.util.Date().getTime())/1000;
@@ -133,7 +136,6 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         end_time=newdate-86400;
 
         Itemsstrings=new ArrayList<>();
-        Itemsstrings.clear();
         Itemsstrings.add("1M");
         Itemsstrings.add("2M");
         Itemsstrings.add("5M");
@@ -145,7 +147,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         Itemsstrings.add("1WK");
         Itemsstrings.add("1MO");
         Itemsstrings.add("3MO");
-        LisarrayAdapter=new ArrayAdapter(ChartActivity.this,R.layout.simple_list,Itemsstrings);
+        LisarrayAdapter=new ArrayAdapter<String>(ChartActivity.this,R.layout.simple_list,Itemsstrings);
         final Spinner interval=findViewById(R.id.interval);
         interval.setAdapter(LisarrayAdapter);
 
@@ -171,6 +173,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         htmlWebView.getSettings().setAllowContentAccess(true);
         webSetting.setDisplayZoomControls(true);
 
+        showInterestialAds();
         showCharts("https://partner-query.finance.yahoo.com/v8/finance/chart/"+sym+"?&interval=1m&range=1d","1d");
 
 
@@ -183,7 +186,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
         try {
-            Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            Reader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             int n;
             while ((n = reader.read(buffer)) != -1) {
                 writer.write(buffer, 0, n);
@@ -209,17 +212,41 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
             e.printStackTrace();
         }
         progress.setVisibility(View.GONE);
+
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(ChartActivity.this);
-                }
-            });
-        },5000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),5000);
 
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter_r), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onFailed(String msg) {
@@ -237,7 +264,9 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         String dates=dateFormat.format(date);
         try {
             Date date1=dateFormat.parse(dates);
-            newdate=date1.getTime()/1000;
+            if (date1 != null) {
+                newdate=date1.getTime()/1000;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             newdate=(new java.util.Date().getTime())/1000;
@@ -434,7 +463,7 @@ public class ChartActivity extends AppCompatActivity implements ChartListener,Vi
         progress.setVisibility(View.VISIBLE);
         this.periods=periods;
         ChartTask chartTask=new ChartTask(url,ChartActivity.this);
-        chartTask.execute(new String[]{});
+        chartTask.execute();
     }
 
 }

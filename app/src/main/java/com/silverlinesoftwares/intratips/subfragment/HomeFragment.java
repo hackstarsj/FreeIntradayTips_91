@@ -3,7 +3,6 @@ package com.silverlinesoftwares.intratips.subfragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +12,6 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,27 +31,22 @@ import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.silverlinesoftwares.intratips.R;
-import com.silverlinesoftwares.intratips.adapters.EquityAdapter;
 import com.silverlinesoftwares.intratips.adapters.EquityAdapterR;
 import com.silverlinesoftwares.intratips.listeners.AccountOpenClick;
 import com.silverlinesoftwares.intratips.listeners.BuySellClickListener;
-import com.silverlinesoftwares.intratips.models.BannerModel;
 import com.silverlinesoftwares.intratips.models.EquityModel;
 import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.tasks.EquityTask;
 import com.silverlinesoftwares.intratips.tasks.IntraHighTask;
-import com.silverlinesoftwares.intratips.util.BuyButtonClick;
+import com.silverlinesoftwares.intratips.ui.CustomRecyclerView;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONArray;
@@ -69,8 +58,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -146,15 +133,6 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             }
 
 
-//            String  last_id=getLastId();
-//            if(last_id!=null) {
-//                Log.d("Last_id",last_id);
-//                // Toast.makeText(getContext(), "Last ID " +last_id, Toast.LENGTH_SHORT).show();
-//                EquityTaskLive intraHighTask1 = new EquityTaskLive(getContext(), equityAdapter,currentequityModels);
-//                intraHighTask1.execute(new String[]{last_id});
-//                //StaticMethods.executeAsyncTask(intraHighTask1,new String[]{last_id});
-//            }
-
         }
 
 
@@ -190,17 +168,11 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
                 if(s!=null && !s.isEmpty()) {
                     convertBas64toString(s);
                 }
-                final String message = s;
                 if(getActivity()!=null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                // TextView textView = findViewById(R.id.animalSound);
-                                //textView.setText(message);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    getActivity().runOnUiThread(() -> {
+                        try {
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     });
                 }
@@ -235,12 +207,9 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     }
 
     private void passDatatoJs(final String data) {
-        webview.post(new Runnable() {
-            @Override
-            public void run() {
-                webview.loadUrl("javascript:printdata('"+data+"')");
-                //mWebView.loadUrl(...).
-            }
+        webview.post(() -> {
+            webview.loadUrl("javascript:printdata('"+data+"')");
+            //mWebView.loadUrl(...).
         });
     }
 
@@ -312,6 +281,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         return inflater.inflate(R.layout.fragment_equity, container, false);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -335,7 +305,10 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
        // currentequityModels.add(new BannerModel(""));
         equityAdapter=new EquityAdapterR(listView,currentequityModels,getActivity(),HomeFragment.this,getActivity(),HomeFragment.this);
         listView.setAdapter(equityAdapter);
-        UserModel userModel=StaticMethods.getUserDetails(getContext());
+        UserModel userModel=null;
+        if(getContext()!=null) {
+            userModel = StaticMethods.getUserDetails(getContext());
+        }
         String userid="";
         String token="";
         if(userModel!=null){
@@ -346,34 +319,16 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         }
         EquityTask equityTask=new EquityTask(getContext(),equityAdapter,currentequityModels,userid,token);
 
-        equityTask.execute(new String[]{});
+        equityTask.execute();
 
 
 
-        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) view.findViewById(R.id.pullToRefresh);
-
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                FragmentTransaction ft = null;
-                if (getParentFragmentManager() != null) {
-                    ft = getParentFragmentManager().beginTransaction();
-                    ft.detach(HomeFragment.this).attach(HomeFragment.this).commit();
-                    pullToRefresh.setRefreshing(false);
-                }
-            }
-        });
 
 
 
 
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        StartTimer();
-                    }
-                },
+                this::StartTimer,
                 12000);
 
 
@@ -392,56 +347,51 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     @JavascriptInterface
     public void alertJson(final String myJSON) {
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        Log.i("tag", "This'll run 300 milliseconds later");
+                () -> {
+                    Log.i("tag", "This'll run 300 milliseconds later");
 
-                        for (int i=0;i<currentequityModels.size();i++){
-                            if(currentequityModels.get(i) instanceof EquityModel) {
-                                Log.d("Price Symbol : ", "" + ((EquityModel) currentequityModels.get(i)).getPrice() + " : " + ((EquityModel) currentequityModels.get(i)).getSymbol());
-                            }
+                    for (int i=0;i<currentequityModels.size();i++){
+                        if(currentequityModels.get(i) instanceof EquityModel) {
+                            Log.d("Price Symbol : ", "" + ((EquityModel) currentequityModels.get(i)).getPrice() + " : " + ((EquityModel) currentequityModels.get(i)).getSymbol());
                         }
-                        if(getActivity()!=null) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d("Data : ", "" + myJSON);
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(myJSON);
+                    }
+                    if(getActivity()!=null) {
+                        getActivity().runOnUiThread(() -> {
+                            Log.d("Data : ", "" + myJSON);
+                            try {
+                                JSONObject jsonObject = new JSONObject(myJSON);
 
 
-                                        for (int i = 0; i < currentequityModels.size(); i++) {
-                                            if (currentequityModels.get(i) instanceof EquityModel) {
-                                                if (jsonObject.has(((EquityModel) currentequityModels.get(i)).getSymbol())) {
-                                                    Log.d("Updating", "Updating");
-                                                    JSONObject stock = jsonObject.getJSONObject(((EquityModel) currentequityModels.get(i)).getSymbol());
-                                                    JSONObject prices = stock.getJSONObject("price");
-                                                    if (prices.has("regularMarketPrice")) {
-                                                        String regularMarketPrice = prices.getString("regularMarketPrice");
-                                                        Log.d("Price", "" + regularMarketPrice);
+                                for (int i = 0; i < currentequityModels.size(); i++) {
+                                    if (currentequityModels.get(i) instanceof EquityModel) {
+                                        if (jsonObject.has(((EquityModel) currentequityModels.get(i)).getSymbol())) {
+                                            Log.d("Updating", "Updating");
+                                            JSONObject stock = jsonObject.getJSONObject(((EquityModel) currentequityModels.get(i)).getSymbol());
+                                            JSONObject prices = stock.getJSONObject("price");
+                                            if (prices.has("regularMarketPrice")) {
+                                                String regularMarketPrice = prices.getString("regularMarketPrice");
+                                                Log.d("Price", "" + regularMarketPrice);
 
 
-                                                        try {
-                                                            Double currentPrice = Double.parseDouble(prices.getString("regularMarketPrice"));
+                                                try {
+                                                    Double currentPrice = Double.parseDouble(prices.getString("regularMarketPrice"));
 
-                                                            equityAdapter.changePrice(regularMarketPrice, i);
-                                                            ///((EquityModel) currentequityModels.get(i)).setPrice(regularMarketPrice);
-                                                            //equityAdapter.notifyDataSetChanged();
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-
-                                                    }
+                                                    equityAdapter.changePrice(regularMarketPrice, i);
+                                                    ///((EquityModel) currentequityModels.get(i)).setPrice(regularMarketPrice);
+                                                    //equityAdapter.notifyDataSetChanged();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                 }
+
                                             }
                                         }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
-
                                 }
-                            });
-                        }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        });
                     }
                 },
                 1000);
@@ -482,13 +432,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
     public void onResume() {
         super.onResume();
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-
-                        StartTimer();
-
-                    }
-                },
+                this::StartTimer,
                 10000);
     }
 
@@ -513,19 +457,21 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
 
     private void injectCSS(WebView webView) {
         try {
-            InputStream inputStream = getActivity().getAssets().open("style_chart.css");
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-            webView.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
-                    "var style = document.createElement('style');" +
-                    "style.type = 'text/css';" +
-                    // Tell the browser to BASE64-decode the string into your script !!!
-                    "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
-                    "})()");
+            if(getContext()!=null) {
+                InputStream inputStream = getContext().getAssets().open("style_chart.css");
+                byte[] buffer = new byte[inputStream.available()];
+                final int read = inputStream.read(buffer);
+                inputStream.close();
+                String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
+                webView.loadUrl("javascript:(function() {" +
+                        "var parent = document.getElementsByTagName('head').item(0);" +
+                        "var style = document.createElement('style');" +
+                        "style.type = 'text/css';" +
+                        // Tell the browser to BASE64-decode the string into your script !!!
+                        "style.innerHTML = window.atob('" + encoded + "');" +
+                        "parent.appendChild(style)" +
+                        "})()");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -533,41 +479,48 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
 
     private void injectCSS2(WebView webView) {
         try {
-            InputStream inputStream = getActivity().getAssets().open("style2.css");
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-            webView.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
-                    "var style = document.createElement('style');" +
-                    "style.type = 'text/css';" +
-                    // Tell the browser to BASE64-decode the string into your script !!!
-                    "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
-                    "})()");
+            if(getActivity()!=null) {
+                InputStream inputStream = getActivity().getAssets().open("style2.css");
+                byte[] buffer = new byte[inputStream.available()];
+                final int read=inputStream.read(buffer);
+                inputStream.close();
+                String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
+                webView.loadUrl("javascript:(function() {" +
+                        "var parent = document.getElementsByTagName('head').item(0);" +
+                        "var style = document.createElement('style');" +
+                        "style.type = 'text/css';" +
+                        // Tell the browser to BASE64-decode the string into your script !!!
+                        "style.innerHTML = window.atob('" + encoded + "');" +
+                        "parent.appendChild(style)" +
+                        "})()");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onTechnical(String symbol) {
 
         symbol=symbol.replace(".BO","");
         symbol=symbol.replace(".NS","");
-
-        AlertDialog.Builder al=new AlertDialog.Builder(getContext());
+        AlertDialog.Builder al = null;
+        if(getContext()!=null) {
+            al = new AlertDialog.Builder(getContext());
+        }
         View view=getLayoutInflater().inflate(R.layout.weblayout_dialog,null);
-        EditText edit = (EditText) view.findViewById(R.id.edit);
+        EditText edit = view.findViewById(R.id.edit);
         final ProgressBar progress=view.findViewById(R.id.progress);
         TextView title=view.findViewById(R.id.title);
         edit.setFocusable(true);
         edit.requestFocus();
 
-        title.setText("Technical Analysis : "+symbol);
-        al.setView(view);
+        title.setText(String.format("Technical Analysis : %s", symbol));
+        if(al!=null) {
+            al.setView(view);
+        }
         Button button=view.findViewById(R.id.close);
         final WebView webView=view.findViewById(R.id.webview);
         try {
@@ -576,7 +529,7 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             int size = is.available();
 
             byte[] buffer = new byte[size];
-            is.read(buffer);
+            final int read=is.read(buffer);
             is.close();
 
             String str = new String(buffer);
@@ -613,14 +566,11 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             e.printStackTrace();
         }
 
-        final AlertDialog alertDialog=al.show();
+        if(al!=null) {
+            final AlertDialog alertDialog = al.show();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+            button.setOnClickListener(v -> alertDialog.dismiss());
+        }
 
     }
 
@@ -628,11 +578,14 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
 
         symbol=symbol.replace(".BO","");
         symbol=symbol.replace(".NS","");
-
-        AlertDialog.Builder al=new AlertDialog.Builder(getContext());
+        AlertDialog.Builder al=null;
+        if(getContext()!=null) {
+            al = new AlertDialog.Builder(getContext());
+        }
         View view=getLayoutInflater().inflate(R.layout.buy_sell_dialog,null);
-
-        al.setView(view);
+        if(al!=null) {
+            al.setView(view);
+        }
         Button button=view.findViewById(R.id.close);
         final EditText priceText=view.findViewById(R.id.entry_price);
         final EditText target=view.findViewById(R.id.target);
@@ -653,13 +606,10 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         final TextView loss=view.findViewById(R.id.loss);
         TextView risk=view.findViewById(R.id.risk_reward);
         Button zerodha=view.findViewById(R.id.open_zerodha);
-        zerodha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
-                startActivity(intent);
-            }
+        zerodha.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
+            startActivity(intent);
         });
 
 
@@ -668,10 +618,10 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         final TextView total_price=view.findViewById(R.id.totalprice);
 
         if(isBuy){
-            buy_button.setText("BUY");
+            buy_button.setText(getString(R.string.buy));
         }
         else{
-            buy_button.setText("SELL");
+            buy_button.setText(getString(R.string.selll));
         }
         final String[] order_type = {"LIMIT"};
         final String[] varity = {"bo"};
@@ -679,43 +629,37 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
 
         RadioGroup radioGroup=view.findViewById(R.id.order_type);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.limit){
-                    order_type[0] ="LIMIT";
-                }
-                else{
-                    order_type[0] ="MARKET";
-                }
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.limit){
+                order_type[0] ="LIMIT";
+            }
+            else{
+                order_type[0] ="MARKET";
             }
         });
 
 
         RadioGroup radioGroup2=view.findViewById(R.id.varity);
 
-        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.reg){
-                    varity[0] ="regular";
-                }
-                else if(checkedId==R.id.amo){
-                    varity[0] ="amo";
-                }
-                else if(checkedId==R.id.co){
-                    varity[0] ="co";
-                }
-                else{
-                    varity[0]="bo";
-                }
+        radioGroup2.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId==R.id.reg){
+                varity[0] ="regular";
+            }
+            else if(checkedId==R.id.amo){
+                varity[0] ="amo";
+            }
+            else if(checkedId==R.id.co){
+                varity[0] ="co";
+            }
+            else{
+                varity[0]="bo";
             }
         });
 
 
 
 
-        priceText.setText(""+price);
+        priceText.setText(String.format("%s", price));
 
         if(price!=null) {
             if (!price.isEmpty()) {
@@ -762,53 +706,47 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         });
 
 
-        final AlertDialog alertDialog=al.show();
+        if(al!=null) {
+            final AlertDialog alertDialog = al.show();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            button.setOnClickListener(v -> alertDialog.dismiss());
+
+
+            final String finalSymbol = symbol;
+            buy_button.setOnClickListener(v -> {
                 alertDialog.dismiss();
-            }
-        });
-
-
-        final String finalSymbol = symbol;
-        buy_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                if(isBuy){
-                    ShowBuyDialog(finalSymbol,"BUY",qty.getText().toString(),order_type[0],varity[0],priceText.getText().toString(),stop_loss.getText().toString(),target.getText().toString());
+                if (isBuy) {
+                    ShowBuyDialog(finalSymbol, "BUY", qty.getText().toString(), order_type[0], varity[0], priceText.getText().toString(), stop_loss.getText().toString(), target.getText().toString());
+                } else {
+                    ShowBuyDialog(finalSymbol, "SELL", qty.getText().toString(), order_type[0], varity[0], priceText.getText().toString(), stop_loss.getText().toString(), target.getText().toString());
                 }
-                else{
-                    ShowBuyDialog(finalSymbol,"SELL",qty.getText().toString(),order_type[0],varity[0],priceText.getText().toString(),stop_loss.getText().toString(),target.getText().toString());
-                }
-            }
-        });
+            });
 
+        }
 
     }
 
-    private void ShowBuyDialog(String symbol, String buy, String qty, String ordertype, String varity, String price, String stop_loss,String target) {
+    @SuppressLint("SetJavaScriptEnabled")
+    private void ShowBuyDialog(String symbol, String buy, String qty, String ordertype, String varity, String price, String stop_loss, String target) {
         symbol=symbol.replace(".BO","");
         symbol=symbol.replace(".NS","");
-
-        AlertDialog.Builder al=new AlertDialog.Builder(getContext());
+        AlertDialog.Builder al=null;
+        if(getContext()!=null) {
+            al = new AlertDialog.Builder(getContext());
+        }
         View view=getLayoutInflater().inflate(R.layout.weblayout_dialog,null);
-        EditText edit = (EditText) view.findViewById(R.id.edit);
+        EditText edit = view.findViewById(R.id.edit);
         edit.setFocusable(true);
         edit.requestFocus();
-
-        al.setView(view);
+        if(al!=null) {
+            al.setView(view);
+        }
 
         Button zerodha=view.findViewById(R.id.open_zerodha);
-        zerodha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
-                startActivity(intent);
-            }
+        zerodha.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
+            startActivity(intent);
         });
         Button button=view.findViewById(R.id.close);
         final WebView webView=view.findViewById(R.id.webview);
@@ -840,10 +778,6 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
                 CookieManager.getInstance().setAcceptCookie(true);
             }
 
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                WebView.setWebContentsDebuggingEnabled(true);
-            }
             webView.loadUrl("about:blank");
             webView.getSettings().setLoadWithOverviewMode(true);
             webView.setWebViewClient(new WebViewClient(){
@@ -868,14 +802,11 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             e.printStackTrace();
         }
 
-        final AlertDialog alertDialog=al.show();
+        if(al!=null) {
+            final AlertDialog alertDialog = al.show();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+            button.setOnClickListener(v -> alertDialog.dismiss());
+        }
     }
 
     private void displayTargetStopLoss(String sprice_amt,TextView stop_loss,TextView target,boolean isBuy,TextView profit,TextView loss,EditText qty){
@@ -889,20 +820,20 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         if(isBuy){
             double pr=price_amt+profit_amt;
             double sr=price_amt-stop_loss_amt;
-            target.setText(""+ df2.format(pr));
-            stop_loss.setText(""+df2.format(sr));
+            target.setText(String.format("%s", df2.format(pr)));
+            stop_loss.setText(String.format("%s", df2.format(sr)));
         }
         else{
             double pr=price_amt-profit_amt;
             double sr=price_amt+profit_amt;
-            target.setText(""+df2.format(pr));
-            stop_loss.setText(""+df2.format(sr));
+            target.setText(String.format("%s", df2.format(pr)));
+            stop_loss.setText(String.format("%s", df2.format(sr)));
         }
 
         if(qty!=null){
             if(!qty.getText().toString().isEmpty()){
-                profit.setText(""+df2.format(profit_amt*Double.parseDouble(qty.getText().toString())));
-                loss.setText(""+df2.format(stop_loss_amt*Double.parseDouble(qty.getText().toString())));
+                profit.setText(String.format("%s", df2.format(profit_amt * Double.parseDouble(qty.getText().toString()))));
+                loss.setText(String.format("%s", df2.format(stop_loss_amt * Double.parseDouble(qty.getText().toString()))));
             }
         }
 
@@ -913,35 +844,40 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
         if(priceText!=null){
             if(qty!=null){
                 if(!priceText.getText().toString().isEmpty() && !qty.getText().toString().isEmpty()){
-                    total_price.setText("TOTAL PRICE : "+df2.format(Double.parseDouble(priceText.getText().toString())*Double.parseDouble(qty.getText().toString())));
+                    total_price.setText(String.format("TOTAL PRICE : %s", df2.format(Double.parseDouble(priceText.getText().toString()) * Double.parseDouble(qty.getText().toString()))));
 
                 }
                 else{
-                    total_price.setText("TOTAL PRICE : 0");
+                    total_price.setText(getString(R.string.total_price_zero));
                 }
             }
             else{
-                total_price.setText("TOTAL PRICE : 0");
+                total_price.setText(getString(R.string.total_price_zero));
             }
         }
         else{
-            total_price.setText("TOTAL PRICE : 0");
+            total_price.setText(getString(R.string.total_price_zero));
         }
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void ShowDialog2(String symbol) {
 
         symbol=symbol.replace(".BO","");
         symbol=symbol.replace(".NS","");
-
-        AlertDialog.Builder al=new AlertDialog.Builder(getContext());
+        AlertDialog.Builder al=null;
+        if(getContext()!=null) {
+            al = new AlertDialog.Builder(getContext());
+        }
         View view=getLayoutInflater().inflate(R.layout.weblayout_dialog,null);
-        EditText edit = (EditText) view.findViewById(R.id.edit);
+        EditText edit = view.findViewById(R.id.edit);
         edit.setFocusable(true);
         edit.requestFocus();
 
-        al.setView(view);
+        if(al!=null) {
+            al.setView(view);
+        }
         Button button=view.findViewById(R.id.close);
         WebView webView=view.findViewById(R.id.webview);
         try {
@@ -972,14 +908,11 @@ public class HomeFragment extends Fragment implements BuySellClickListener, Acco
             e.printStackTrace();
         }
 
-        final AlertDialog alertDialog=al.show();
+        if(al!=null) {
+            final AlertDialog alertDialog = al.show();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+            button.setOnClickListener(v -> alertDialog.dismiss());
+        }
 
     }
 

@@ -1,21 +1,21 @@
 package com.silverlinesoftwares.intratips.activity;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -31,16 +31,13 @@ import com.silverlinesoftwares.intratips.fragments.stockdetails.CashFlowFragment
 import com.silverlinesoftwares.intratips.fragments.stockdetails.ChartFragment;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.IncomeStatementFragment;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.ManagementFragment;
-import com.silverlinesoftwares.intratips.fragments.stockdetails.OptionFragment;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.ShareHoldersFragment;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.SummaryFragment;
 import com.silverlinesoftwares.intratips.fragments.stockdetails.TechnicalAnalysisFragment;
-import com.silverlinesoftwares.intratips.fragments.stockdetails.VolumeFragment;
 import com.silverlinesoftwares.intratips.listeners.StockDetailListener;
 import com.silverlinesoftwares.intratips.models.SummaryModel;
 import com.silverlinesoftwares.intratips.tasks.StockDetailHometask;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,15 +66,13 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
     private WebSocketClient webSocketClient;
     private double currentPrice=0.0;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_details);
-        MobileAds.initialize(StockDetailsActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(StockDetailsActivity.this, initializationStatus -> {
 
-            }
         });
         string=getIntent().getStringExtra(Constant.search);
         tabLayout=findViewById(R.id.tab_item);
@@ -101,7 +96,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         }
         stock_title.setText(string);
         StockDetailHometask detailHometask=new StockDetailHometask(string,low,price,opens,pr_close,high);
-        detailHometask.execute(new String[]{});
+        detailHometask.execute();
         LoadHomePage();
 
 
@@ -113,6 +108,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         //}
 
         createWebSocketClient();
+        showInterestialAds();
 
     }
 
@@ -140,16 +136,10 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
                 if(s!=null && !s.isEmpty()) {
                     convertBas64toString(s);
                 }
-                final String message = s;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            // TextView textView = findViewById(R.id.animalSound);
-                            //textView.setText(message);
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
+                runOnUiThread(() -> {
+                    try{
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 });
             }
@@ -186,86 +176,74 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
     @JavascriptInterface
     public void alertJson(final String myJSON) {
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                () -> {
+                    runOnUiThread(() -> {
 
-                                    Log.i("tag", "This'll run 300 milliseconds later");
+                        Log.i("tag", "This'll run 300 milliseconds later");
 
-                                            Log.d("Data : ",""+myJSON);
-                                            try {
-                                                JSONObject jsonObject=new JSONObject(myJSON);
-                                                if(price!=null){
-                                                    if(jsonObject.has(string)) {
-                                                        JSONObject stock = jsonObject.getJSONObject(string);
-                                                        JSONObject prices=stock.getJSONObject("price");
-                                                        if(prices.has("regularMarketPrice")) {
-                                                            String regularMarketPrice = prices.getString("regularMarketPrice");
+                        Log.d("Data : ", "" + myJSON);
+                        try {
+                            JSONObject jsonObject = new JSONObject(myJSON);
+                            if (price != null) {
+                                if (jsonObject.has(string)) {
+                                    JSONObject stock = jsonObject.getJSONObject(string);
+                                    JSONObject prices = stock.getJSONObject("price");
+                                    if (prices.has("regularMarketPrice")) {
+                                        String regularMarketPrice = prices.getString("regularMarketPrice");
 
 
-                                                            try {
-                                                                oldPrice=currentPrice;
-                                                                currentPrice =Double.parseDouble(prices.getString("regularMarketPrice"));
-                                                            }
-                                                            catch (Exception e){
-                                                                e.printStackTrace();
-                                                            }
+                                        try {
+                                            oldPrice = currentPrice;
+                                            currentPrice = Double.parseDouble(prices.getString("regularMarketPrice"));
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
-                                                            price.setText(regularMarketPrice);
-
+                                        price.setText(regularMarketPrice);
 
 
-                                                        }
-                                                        if(prices.has("regularMarketChangePercent")){
-                                                            String per=prices.getString("regularMarketChangePercent");
-                                                            price_per.setText("% "+per);
-                                                            try{
-                                                                if(Double.parseDouble(per)>0){
-                                                                    price.setBackgroundColor(Color.parseColor("#08C82D"));
-                                                                    price.setTextColor(Color.parseColor("#FFFFFF"));
-                                                                    ticker.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-                                                                    price_per.setTextColor(Color.parseColor("#08C82D"));
-                                                                }
-                                                                else{
-                                                                    ticker.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
-                                                                    price_per.setTextColor(Color.parseColor("#EF1003"));
-                                                                    price.setBackgroundColor(Color.parseColor("#EF1003"));
-                                                                    price.setTextColor(Color.parseColor("#FFFFFF"));
+                                    }
+                                    if (prices.has("regularMarketChangePercent")) {
+                                        String per = prices.getString("regularMarketChangePercent");
+                                        price_per.setText(String.format("%% %s", per));
+                                        try {
+                                            if (Double.parseDouble(per) > 0) {
+                                                price.setBackgroundColor(Color.parseColor("#08C82D"));
+                                                price.setTextColor(Color.parseColor("#FFFFFF"));
+                                                ticker.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+                                                price_per.setTextColor(Color.parseColor("#08C82D"));
+                                            } else {
+                                                ticker.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+                                                price_per.setTextColor(Color.parseColor("#EF1003"));
+                                                price.setBackgroundColor(Color.parseColor("#EF1003"));
+                                                price.setTextColor(Color.parseColor("#FFFFFF"));
 
-                                                                }
-                                                            }
-                                                            catch (Exception e){
-                                                                e.printStackTrace();
-                                                            }
-
-                                                        }
-
-                                                    }
-
-                                                }
-                                                Log.d("Json",jsonObject.toString());
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
                                             }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+
+                                }
 
                             }
-                        });
-        // iterate through jsonarray
-                    }
+                            Log.d("Json", jsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    });
+    // iterate through jsonarray
                 },
                 1000);
 
     }
 
     private void passDatatoJs(final String data) {
-        webview.post(new Runnable() {
-            @Override
-            public void run() {
-                webview.loadUrl("javascript:printdata('"+data+"')");
-                //mWebView.loadUrl(...).
-            }
+        webview.post(() -> {
+            webview.loadUrl("javascript:printdata('"+data+"')");
+            //mWebView.loadUrl(...).
         });
     }
 
@@ -303,7 +281,7 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
 
         CashFlowFragment cashFlowFragment=new CashFlowFragment();
         cashFlowFragment.setArguments(bundle);
-        viewPagerAdapter.addFragment(cashFlowFragment);;
+        viewPagerAdapter.addFragment(cashFlowFragment);
         viewPagerAdapter.addTitle("Cashflow");
 
 
@@ -312,16 +290,6 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         viewPagerAdapter.addFragment(analysisFragment);
         viewPagerAdapter.addTitle("Analysis");
 
-
-        VolumeFragment volumeFragment=new VolumeFragment();
-        volumeFragment.setArguments(bundle);
-        viewPagerAdapter.addFragment(volumeFragment);
-        viewPagerAdapter.addTitle("Volume");
-
-        //OptionFragment optionFragment=new OptionFragment();
-        //optionFragment.setArguments(bundle);
-        //viewPagerAdapter.addFragment(optionFragment);
-       // viewPagerAdapter.addTitle("Options");
 
         ShareHoldersFragment shareHoldersFragment=new ShareHoldersFragment();
         shareHoldersFragment.setArguments(bundle);
@@ -334,24 +302,42 @@ public class StockDetailsActivity extends AppCompatActivity implements StockDeta
         viewPagerAdapter.addTitle("Management");
 
         viewPager.setAdapter(viewPagerAdapter);
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(viewPagerAdapter.getTitle(position));
-            }
-        }).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewPagerAdapter.getTitle(position))).attach();
         viewPager.setOffscreenPageLimit(viewPagerAdapter.getItemCount()-1);
         Handler handler=new Handler(Looper.getMainLooper());
-        handler.postDelayed(()->{
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StaticMethods.showInterestialAds(StockDetailsActivity.this);
-                }
-            });
-        },10000);
+        handler.postDelayed(()-> runOnUiThread(this::showInterestialAdsView),10000);
 
     }
+
+    private InterstitialAd mInterstitialAd;
+    private void showInterestialAdsView() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+    private void showInterestialAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,getString(R.string.inter1), adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.i("TAG", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+    }
+
 
     @Override
     public void onSummayLoaded(SummaryModel data) {

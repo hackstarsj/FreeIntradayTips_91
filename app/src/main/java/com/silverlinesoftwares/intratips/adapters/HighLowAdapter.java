@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,10 +16,10 @@ import java.util.List;
 
 public class HighLowAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<High_Low_Model> DataList;
-    boolean is_high;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<High_Low_Model> DataList;
+    final boolean is_high;
 
     public HighLowAdapter(Context context, List<High_Low_Model> equityModels,boolean is_high){
         this.DataList=equityModels;
@@ -96,17 +95,17 @@ public class HighLowAdapter extends BaseAdapter {
         ltp.setText(equityModel.getLtp());
         new_52_h_data.setText(equityModel.getValue());
         if(is_high) {
-            prev_low_high_text.setText("New 52W/H");
-            text_high_low.setText(" Prev. High ");
+            prev_low_high_text.setText(context.getString(R.string.new_fifity));
+            text_high_low.setText(context.getString(R.string.prev_high));
         }
         else{
-            prev_low_high_text.setText("New 52W/L");
-            text_high_low.setText("Prev. Low");
+            prev_low_high_text.setText(context.getString(R.string.new_fifty_two_l));
+            text_high_low.setText(context.getString(R.string.prev_low));
         }
 
         prev_high_data.setText(equityModel.getValue_old());
         prev_close_data.setText(equityModel.getPrev());
-        percentage_text.setText("% "+equityModel.getpChange());
+        percentage_text.setText(String.format("%% %s", equityModel.getpChange()));
         change.setText(equityModel.getChange());
 
 

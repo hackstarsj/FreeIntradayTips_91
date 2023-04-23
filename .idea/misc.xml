@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/drawable/border_blue_button.xml" value="0.121" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/drawable/border_bottom_black.xml" value="0.121" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/drawable/ic_remove_circle_black_24dp.xml" value="0.121" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/active_rows.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_active_stock.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_advance_screener.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_chart.xml" value="0.1875" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_coin.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_economy.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_facebook_login.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_fil.xml" value="0.1" />
@@ -17,26 +19,34 @@
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_high_low.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_looser_gainer.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_main.xml" value="0.1875" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_mutual_fund.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_new_web.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_news.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_payment_gateway.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_pre_market_open.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_price_band.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_reset_password.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_reset_password_next.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_result_activtiy.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_search_detail.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_sign_up_next.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_stock_details.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_stock_details.xml" value="0.16" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_video.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_volume_gainers.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/activity_walk_through.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/bottom_layout_open_demat.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/bulk_deal_row.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/buy_sell_dialog.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/commodity_row.xml" value="0.16" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/currency_row.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/coin_row.xml" value="0.1875" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/commodity_row.xml" value="0.2" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/currency_row.xml" value="0.264" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/dialog_payment_success.xml" value="0.16" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/dis_dialog.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/equity_row.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_about.xml" value="0.1875" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_advance_screener.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_chart_web.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_economy.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_equity.xml" value="0.1" />
@@ -44,21 +54,23 @@
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_income_statement.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_indices.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_management.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_more.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_more.xml" value="0.2" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_movers.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_mutual_fund.xml" value="0.1875" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_news.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_option.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_options.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_result.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_shareholder.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_summary.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_summary.xml" value="0.2" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/fragment_trending.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/gain_loss_row.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/item_card_wizard.xml" value="0.16" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/markers.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/most_delivery_row.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/mutual_fund_row.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/mutual_fund_row.xml" value="0.2" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/news_rows.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/oi_spurts_contacts_row.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/oi_spurts_contacts_row.xml" value="0.264" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/oi_spurts_underlying_row.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/option_chain_row.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/option_row.xml" value="0.1" />
@@ -67,7 +79,7 @@
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/price_band_row.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/privacy_dialog.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/pro_dialog.xml" value="0.1" />
-        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/result_header.xml" value="0.1" />
+        <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/result_header.xml" value="0.264" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/row_52_high_low.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/row_income_statement.xml" value="0.1" />
         <entry key="..\:/Android Apps Source/FreeIntradayTips/app/src/main/res/layout/row_insider_roaster.xml" value="0.1" />
@@ -90,7 +102,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

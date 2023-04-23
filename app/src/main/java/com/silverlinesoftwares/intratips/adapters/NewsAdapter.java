@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,9 +20,9 @@ import java.util.List;
 
 public class NewsAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<NewsModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<NewsModel> DataList;
 
     public NewsAdapter(Context context, List<NewsModel> equityModels){
         this.DataList=equityModels;

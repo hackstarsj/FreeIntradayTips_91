@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,9 +16,9 @@ import java.util.List;
 
 public class PreMarketOpenAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<PreMarketOpenModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<PreMarketOpenModel> DataList;
 
     public PreMarketOpenAdapter(Context context, List<PreMarketOpenModel> equityModels){
         this.DataList=equityModels;
@@ -87,7 +86,7 @@ public class PreMarketOpenAdapter extends BaseAdapter {
         value_data.setText(equityModel.getiVal());
         quantity_data.setText(equityModel.getFinQnty());
         change.setText(equityModel.getChn());
-        percentage_text.setText("% "+equityModel.getPerChn());
+        percentage_text.setText(String.format("%% %s", equityModel.getPerChn()));
 
         if(!equityModel.getPerChn().contains("-"))
         {

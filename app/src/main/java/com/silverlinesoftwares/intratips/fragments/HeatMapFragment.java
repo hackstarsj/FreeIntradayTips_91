@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.silverlinesoftwares.intratips.R;
@@ -25,9 +24,6 @@ public class HeatMapFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private List<MoverLooserMenu> moverLooserMenus;
 
 
@@ -48,8 +44,9 @@ public class HeatMapFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -67,13 +64,7 @@ public class HeatMapFragment extends Fragment {
         moverLooserMenus= MoverLooserMenu.getItemMenu();
         MoverMenuAdapter moverMenuAdapter=new MoverMenuAdapter(getContext(),moverLooserMenus);
         griditems.setAdapter(moverMenuAdapter);
-        griditems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getContext(), HeatMapActivity.class).putExtra(Constant.data_title,moverLooserMenus.get(position).getName()).putExtra(Constant.data_text,moverLooserMenus.get(position).getData_text()));
-
-            }
-        });
+        griditems.setOnItemClickListener((parent, view1, position, id) -> startActivity(new Intent(getContext(), HeatMapActivity.class).putExtra(Constant.data_title,moverLooserMenus.get(position).getName()).putExtra(Constant.data_text,moverLooserMenus.get(position).getData_text())));
 
     }
 }

@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,18 +16,12 @@ import java.util.List;
 
 public class ActiveStockAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<ActiveStockModel> DataList;
+    final LayoutInflater inflater;
+    final List<ActiveStockModel> DataList;
 
     public ActiveStockAdapter(Context context, List<ActiveStockModel> equityModels){
         this.DataList=equityModels;
         inflater=LayoutInflater.from(context);
-        this.context=context;
-    }
-
-    public List<ActiveStockModel> getDataList() {
-        return DataList;
     }
 
     @Override
@@ -80,7 +73,7 @@ public class ActiveStockAdapter extends BaseAdapter {
         ltp.setText(equityModel.getLtp());
         prev_close.setText(equityModel.getPreviousPrice());
         traded_qty.setText(equityModel.getTradedQuantity());
-        percentage_text.setText("% "+equityModel.getNetPrice());
+        percentage_text.setText(String.format("%% %s", equityModel.getNetPrice()));
 
 
 

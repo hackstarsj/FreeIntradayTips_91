@@ -2,11 +2,10 @@ package com.silverlinesoftwares.intratips.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +41,6 @@ import com.silverlinesoftwares.intratips.activity.FacebookLoginActivity;
 import com.silverlinesoftwares.intratips.activity.GoogleLoginActivity;
 import com.silverlinesoftwares.intratips.activity.LoginActivity;
 import com.silverlinesoftwares.intratips.activity.SignUpActivity;
-import com.silverlinesoftwares.intratips.activity.VideoActivtiy;
 import com.silverlinesoftwares.intratips.models.UserModel;
 import com.silverlinesoftwares.intratips.util.StaticMethods;
 
@@ -52,25 +49,19 @@ public class AboutFragment extends Fragment  {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final int GOOGLE_SINGIN_REQUEST = 112;
-    private static final int FACEBOOK_REQUEST_CODE = 113;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     CallbackManager callbackManager;
 
     FirebaseAuth firebaseAuth;
-    private ProgressDialog progressDialog;
     private ActivityResultLauncher<Intent> someActivityResultLauncher;
-    private int requestCodeClick=112;
+    private final int requestCodeClick=112;
 
     public AboutFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -87,8 +78,9 @@ public class AboutFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -102,9 +94,10 @@ public class AboutFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        manager= ReviewManagerFactory.create(getContext());
+        if(getContext()!=null) {
+            manager = ReviewManagerFactory.create(getContext());
+        }
         firebaseAuth=FirebaseAuth.getInstance();
-        progressDialog=new ProgressDialog(getContext());
         callbackManager=CallbackManager.Factory.create();
         LinearLayout other_line=view.findViewById(R.id.other_line);
         LinearLayout what_line=view.findViewById(R.id.telegram);
@@ -114,110 +107,67 @@ public class AboutFragment extends Fragment  {
         ImageView login_fb=view.findViewById(R.id.fb_login);
         LinearLayout youtube=view.findViewById(R.id.youtube);
         TextView app_version=view.findViewById(R.id.app_version);
-        SwitchCompat notification=view.findViewById(R.id.notification_on_off);
+
+
+//        notification.setChecked(StaticMethods.getNotification(getContext()).equalsIgnoreCase("1"));
+//
+//        notification.setOnCheckedChangeListener((compoundButton, b) -> {
+//            if(b){
+//                if(getContext()!=null) {
+//                    StaticMethods.setNotification(getContext(), "1");
+//                }
+//                FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
+//            }
+//            else{
+//                if(getContext()!=null) {
+//                    StaticMethods.setNotification(getContext(), "0");
+//                }
+//                FirebaseMessaging.getInstance().unsubscribeFromTopic("allDevices");
+//            }
+//        });
 
 
 
-
-        if(StaticMethods.getNotification(getContext()).equalsIgnoreCase("1")){
-            notification.setChecked(true);
-        }
-        else{
-            notification.setChecked(false);
-        }
-
-        notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    StaticMethods.setNotification(getContext(),"1");
-                    FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
-                }
-                else{
-                    StaticMethods.setNotification(getContext(),"0");
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic("allDevices");
-                }
-            }
-        });
-
-
-
-        login_fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), FacebookLoginActivity.class));
-            }
-        });
-        login_google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), GoogleLoginActivity.class));
-            }
-        });
+        login_fb.setOnClickListener(view13 -> startActivity(new Intent(getContext(), FacebookLoginActivity.class)));
+        login_google.setOnClickListener(view12 -> startActivity(new Intent(getContext(), GoogleLoginActivity.class)));
 
 
         app_version.setText(BuildConfig.VERSION_NAME);
-        other_line.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareFile();
-            }
-        });
-        rates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RateApp(getActivity());
+        other_line.setOnClickListener(v -> ShareFile());
+        rates.setOnClickListener(v -> RateApp(getActivity()));
 
-            }
+        what_line.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://t.me/freeintradaytipsindia"));
+            startActivity(intent);
         });
 
-        what_line.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://t.me/freeintradaytipsindia"));
-                startActivity(intent);
-            }
-        });
-
-        youtube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://www.youtube.com/channel/UCwONI1ZvyQz_lipWKqF4mnA"));
-                startActivity(intent);
-            }
+        youtube.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.youtube.com/channel/UCwONI1ZvyQz_lipWKqF4mnA"));
+            startActivity(intent);
         });
 
 
-        ff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
-                startActivity(intent);
-            }
+        ff.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://zerodha.com/open-account?c=ZMPCJG"));
+            startActivity(intent);
         });
 
 
         ImageView ff2=view.findViewById(R.id.alice_pen);
         ImageView ff3=view.findViewById(R.id.upstock);
-        ff2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://alicebluepartner.com/furthergrow/"));
-                startActivity(intent);
-            }
+        ff2.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://alicebluepartner.com/furthergrow/"));
+            startActivity(intent);
         });
 
-        ff3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://upstox.com/open-account/?f=Z1JV"));
-                startActivity(intent);
-            }
+        ff3.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://upstox.com/open-account/?f=Z1JV"));
+            startActivity(intent);
         });
 
 
@@ -234,30 +184,23 @@ public class AboutFragment extends Fragment  {
         Button buy_3_3=view.findViewById(R.id.buy_pre_3_3);
         Button youtube_video=view.findViewById(R.id.youtube_video);
 
-        youtube_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), VideoActivtiy.class));
-            }
+        youtube_video.setOnClickListener(view1 -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.youtube.com/channel/UCwONI1ZvyQz_lipWKqF4mnA"));
+            startActivity(intent);
         });
 
 
-        join_paid_premium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://t.me/joinchat/AAAAAEounjHkvNTzq9zd2w"));
-                startActivity(intent);
-            }
+        join_paid_premium.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://t.me/joinchat/AAAAAEounjHkvNTzq9zd2w"));
+            startActivity(intent);
         });
 
-        join_pro_plus_premium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://t.me/joinchat/AAAAAFX8ABfoZwCcydf0Pg"));
-                startActivity(intent);
-            }
+        join_pro_plus_premium.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://t.me/joinchat/AAAAAFX8ABfoZwCcydf0Pg"));
+            startActivity(intent);
         });
 
 
@@ -271,95 +214,84 @@ public class AboutFragment extends Fragment  {
         TextView user_type=view.findViewById(R.id.user_type);
 
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        logout.setOnClickListener(v -> {
+            if(getContext()!=null) {
                 StaticMethods.removeToken(getContext());
                 StaticMethods.removeUser(getContext());
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
-                startActivity(new Intent(getContext(), MainActivity.class));
             }
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+            startActivity(new Intent(getContext(), MainActivity.class));
         });
 
-        if(StaticMethods.getUserDetails(getContext())!=null){
-            login_line.setVisibility(View.GONE);
-            login_line_2.setVisibility(View.GONE);
-            profile_line.setVisibility(View.VISIBLE);
+        if(getContext()!=null) {
+            if (StaticMethods.getUserDetails(getContext()) != null) {
+                login_line.setVisibility(View.GONE);
+                login_line_2.setVisibility(View.GONE);
+                profile_line.setVisibility(View.VISIBLE);
 
-            UserModel userModel=StaticMethods.getUserDetails(getContext());
-            name.setText(userModel.getName());
-            email.setText(userModel.getEmail());
-            plan_type.setText(userModel.getCurrent_plan());
-            if(userModel.getCurrent_plan().contains("FREE")){
-                user_type.setText("FREE");
-                expire_date.setText("Unlimited");
-            }
-            else{
-                join_paid_premium.setVisibility(View.VISIBLE);
-                user_type.setText("PRO");
-                expire_date.setText(userModel.getExpire_date());
-            }
+                UserModel userModel = StaticMethods.getUserDetails(getContext());
+                if (userModel != null) {
+                    name.setText(userModel.getName());
+                    email.setText(userModel.getEmail());
+                    plan_type.setText(userModel.getCurrent_plan());
+                    if (userModel.getCurrent_plan().contains("FREE")) {
+                        user_type.setText(getString(R.string.free));
+                        expire_date.setText(getString(R.string.unlimited));
+                    } else {
 
-            if(userModel.getCurrent_plan().equalsIgnoreCase("PRO PREMIUM")){
-                 buy_2_2.setText("PAID");
-                buy_2_2.setEnabled(false);
-                buy_1.setVisibility(View.GONE);
+                        join_paid_premium.setVisibility(View.VISIBLE);
+                        user_type.setText(getString(R.string.pro));
+                        expire_date.setText(userModel.getExpire_date());
+                    }
+                    if (userModel.getCurrent_plan().equalsIgnoreCase("PRO PREMIUM")) {
+                        buy_2_2.setText(getString(R.string.paid));
+                        buy_2_2.setEnabled(false);
+                        buy_1.setVisibility(View.GONE);
 
-            }
-            else if(userModel.getCurrent_plan().equalsIgnoreCase("PREMIUM")){
-                buy_1.setText("PAID");
-                buy_1.setEnabled(false);
-                buy_2_2.setVisibility(View.GONE);
-            }
-            else{
-                buy_1.setText("BUY SERVER 2");
-                buy_2_2.setText("BUY SERVER 1");
-                buy_1.setEnabled(true);
-                buy_2_2.setEnabled(true);
-            }
+                    } else if (userModel.getCurrent_plan().equalsIgnoreCase("PREMIUM")) {
+                        buy_1.setText(getString(R.string.paid));
+                        buy_1.setEnabled(false);
+                        buy_2_2.setVisibility(View.GONE);
+                    } else {
+                        buy_1.setText(getString(R.string.buy_server_2));
+                        buy_2_2.setText(getString(R.string.buy_server_1));
+                        buy_1.setEnabled(true);
+                        buy_2_2.setEnabled(true);
+                    }
 
-            if(userModel.getIs_super()!=null) {
-                if (userModel.getIs_super().equalsIgnoreCase("1")) {
-                    buy_3_3.setText("PAID");
-                    buy_1.setText("Already Purchase PRO PLUS Plan");
+                    if (userModel.getIs_super() != null) {
+                        if (userModel.getIs_super().equalsIgnoreCase("1")) {
+                            buy_3_3.setText(getString(R.string.paid));
+                            buy_1.setText(getString(R.string.alread_purchased_plus));
 
-                    buy_2_2.setText("Already Purchase PRO PLUS Plan");
+                            buy_2_2.setText(getString(R.string.alread_purchased_plus));
 
-                    buy_1.setEnabled(false);
-                    buy_2_2.setEnabled(false);
-                    buy_3_3.setEnabled(false);
-                    join_pro_plus_premium.setVisibility(View.VISIBLE);
-                } else {
-                    join_pro_plus_premium.setVisibility(View.GONE);
+                            buy_1.setEnabled(false);
+                            buy_2_2.setEnabled(false);
+                            buy_3_3.setEnabled(false);
+                            join_pro_plus_premium.setVisibility(View.VISIBLE);
+                        } else {
+                            join_pro_plus_premium.setVisibility(View.GONE);
+                        }
+                    } else {
+                        join_pro_plus_premium.setVisibility(View.GONE);
+                    }
+
                 }
-            }
-            else{
-                join_pro_plus_premium.setVisibility(View.GONE);
-            }
 
 
-        }
-        else{
-            login_line.setVisibility(View.VISIBLE);
-            login_line_2.setVisibility(View.VISIBLE);
-            profile_line.setVisibility(View.GONE);
+            } else {
+                login_line.setVisibility(View.VISIBLE);
+                login_line_2.setVisibility(View.VISIBLE);
+                profile_line.setVisibility(View.GONE);
+            }
         }
 
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
+        login.setOnClickListener(v -> startActivity(new Intent(getContext(), LoginActivity.class)));
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SignUpActivity.class));
-            }
-        });
+        signup.setOnClickListener(v -> startActivity(new Intent(getContext(), SignUpActivity.class)));
     }
 
 
@@ -374,7 +306,7 @@ public class AboutFragment extends Fragment  {
             i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Free Intraday Tips");
 
             startActivity(Intent.createChooser(i,"Share Via."));
-        } catch (ActivityNotFoundException anfe) {
+        } catch (ActivityNotFoundException e) {
             Toast.makeText(getContext(),"No Activity Found", Toast.LENGTH_LONG).show();
         }
     }
@@ -384,12 +316,7 @@ public class AboutFragment extends Fragment  {
         AlertDialog.Builder al=new AlertDialog.Builder(getContext());
         al.setMessage(s);
         al.setTitle("Error");
-        al.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        al.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
         al.show();
     }
 

@@ -30,9 +30,6 @@ public class IncomeStatementFragment extends Fragment implements IncomeStateList
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private RecyclerView list_income_statement_quaterly;
     private RecyclerView list_income_statement_yearly;
     ProgressBar progress;
@@ -55,8 +52,9 @@ public class IncomeStatementFragment extends Fragment implements IncomeStateList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -71,7 +69,10 @@ public class IncomeStatementFragment extends Fragment implements IncomeStateList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle=getArguments();
-        String symbol=bundle.getString(Constant.search);
+        String symbol="";
+        if(bundle!=null) {
+            symbol = bundle.getString(Constant.search);
+        }
         final CardView yearly_card=view.findViewById(R.id.yearly_card);
         progress=view.findViewById(R.id.progress);
         final CardView quaterly_card=view.findViewById(R.id.quaterly_card);
@@ -81,28 +82,22 @@ public class IncomeStatementFragment extends Fragment implements IncomeStateList
         list_income_statement_yearly=view.findViewById(R.id.list_income_statement_yearly);
         list_income_statement_yearly.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        yearly_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quaterly_card.setBackgroundColor(Color.parseColor("#000000"));
-                yearly_card.setBackgroundColor(Color.parseColor("#80d8ff"));
-                list_income_statement_yearly.setVisibility(View.VISIBLE);
-                list_income_statement_quaterly.setVisibility(View.GONE);
-            }
+        yearly_card.setOnClickListener(v -> {
+            quaterly_card.setBackgroundColor(Color.parseColor("#000000"));
+            yearly_card.setBackgroundColor(Color.parseColor("#80d8ff"));
+            list_income_statement_yearly.setVisibility(View.VISIBLE);
+            list_income_statement_quaterly.setVisibility(View.GONE);
         });
 
-        quaterly_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                yearly_card.setBackgroundColor(Color.parseColor("#000000"));
-                quaterly_card.setBackgroundColor(Color.parseColor("#80d8ff"));
-                list_income_statement_yearly.setVisibility(View.GONE);
-                list_income_statement_quaterly.setVisibility(View.VISIBLE);
-            }
+        quaterly_card.setOnClickListener(v -> {
+            yearly_card.setBackgroundColor(Color.parseColor("#000000"));
+            quaterly_card.setBackgroundColor(Color.parseColor("#80d8ff"));
+            list_income_statement_yearly.setVisibility(View.GONE);
+            list_income_statement_quaterly.setVisibility(View.VISIBLE);
         });
 
         IncomeStatementTask financialTask=new IncomeStatementTask(IncomeStatementFragment.this);
-        financialTask.execute(new String[]{symbol});
+        financialTask.execute(symbol);
 
     }
 

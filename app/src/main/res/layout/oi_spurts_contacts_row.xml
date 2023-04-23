@@ -58,7 +58,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -70,7 +71,6 @@
                 android:text="@string/_12_july"
                 android:id="@+id/date_1"
                 android:textSize="13sp"
-                android:layout_weight="1"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="#000" />
                     <TextView
@@ -79,7 +79,6 @@
                         android:id="@+id/date_1_data"
                         android:text="@string/_100"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -94,7 +93,6 @@
                     android:text="@string/_13_july"
                     android:id="@+id/date_2"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                     <TextView
@@ -103,7 +101,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/_100"
                         android:id="@+id/data_2_data"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -120,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/oi_chng"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
 
@@ -130,7 +126,6 @@
                         android:id="@+id/change_in_oi"
                         android:text="@string/_200_00"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -144,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/chng_in_ltp"
-                    android:layout_weight="1"
+                    android:singleLine="true"
                     android:textSize="13sp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
@@ -154,7 +149,6 @@
                         android:id="@+id/change_in_ltp"
                         android:layout_height="wrap_content"
                         android:text="@string/_300"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -172,7 +166,8 @@
             android:padding="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
                 <LinearLayout
                     android:layout_weight="1"
                     android:orientation="vertical"
@@ -183,7 +178,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/expiry"
                         android:textSize="13sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
@@ -192,7 +186,6 @@
                         android:id="@+id/expiry_data"
                         android:text="@string/_100"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -207,7 +200,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/strike_price"
                         android:textSize="13sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
                     <TextView
@@ -216,7 +208,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/_100"
                         android:id="@+id/strike_price_data"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
 
@@ -233,7 +224,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/type"
                         android:textSize="13sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="#000" />
 
@@ -243,7 +233,6 @@
                         android:id="@+id/type_data"
                         android:text="@string/_200_00"
                         android:textSize="12sp"
-                        android:layout_weight="1"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/grey_40" />
                 </LinearLayout>
@@ -258,7 +247,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/prev_close"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
 
@@ -268,7 +256,6 @@
                     android:id="@+id/prev_close_data"
                     android:text="@string/_200_00"
                     android:textSize="12sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_40" />
             </LinearLayout>
@@ -281,7 +268,8 @@
             android:padding="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
             <LinearLayout
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -292,7 +280,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/volume_contacts"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                 <TextView
@@ -301,7 +288,6 @@
                     android:id="@+id/volume_contract_data"
                     android:text="@string/_100"
                     android:textSize="12sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_40" />
             </LinearLayout>
@@ -316,7 +302,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/underlying_value"
                     android:textSize="13sp"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="#000" />
                 <TextView
@@ -325,7 +310,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/_100"
                     android:id="@+id/underlying_cm_data"
-                    android:layout_weight="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_40" />
             </LinearLayout>

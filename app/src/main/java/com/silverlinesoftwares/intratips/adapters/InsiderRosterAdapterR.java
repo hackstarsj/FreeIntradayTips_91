@@ -3,6 +3,8 @@ package com.silverlinesoftwares.intratips.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -19,54 +21,47 @@ import java.util.List;
 
 public class InsiderRosterAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int VIEW_PROG = 0;
-    private final int VIEW_HEAD = 1;
-    private final int VIEW_ITEM = 2;
+
 
     private List<InsiderRosterModel> items = new ArrayList<>();
 
     private boolean loading;
 
-    private Context ctx;
-    private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, NewsModel obj, int position);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
-        this.mOnItemClickListener = mItemClickListener;
-    }
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public InsiderRosterAdapterR(Context context, RecyclerView view, List<InsiderRosterModel> items) {
         this.items = items;
-        ctx = context;
     }
 
 
 
 
-    public class OriginalViewHolder extends RecyclerView.ViewHolder {
+    public static class OriginalViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView title;
-        public TextView data_1;
-        public TextView data_2;
-        public TextView data_3;
+        public final TextView title;
+        public final TextView data_1;
+        public final TextView data_2;
+        public final TextView data_3;
 
         public OriginalViewHolder(View view) {
             super(view);
 
-            title=(TextView) view.findViewById(R.id.title);
-            data_1=(TextView) view.findViewById(R.id.data_1);
-            data_2=(TextView) view.findViewById(R.id.data_2);
-            data_3=(TextView) view.findViewById(R.id.data_3);
+            title= view.findViewById(R.id.title);
+            data_1= view.findViewById(R.id.data_1);
+            data_2= view.findViewById(R.id.data_2);
+            data_3= view.findViewById(R.id.data_3);
 
          }
     }
 
 
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
@@ -78,7 +73,7 @@ public class InsiderRosterAdapterR extends RecyclerView.Adapter<RecyclerView.Vie
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof OriginalViewHolder) {
             final InsiderRosterModel p = items.get(position);
@@ -132,12 +127,12 @@ public class InsiderRosterAdapterR extends RecyclerView.Adapter<RecyclerView.Vie
         //return this.items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
         if (items.get(position) != null) {
             if (position == 0) {
-                return VIEW_HEAD;
+                return 1;
             } else {
-                return VIEW_ITEM;
+                return 2;
             }
         } else {
-            return VIEW_PROG;
+            return 0;
         }
     }
 

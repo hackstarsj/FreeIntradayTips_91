@@ -30,8 +30,6 @@ public class AppOpenAdManager implements LifecycleObserver,Application.ActivityL
     private long loadTime = 0;
 
 
-    private AppOpenAd.AppOpenAdLoadCallback loadCallback;
-
     private final MyApplication myApplication;
 
     /** Constructor */
@@ -41,8 +39,6 @@ public class AppOpenAdManager implements LifecycleObserver,Application.ActivityL
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
     }
-
-    /** Request an ad */
 
 
     /** Creates and returns ad request. */
@@ -57,31 +53,31 @@ public class AppOpenAdManager implements LifecycleObserver,Application.ActivityL
             return;
         }
 
-        loadCallback =
-                new AppOpenAd.AppOpenAdLoadCallback() {
-                    /**
-                     * Called when an app open ad has loaded.
-                     *
-                     * @param ad the loaded app open ad.
-                     */
-                    @Override
-                    public void onAdLoaded(AppOpenAd ad) {
-                        AppOpenAdManager.this.appOpenAd = ad;
-                        AppOpenAdManager.this.loadTime = (new Date()).getTime();
+        // Handle the error.
+        AppOpenAd.AppOpenAdLoadCallback loadCallback = new AppOpenAd.AppOpenAdLoadCallback() {
+            /**
+             * Called when an app open ad has loaded.
+             *
+             * @param ad the loaded app open ad.
+             */
+            @Override
+            public void onAdLoaded(@NonNull AppOpenAd ad) {
+                AppOpenAdManager.this.appOpenAd = ad;
+                AppOpenAdManager.this.loadTime = (new Date()).getTime();
 
-                    }
+            }
 
-                    /**
-                     * Called when an app open ad has failed to load.
-                     *
-                     * @param loadAdError the error.
-                     */
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError loadAdError) {
-                        // Handle the error.
-                    }
+            /**
+             * Called when an app open ad has failed to load.
+             *
+             * @param loadAdError the error.
+             */
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error.
+            }
 
-                };
+        };
         AdRequest request = getAdRequest();
         AppOpenAd.load(
                 myApplication, AD_UNIT_ID, request,
@@ -145,7 +141,7 @@ public class AppOpenAdManager implements LifecycleObserver,Application.ActivityL
                         }
 
                         @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {}
+                        public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {}
 
                         @Override
                         public void onAdShowedFullScreenContent() {
@@ -162,14 +158,14 @@ public class AppOpenAdManager implements LifecycleObserver,Application.ActivityL
         }
     }
 
-    private boolean wasLoadTimeLessThanNHoursAgo(long numHours) {
+    private boolean wasLoadTimeLessThanNHoursAgo() {
         long dateDifference = (new Date()).getTime() - this.loadTime;
         long numMilliSecondsPerHour = 3600000;
-        return (dateDifference < (numMilliSecondsPerHour * numHours));
+        return (dateDifference < (numMilliSecondsPerHour * (long) 4));
     }
 
     public boolean isAdAvailable() {
-        return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4);
+        return appOpenAd != null && wasLoadTimeLessThanNHoursAgo();
     }
 
     @OnLifecycleEvent(ON_START)

@@ -21,13 +21,9 @@ import com.silverlinesoftwares.intratips.R;
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 import com.silverlinesoftwares.intratips.tasks.VolumeTask;
 import com.silverlinesoftwares.intratips.util.Constant;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 
@@ -37,9 +33,6 @@ public class VolumeFragment extends Fragment implements ChartListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private Spinner spinner;
 
     ProgressBar progressBar;
@@ -48,21 +41,13 @@ public class VolumeFragment extends Fragment implements ChartListener {
         // Required empty public constructor
     }
 
-    public static VolumeFragment newInstance(String param1, String param2) {
-        VolumeFragment fragment = new VolumeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -86,9 +71,14 @@ public class VolumeFragment extends Fragment implements ChartListener {
         final String[] filter_data={"day","week","1month","3month","6month","12month"
         };
         Bundle bundle=getArguments();
-        final String symbol=bundle.getString(Constant.search);
+
+        String symbol="";
+        if (bundle != null) {
+            symbol = bundle.getString(Constant.search);
+        }
         ArrayAdapter arrayAdapter=new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,filter_text);
         spinner.setAdapter(arrayAdapter);
+        String finalSymbol = symbol;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,7 +86,7 @@ public class VolumeFragment extends Fragment implements ChartListener {
                 progressBar.setVisibility(View.VISIBLE
                 );
                 VolumeTask financialTask=new VolumeTask(VolumeFragment.this);
-                financialTask.execute(new String[]{symbol,filter_data[position]});
+                financialTask.execute(finalSymbol,filter_data[position]);
 
             }
             @Override
@@ -107,7 +97,7 @@ public class VolumeFragment extends Fragment implements ChartListener {
 
         spinner.setSelection(2);
         VolumeTask financialTask=new VolumeTask(VolumeFragment.this);
-        financialTask.execute(new String[]{symbol,"1month"});
+        financialTask.execute(symbol,"1month");
 
     }
 
@@ -137,40 +127,30 @@ public class VolumeFragment extends Fragment implements ChartListener {
             }
         }
 
-       // Log.d("Data 1",stringBuilder1.toString());
-        //Log.d("Data 1",stringBuilder2.toString());
-       // Log.d("Data 3",stringBuilder3.toString());
-        //Log.d("Data 4",stringBuilder4.toString());
 
-   //     Log.d("Data",""+data);
+            if(getContext()!=null) {
+                InputStream is = getContext().getAssets().open("volume_chart.html");
+                int size = is.available();
+
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
 
 
+                String str = new String(buffer);
+                str = str.replace("PLACEHOLDER_MON", dates.toString());
+                str = str.replace("PLACEHOLDER_PER", percentage.toString());
+                str = str.replace("PLACEHOLDER_D1_DATA", volumes.toString());
+                str = str.replace("PLACEHOLDER_D2_DATA", tradesd.toString());
+                str = str.replace("PLACEHOLDER_HEIGHT", height_data[spinner.getSelectedItemPosition()]);
 
-            InputStream is = getContext().getAssets().open("volume_chart.html");
-            int size = is.available();
 
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-
-            String str = new String(buffer);
-            str = str.replace("PLACEHOLDER_MON",dates.toString());
-            str = str.replace("PLACEHOLDER_PER",percentage.toString());
-            str = str.replace("PLACEHOLDER_D1_DATA",volumes.toString());
-            str = str.replace("PLACEHOLDER_D2_DATA",tradesd.toString());
-            str = str.replace("PLACEHOLDER_HEIGHT",height_data[spinner.getSelectedItemPosition()]);
-
-//            if (android.os.Build.VERSION.SDK_INT >= 21) {
-//                CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
-//            } else {
-//                CookieManager.getInstance().setAcceptCookie(true);
-//            }
-            //webView.loadUrl("about:blank");
-            webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setJavaScriptEnabled(true);
-            //webView.setWebContentsDebuggingEnabled(true);
-            webView.setWebViewClient(new WebViewClient());
-            webView.loadData(str,"text/html","utf-8");
+                webView.getSettings().setLoadWithOverviewMode(true);
+                webView.getSettings().setJavaScriptEnabled(true);
+                //webView.setWebContentsDebuggingEnabled(true);
+                webView.setWebViewClient(new WebViewClient());
+                webView.loadData(str, "text/html", "utf-8");
+            }
         }
         catch (Exception e){
             e.printStackTrace();

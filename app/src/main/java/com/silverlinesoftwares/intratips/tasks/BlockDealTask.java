@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -18,7 +17,7 @@ import okhttp3.Response;
 public class BlockDealTask  {
 
 
-    ChartListener chartListener;
+    final ChartListener chartListener;
     public BlockDealTask(ChartListener chartListener) {
         this.chartListener=chartListener;
     }
@@ -78,9 +77,7 @@ public class BlockDealTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

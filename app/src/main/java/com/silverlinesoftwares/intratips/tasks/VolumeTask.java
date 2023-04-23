@@ -1,7 +1,6 @@
 package com.silverlinesoftwares.intratips.tasks;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -23,7 +22,7 @@ import okhttp3.Response;
 public class VolumeTask {
 
 
-    ChartListener chartListener;
+    final ChartListener chartListener;
     public VolumeTask(ChartListener chartListener) {
         this.chartListener=chartListener;
     }
@@ -39,8 +38,6 @@ public class VolumeTask {
 
             String pattern = "dd-MM-yyyy";
             Date date = new Date();
-            String dateInString = new SimpleDateFormat(pattern).format(date);
-            String endtime = dateInString;
             String starttime = "";
 
             if (strings[1].equalsIgnoreCase("day")) {
@@ -88,52 +85,36 @@ public class VolumeTask {
 
 
 
-           String  data=LoadData(symbol, starttime, endtime);
-            handler.post(()->{
-               onPostExecute(data);
-            });
+           String  data=LoadData(symbol, starttime, new SimpleDateFormat(pattern).format(date));
+            handler.post(()-> onPostExecute(data));
 
         });
 
     }
 
     private String  LoadData(String symbol,String starttime,String endtime) {
-        OkHttpClient client = new OkHttpClient();
-        client.retryOnConnectionFailure();
-        client.newBuilder().connectTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .build(); // connect timeout
-
-        Request request =
-                new Request.Builder()
-                        .url("https://www.nseindia.com/get-quotes/equity?symbol="+symbol.replace(".NS","").replace(".BO",""))
-                        .addHeader("User-Agent","Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0")
-                        .build();
-
-        Response response = null;
         try {
-            response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (response != null && response.isSuccessful()) {
-            if (response.body() != null) {
-                //return response.body().string();
-                List<String> header=response.headers("Set-Cookie");
-                String dd="";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("https://www.nseindia.com/get-quotes/equity?symbol=COALINDIA")
+                    .method("GET", null)
+                    .addHeader("Cookie", "ak_bmsc=ABD1E2745EA470D35DB3BA6B73987811~000000000000000000000000000000~YAAQDj/LF/47/d9/AQAAcZ2y5A86muWEKRF+gwFQ3sLHfH97u7Gl35qIuZCwbE7oMvrq9zSAL0SghhPp0FwM69yNgqJKU64xxfvPTB2Gn3L5Nq9HNd7jBs4AHSBqO7Z7l7M3JMUweCKGHk6sZ5ZXFYms6pt/1j2AEQbLTgQrUrBYDi8CfFqFRErclSu2diPksccpeT9jo7ymT7QjYacczzwGrPgpIV+PyT7YdNqYDAxUPkQ857InbsSFiGB2D3wNyniUseKLozyzhPcRuzOXjpgrSRUhZhVOS6CFUa86JTP84nfmiTQ+CjrCGgAfqpREcetX0Tnx8xFtqGB6fRQP+rV30hvBHxfdz+JYFg6cHhjX4g4mtxgOzSP6XVYFnA==; nseappid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcGkubnNlIiwiYXVkIjoiYXBpLm5zZSIsImlhdCI6MTY0ODgwOTM4NSwiZXhwIjoxNjQ4ODEyOTg1fQ.kCOZD0DczWb0-_PrRJibTLwcCn1QFNt47EFlVRY6Z5k; nsit=h-crJCiJA6nf9ogX7RUfzLjG")
+                    .build();
+            Response response = client.newCall(request).execute();
+            //return response.body().string();
+            List<String> header=response.headers("Set-Cookie");
+                StringBuilder dd= new StringBuilder();
                 for (int i=0;i<header.size();i++){
-                    dd+=""+header.get(i)+";";
+                    dd.append("").append(header.get(i)).append(";");
                 }
 
-                String data=getVolume(symbol,starttime,endtime,dd);
-                return data;
-            }
-            else{
-                return null;
-            }
+            return getVolume(symbol,starttime,endtime, dd.toString());
         }
-        return null;
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private  String getVolume(String symbol,String starttime,String endtime,String cookie){

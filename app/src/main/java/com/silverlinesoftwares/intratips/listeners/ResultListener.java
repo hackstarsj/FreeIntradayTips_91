@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.listeners;
 
-import com.silverlinesoftwares.intratips.models.MajorHolderModel;
 import com.silverlinesoftwares.intratips.models.ResultModel;
 
 import java.util.List;

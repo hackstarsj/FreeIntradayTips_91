@@ -1,6 +1,5 @@
 package com.silverlinesoftwares.intratips.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,9 +15,9 @@ import java.util.List;
 
 public class BulkDealAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    Context context;
-    List<BulkModel> DataList;
+    final LayoutInflater inflater;
+    final Context context;
+    final List<BulkModel> DataList;
 
     public BulkDealAdapter(Context context, List<BulkModel> equityModels){
         this.DataList=equityModels;
@@ -77,7 +76,7 @@ public class BulkDealAdapter extends BaseAdapter {
 
         date_data.setText(equityModel.getDates());
         symbol.setText(equityModel.getSymbol());
-        price_data.setText("Qty : "+equityModel.getPrices());
+        price_data.setText(String.format("Qty : %s", equityModel.getPrices()));
         seller_name.setText(equityModel.getClient_name());
         traded_quantity.setText(equityModel.getQuantity());
 

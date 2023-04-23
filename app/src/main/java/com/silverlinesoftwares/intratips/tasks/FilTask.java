@@ -1,14 +1,11 @@
 package com.silverlinesoftwares.intratips.tasks;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.silverlinesoftwares.intratips.listeners.ChartListener;
 
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +17,7 @@ import okhttp3.Response;
 public class FilTask  {
 
 
-    ChartListener chartListener;
+    final ChartListener chartListener;
     public FilTask(ChartListener chartListener) {
         this.chartListener=chartListener;
     }
@@ -82,9 +79,7 @@ public class FilTask  {
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(() -> {
             String data=doInBackground(strings);
-            handler.post(()->{
-                onPostExecute(data);
-            });
+            handler.post(()-> onPostExecute(data));
         });
     }
 

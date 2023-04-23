@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Looper;
@@ -27,7 +24,6 @@ import com.silverlinesoftwares.intratips.listeners.ResendCodeListener;
 import com.silverlinesoftwares.intratips.models.ResponseModel;
 import com.silverlinesoftwares.intratips.tasks.auth.ResendLoginCodeTask;
 import com.silverlinesoftwares.intratips.tasks.auth.VerifyEmailTask;
-import com.silverlinesoftwares.intratips.util.StaticMethods;
 
 public class SignUpActivityNext extends AppCompatActivity implements ApiResponseListener, ResendCodeListener {
 
@@ -41,11 +37,8 @@ public class SignUpActivityNext extends AppCompatActivity implements ApiResponse
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_next);
-        MobileAds.initialize(SignUpActivityNext.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+        MobileAds.initialize(SignUpActivityNext.this, initializationStatus -> {
 
-            }
         });
         parent_view = findViewById(android.R.id.content);
         resend_code=findViewById(R.id.resend_code);
@@ -57,39 +50,36 @@ public class SignUpActivityNext extends AppCompatActivity implements ApiResponse
         progressBar=findViewById(R.id.progress_bar);
         verify_btn=findViewById(R.id.verify_btn);
 
-        resend_code.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        resend_code.setOnClickListener(v -> {
 
-                Snackbar.make(parent_view, "Sending Code! Please Wait...", Snackbar.LENGTH_LONG).show();
-                ResendLoginCodeTask resendLoginCodeTask=new ResendLoginCodeTask(SignUpActivityNext.this);
-                resendLoginCodeTask.execute(email);
-            }
+            Snackbar.make(parent_view, "Sending Code! Please Wait...", Snackbar.LENGTH_LONG).show();
+            ResendLoginCodeTask resendLoginCodeTask=new ResendLoginCodeTask(SignUpActivityNext.this);
+            resendLoginCodeTask.execute(email);
         });
 
-        verify_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(codes.getText().toString().isEmpty()){
-                    codes.setError("Please Enter Verification Code!");
-                    codes.requestFocus();
-                }
-                else{
-                    View view = SignUpActivityNext.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                    }
-                    verify_btn.setAlpha(0f);
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    VerifyEmailTask signupTask=new VerifyEmailTask(SignUpActivityNext.this);
-                    signupTask.execute(email,codes.getText().toString());
-                }
-
+        verify_btn.setOnClickListener(v -> {
+            if(codes.getText()==null){
+                return;
             }
+            if(codes.getText().toString().isEmpty()){
+                codes.setError("Please Enter Verification Code!");
+                codes.requestFocus();
+            }
+            else{
+                View view = SignUpActivityNext.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+                verify_btn.setAlpha(0f);
+                progressBar.setVisibility(View.VISIBLE);
+
+                VerifyEmailTask signupTask=new VerifyEmailTask(SignUpActivityNext.this);
+                signupTask.execute(email,codes.getText().toString());
+            }
+
         });
 
     }
@@ -100,13 +90,10 @@ public class SignUpActivityNext extends AppCompatActivity implements ApiResponse
         verify_btn.setAlpha(1f);
         Snackbar.make(parent_view, ""+data.getMessage(), Snackbar.LENGTH_SHORT).show();
         if(data.getStatus_code().equalsIgnoreCase("200")){
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(SignUpActivityNext.this,LoginActivity.class));
-                    finish();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                startActivity(new Intent(SignUpActivityNext.this,LoginActivity.class));
+                finish();
 
-                }
             }, 1000);
 
         }

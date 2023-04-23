@@ -25,15 +25,12 @@ import java.util.List;
 
 public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int VIEW_PROG = 0;
-    private final int VIEW_HEAD = 1;
     private final int VIEW_ITEM = 2;
 
     private List<NewsModel> items = new ArrayList<>();
 
     private boolean loading;
 
-    private Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -47,20 +44,19 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     // Provide a suitable constructor (depends on the kind of dataset)
     public NewsAdapterR(Context context, RecyclerView view, List<NewsModel> items) {
         this.items = items;
-        ctx = context;
     }
 
 
 
-    public class HeadingViewHolder extends RecyclerView.ViewHolder {
+    public static class HeadingViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView title;
-        public TextView date;
-        public TextView category;
-        public TextView comment;
-        public ImageView image;
-        public ImageView thumbnail_video;
-        public RelativeLayout lyt_parent;
+        public final TextView title;
+        public final TextView date;
+        public final TextView category;
+        public final TextView comment;
+        public final ImageView image;
+        public final ImageView thumbnail_video;
+        public final RelativeLayout lyt_parent;
 
         public HeadingViewHolder(View v) {
             super(v);
@@ -74,32 +70,33 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public class OriginalViewHolder extends RecyclerView.ViewHolder {
+    public static class OriginalViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView title;
-        public TextView date;
-        public TextView category;
+        public final TextView title;
+        public final TextView date;
+        public final TextView category;
         public TextView comment;
-        public ImageView image;
-        public LinearLayout line_parent;
-        public ImageView thumbnail_video;
+        public final ImageView image;
+        public final LinearLayout line_parent;
+        public final ImageView thumbnail_video;
 
         public OriginalViewHolder(View view) {
             super(view);
             line_parent = view.findViewById(R.id.lyt_parent);
 
-            title=(TextView) view.findViewById(R.id.title);
-            category=(TextView) view.findViewById(R.id.category_name);
-            image=(ImageView) view.findViewById(R.id.image);
-            date=(TextView) view.findViewById(R.id.date);
-            thumbnail_video=(ImageView) view.findViewById(R.id.thumbnail_video);
+            title= view.findViewById(R.id.title);
+            category= view.findViewById(R.id.category_name);
+            image= view.findViewById(R.id.image);
+            date= view.findViewById(R.id.date);
+            thumbnail_video= view.findViewById(R.id.thumbnail_video);
         }
     }
 
 
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
         if (viewType == VIEW_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lsv_item_recent, parent, false);
@@ -136,28 +133,6 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 //
             }
             else {
-//                if(p.getImages().isEmpty()){
-//                    byte[] decodedString = Base64.decode("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\\x3d\\x3d", Base64.DEFAULT);
-//                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//                    vItem.image.setImageBitmap(decodedByte);
-//                }
-//                else {
-//                    try {
-//                        String base = "data:image/jpeg;base64," + p.getImages();
-//
-//                        byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
-//
-//
-//                        vItem.image.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
-//                    }
-//                    catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-////                    byte[] decodedString = Base64.decode(p.getImages(), Base64.URL_SAFE);
-////                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-////                    vItem.image.setImageBitmap(decodedByte);
-//
-//                }
                 try {
                     byte[] decodedString = Base64.decode(p.getImages(), Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -169,12 +144,9 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
 
 
-            vItem.lyt_parent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, p, position);
-                    }
+            vItem.lyt_parent.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, p, position);
                 }
             });
 
@@ -204,18 +176,11 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 catch (Exception e){
                     e.printStackTrace();
                 }
-//                Picasso.with(ctx)
-//                        .load(p.getImages())
-//                        .placeholder(R.drawable.ic_thumbnail)
-//                        .into(vItem.image);
             }
 
-            vItem.line_parent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, p, position);
-                    }
+            vItem.line_parent.setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, p, position);
                 }
             });
         }
@@ -232,12 +197,12 @@ public class NewsAdapterR extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         //return this.items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
         if (items.get(position) != null) {
             if (position == 0) {
-                return VIEW_HEAD;
+                return 1;
             } else {
                 return VIEW_ITEM;
             }
         } else {
-            return VIEW_PROG;
+            return 0;
         }
     }
 
